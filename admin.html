@@ -18,7 +18,7 @@
 :root[data-theme=light]{--bg:#f6f1ed;--side:#fffdfb;--card:#ffffff;--card2:#f3ebe5;--cg:#fdfaf8;--in:#ffffff;--det:#faf5f1;--line:rgba(143,111,58,.17);--line2:rgba(143,111,58,.32);--tx:#2b1d19;--mu:#76665f;--mu2:#9a8a83;
  --gold:#9a7536;--gold2:#8f6f3a;--ok:#2f7a4c;--warn:#a8641c;--bad:#b03a28;--info:#3a6aa8;--vio:#6f4cb8;--onb:#ffffff;--hov:rgba(43,29,25,.035);--hov2:rgba(43,29,25,.07);--gl:rgba(43,29,25,.08);--alt:#7a4e12;color-scheme:light}
 :root[data-theme=light] .kpi,:root[data-theme=light] .card,:root[data-theme=light] .ag{box-shadow:0 1px 2px rgba(43,29,25,.04),0 8px 24px -16px rgba(43,29,25,.18)}
-.lgi{width:42px;height:42px;border-radius:12px;object-fit:cover;border:1px solid var(--line2)}
+.lgi{width:44px;height:44px;border-radius:50%;object-fit:cover}
 dialog.dlg{margin:auto;border:1px solid var(--line2);background:var(--card);color:var(--tx);border-radius:16px;padding:24px;width:min(460px,calc(100vw - 32px))}dialog.dlg::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
 .btn.dgf{background:var(--bad);border-color:var(--bad);color:#fff}
 .tema{background:none;border:1px solid var(--line2);color:var(--mu);border-radius:10px;padding:7px;cursor:pointer;display:grid;place-items:center}.tema:hover{color:var(--gold)}
@@ -359,7 +359,7 @@ function servicos(){const n=(k,v,lab,step,o)=>`<label>${lab}<input type="number"
 const svcAll=()=>{const svc={};all.forEach(i=>{svc[i.id]={p:i.p,d:i.d};if(i.m)svc[i.id].m=i.m});return svc};
 async function salvarSv(f){const v=k=>+f.querySelector(`[data-k="${k}"]`).value,svc={};
  all.forEach(i=>{svc[i.id]={p:v(i.id+".p"),d:v(i.id+".d")};if(i.m)svc[i.id].m=[v(i.id+".mp"),v(i.id+".md")]});
- f.querySelector(".btn").disabled=true;await DB.put("config","site",{svc});applyCfg({svc});toast("Serviços salvos — o site já usa os novos valores");go()}
+ f.querySelector(".btn").disabled=true;await DB.put("config","site",{svc,svcV:SVC_V});applyCfg({svc});toast("Serviços salvos — o site já usa os novos valores");go()}
 
 // ---- horários
 const DS=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
@@ -376,7 +376,8 @@ async function salvarHr(f){const g=k=>f.elements[k],horas={};
 const depRow=(d={})=>`<div class="dep"><input name="dn" placeholder="Nome da cliente" value="${E(d.n||"")}" maxlength="40"><input name="dt" placeholder="O que ela disse" value="${E(d.t||"")}" maxlength="300"><button type="button" class="btn sm dg" data-rmdep>Remover</button></div>`;
 function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelidade e pagamento online. Tudo aparece no site assim que você salva.")+
  `<form id="fsite"><div class="g2"><div class="card"><h2>Contato</h2><div style="display:grid;gap:14px"><label class="f">WhatsApp do studio (com DDD, só números)<input name="whatsapp" value="${E(CFG.whatsapp)}" inputmode="numeric" placeholder="11900000000"></label>
- <label class="f">Instagram (sem @)<input name="instagram" value="${E(CFG.instagram)}" placeholder="milenaoliveira.studio"></label><label class="f">Endereço (aparece com mapa no site)<input name="endereco" value="${E(CFG.endereco)}" placeholder="Rua, número — bairro, cidade"></label></div></div>
+ <label class="f">Instagram (sem @)<input name="instagram" value="${E(CFG.instagram)}" placeholder="milenaoliveira.studio"></label><label class="f">Endereço (aparece com mapa no site)<input name="endereco" value="${E(CFG.endereco)}" placeholder="Rua, número — bairro, cidade"></label>
+ <label class="f">Link do Google Maps (botão “Como chegar”)<input name="mapa" value="${E(CFG.mapa)}" placeholder="https://maps.app.goo.gl/..."></label></div></div>
  <div class="card"><h2>Fidelidade e meta</h2><div style="display:grid;gap:14px"><label class="f">A cliente ganha a promoção a cada quantos atendimentos?<input type="number" name="fn" min="2" max="50" value="${CFG.fid.n}"></label><label class="f">O que ela ganha<input name="fp" value="${E(CFG.fid.premio)}" placeholder="Ex.: 20% de desconto na manutenção"></label>
  <label class="f">Meta de faturamento do mês (R$)<input type="number" name="meta" min="0" step="100" value="${CFG.meta}"></label>
  <label class="f">A cliente pode cancelar pelo site até quantas horas antes?<input type="number" name="cancelH" min="0" max="168" value="${CFG.cancelH}"></label></div></div>
@@ -386,7 +387,7 @@ function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelida
  <p class="hint">Com o endereço preenchido, a cliente paga 30% por Pix ou cartão no Mercado Pago e o horário se confirma sozinho. Vazio = o site reserva e você confere o sinal à mão. Como configurar: LEIA-ME.md, parte “Mercado Pago”.</p><div style="display:flex;gap:10px;align-items:center;margin-top:12px"><button type="button" class="btn sm gh" id="tpag">Testar conexão</button><span id="tpagr" class="mu"></span></div></div></div>
  <div class="save"><button class="btn">Salvar</button></div></form>`}
 async function salvarSite(f){const g=k=>f.elements[k].value.trim(),depo=[...f.querySelectorAll(".dep")].map(d=>({n:d.querySelector("[name=dn]").value.trim(),t:d.querySelector("[name=dt]").value.trim()})).filter(d=>d.n&&d.t);
- const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),pagURL:g("pagURL").replace(/\/+$/,"")};
+ const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),mapa:/^https:\/\//.test(g("mapa"))?g("mapa"):"",sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),pagURL:g("pagURL").replace(/\/+$/,"")};
  if(c.pagURL&&!/^https:\/\//.test(c.pagURL))return toast("O endereço do pagamento precisa começar com https://");
  f.querySelector(".save .btn").disabled=true;await DB.put("config","site",c);applyCfg(c);toast("Site atualizado");go()}
 
@@ -459,7 +460,8 @@ DB.onUser(async u=>{const show=id=>["login","semacesso","app"].forEach(x=>$("#"+
   else{const p=await DB.get("clientes",u.uid).catch(()=>null);ME={cliente:true,uid:u.uid,email:u.email,nome:p?.nome||novo?.nome||u.email.split("@")[0],tel:p?.tel||novo?.tel||""}}}
  const c=await DB.get("config","site").catch(()=>null);applyCfg(c);
  // o servidor de pagamento calcula o preço a partir de config/site.svc: garante que esteja completo
- if(can("config")&&(!c||!c.svc||all.some(i=>!c.svc[i.id])))DB.put("config","site",{svc:svcAll()}).catch(console.error);
+ // e, se a tabela de tempos padrão mudou (SVC_V em dados.js), regrava os tempos novos mantendo os preços
+ if(can("config")&&(!c||!c.svc||all.some(i=>!c.svc[i.id])||(c.svcV||1)<SVC_V))DB.put("config","site",{svc:svcAll(),svcV:SVC_V}).catch(console.error);
  perfilMe();show("app");if(ME.cliente)return go("minha");const first=NAV.flatMap(g=>g[1]).find(x=>can(x[2]));if(!first){P.innerHTML=head("Sem permissões","Peça ao administrador para liberar alguma área.");nav();return}
  go(can("dash")?"dash":first[0])});
 </script>
