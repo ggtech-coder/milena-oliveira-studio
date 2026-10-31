@@ -35,19 +35,21 @@ service cloud.firestore {
     // horários ocupados e travados: o site lê para mostrar só os horários livres
     match /ocupado/{id} {
       allow read: if true;
-      allow create: if pode("agenda") || pode("travar") || (
-        request.resource.data.keys().hasOnly(["date", "start", "end", "tipo"])
+      allow create: if pode("agenda") || pode("travar") || (logado()
+        && request.resource.data.keys().hasOnly(["date", "start", "end", "tipo"])
         && request.resource.data.tipo == "agenda" && horario(request.resource.data));
       allow update, delete: if pode("agenda") || pode("travar");
     }
 
-    // agendamentos: o site só cria; a cliente logada vê os dela; a equipe vê todos
+    // agendamentos: no site só a cliente logada cria, sempre em nome da própria conta,
+    // e só vê os dela; a equipe vê todos
     match /agendamentos/{id} {
       allow read: if (logado() && resource.data.get("uid", "") == request.auth.uid) || equipe();
       allow update: if pode("agenda");
       allow delete: if master();
-      allow create: if pode("agenda") || (
-        request.resource.data.keys().hasOnly(["code", "svc", "itens", "ex", "date", "dateTxt", "start", "end",
+      allow create: if pode("agenda") || (logado()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(["code", "svc", "itens", "ex", "date", "dateTxt", "start", "end",
           "total", "dep", "pay", "name", "tel", "obs", "status", "criado", "uid", "email"])
         && ((comPagamento() && request.resource.data.status == "aguardando")
           || (!comPagamento() && request.resource.data.status == "reservado"))
@@ -56,7 +58,6 @@ service cloud.firestore {
         && request.resource.data.name is string && request.resource.data.name.size() <= 120
         && request.resource.data.tel is string && request.resource.data.tel.size() <= 30
         && request.resource.data.obs is string && request.resource.data.obs.size() <= 1000
-        && (!("uid" in request.resource.data) || (logado() && request.resource.data.uid == request.auth.uid))
         && existsAfter(/databases/$(database)/documents/ocupado/$(id)));
     }
 

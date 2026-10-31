@@ -147,11 +147,12 @@ footer{background:var(--dark);color:#cdbdb4;padding:50px 0;font-size:15px}footer
 #lb{position:fixed;inset:0;z-index:50;background:rgba(10,6,5,.94);display:flex;align-items:center;justify-content:center;gap:16px}#lb img{max-height:88vh;max-width:min(88vw,640px);border-radius:3px}
 #lb button{background:none;border:1px solid #5a4a43;color:#f4ebe4;width:46px;height:46px;font-size:24px;cursor:pointer;border-radius:50%;display:grid;place-items:center}#lbx{position:absolute;top:18px;right:18px}
 /* conta da cliente */
-dialog{border:0;padding:0;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 40px);border-radius:4px;background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4)}
+dialog{border:0;padding:0;margin:auto;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 40px);border-radius:4px;background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4)}
 dialog::backdrop{background:rgba(20,13,11,.7);backdrop-filter:blur(3px)}
 .dh{background:var(--dark);color:#f4ebe4;padding:26px 28px 22px;position:relative}.dh h3{font-size:30px}.dh p{color:#b9a89f;font-size:15px}.dx{position:absolute;top:16px;right:16px;background:none;border:0;color:#cdbdb4;cursor:pointer;padding:6px}
 .db{padding:24px 28px 28px}.db .tabs{margin-bottom:20px}
-.fidc{background:#fff;border:1px solid var(--line);padding:18px;border-radius:3px;margin-bottom:20px}.fidc b{font:500 22px var(--d)}.fidc p{color:var(--mute);font-size:14px;margin-top:4px}
+.fidc{background:#fff;border:1px solid var(--line);padding:18px;border-radius:3px;margin-bottom:20px}.fidc p{color:var(--mute);font-size:14px;margin-top:6px}.fidc p b{color:var(--ink)}
+.pts{display:flex;justify-content:space-between;align-items:baseline;gap:10px}.pts span{font:500 20px var(--d)}.pts span b{font:600 44px/1 var(--d);color:var(--gold-d);margin-right:4px}.pts small{color:var(--mute);font-size:13px}
 .pg{height:8px;background:var(--blush);border-radius:8px;overflow:hidden;margin-top:12px}.pg i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:8px}
 .ml{display:grid;gap:8px;margin:8px 0 20px}.ml div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:3px;font-size:14px}.ml small{color:var(--mute)}
 .dlab{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
@@ -176,7 +177,7 @@ dialog::backdrop{background:rgba(20,13,11,.7);backdrop-filter:blur(3px)}
 <h2 class="h2b">Dúvidas frequentes</h2><div class="faq">
 <details><summary>Posso fazer unhas e cílios no mesmo dia?</summary><p>Pode. No agendamento, escolha um serviço de cada categoria. O site soma a duração e mostra só os horários em que cabe tudo.</p></details>
 <details><summary>Como funciona o sinal de 30%?</summary><p>Ele é pago na hora de agendar, por Pix ou cartão, e vale como parte do valor total. O restante você paga no dia. Sem o sinal, o horário não fica reservado.</p></details>
-<details><summary>Preciso criar conta para agendar?</summary><p>Não. Mas com a conta você vê seus próximos horários, quantas vezes já fez cada procedimento e quanto falta para a promoção de fidelidade.</p></details>
+<details><summary>Preciso criar conta para agendar?</summary><p>Sim, é rápido: nome, WhatsApp, e-mail e senha, na própria tela do agendamento. Com a conta você vê seus próximos horários, quantas vezes já fez cada procedimento e seus pontos de fidelidade: cada atendimento vale 1 ponto.</p></details>
 <details><summary>O que é a manutenção até 25 dias?</summary><p>É a manutenção dos cílios feita em até 25 dias depois da aplicação, com valor reduzido. Volume Express, Sirena e Power não têm manutenção.</p></details>
 <details><summary>O que já está incluso no alongamento de unhas?</summary><p>Esmaltação em gel ou pó cromo e a cuticulagem. Decoração 3D, encapsulada e nail art são cobradas à parte.</p></details>
 <details><summary>Preciso remarcar. O que faço?</summary><p>Fale com o studio pelo WhatsApp, com antecedência, para combinarmos um novo horário.</p></details></div></div></section>
@@ -276,8 +277,11 @@ function view(){steps();sum();const P=$("#panel");if(S.done)return done();
   P.innerHTML=`<div class="mon"><button id="pv" aria-label="Mês anterior">${I(IC.l)}</button><span>${S.mo.toLocaleDateString("pt-BR",{month:"long",year:"numeric"})}</span><button id="nxm" aria-label="Próximo mês">${I(IC.r)}</button></div><div class="cal">${cal}</div>`+
   (S.date?`<h3>Horários livres · ${S.date.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}</h3>${grp.map(([t,L])=>`<p class="per">${t}</p><div class="slots">${L.map(x=>`<button data-t="${x}" class="${S.time==x?"sel":""}">${hh(x)}</button>`).join("")}</div>`).join("")||'<p class="empty">Sem horários neste dia.</p>'}`:`<p class="empty" style="margin-top:18px">Os dias com ponto dourado têm horário livre para ${dur(calc().d)} de atendimento.</p>`)+
   `<div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="nx" ${S.time!=null?"":"disabled"}>Seus dados</button></div>`}
- if(S.step==3){if(PERFIL){S.name=S.name||PERFIL.nome;S.tel=S.tel||PERFIL.tel}
-  P.innerHTML=(USER?`<div class="hello">${I(IC.user)}<span>Agendando como <b>${E(PERFIL?.nome||USER.email)}</b>. O horário vai aparecer na sua conta.</span></div>`:`<div class="hello">${I(IC.user)}<span>Tem conta? Entre para acompanhar seus horários e sua fidelidade.</span><button class="btn ghost" data-acc style="padding:7px 14px">Entrar</button></div>`)+
+ if(S.step==3){
+  // agendar exige conta: a cliente entra ou cria a conta aqui mesmo
+  if(!USER){P.innerHTML=`<h3 style="margin-top:0">Entre ou crie sua conta</h3><p class="empty" style="margin-bottom:20px">Com a conta você acompanha seus horários, seus pontos e sua fidelidade. Leva menos de um minuto.</p>${DB?authHTML():'<p class="empty">Carregando…</p>'}<div class="nav"><button class="btn ghost" id="bk">Voltar</button><span></span></div>`;return}
+  if(PERFIL){S.name=S.name||PERFIL.nome;S.tel=S.tel||PERFIL.tel}
+  P.innerHTML=`<div class="hello">${I(IC.user)}<span>Agendando como <b>${E(PERFIL?.nome||USER.email)}</b>. O horário vai aparecer na sua conta.</span><button class="lnk" id="trocar" style="margin:0 0 0 auto">Não é você?</button></div>`+
   `<label class="f">Nome completo<input id="nm" autocomplete="name" value="${E(S.name)}"></label><label class="f">WhatsApp com DDD<input id="tl" type="tel" autocomplete="tel" placeholder="(11) 90000-0000" value="${E(S.tel)}"></label><label class="f">Observações (opcional)<textarea id="ob" rows="3" placeholder="Ex.: referência de modelo, alergias">${E(S.obs)}</textarea></label><p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="n3">Ir para o pagamento</button></div>`}
  if(S.step==4){const c=calc(),on=!!CFG.pagURL;
   P.innerHTML=`<h3 style="margin-top:0">Sinal para garantir o horário</h3><p class="empty">O sinal é 30% do total e já vale como parte do pagamento. O restante, ${R(c.p-c.dep)}, você paga no dia.</p>
@@ -289,11 +293,12 @@ async function cobrar(id){const r=await fetch(CFG.pagURL+"/pagar",{method:"POST"
 const PK="mo_pend",savePend=b=>{try{localStorage.setItem(PK,JSON.stringify(b))}catch(e){}},readPend=()=>{try{return JSON.parse(localStorage.getItem(PK))}catch(e){return null}};
 async function reservar(t,er){
  if(!DB)return er("Sem conexão com a agenda. Recarregue a página e tente de novo.");
+ if(!USER){S.step=3;return view()}
  t.disabled=true;t.textContent=CFG.pagURL?"Abrindo o pagamento…":"Reservando…";
  try{if(S.pend&&S.pend.date==iso(S.date)&&S.pend.start==S.time){await cobrar(S.pend.code);return}
   await API.load();
   if(!slots(S.date).includes(S.time)){S.step=2;S.time=null;view();return $("#panel").insertAdjacentHTML("afterbegin",'<p class="err">Esse horário acabou de ser ocupado. Escolha outro.</p>')}
-  const c=calc(),b={code:Math.random().toString(36).slice(2,8).toUpperCase(),svc:Object.keys(S.sel).map(k=>pick(k).n).join(" + "),itens:Object.values(S.sel).map(o=>({id:o.id,v:o.v})),ex:S.ex,date:iso(S.date),dateTxt:S.date.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"}),start:S.time,end:S.time+c.d,total:c.p,dep:c.dep,pay:CFG.pagURL?"mp":"pix",name:S.name,tel:S.tel,obs:S.obs,status:CFG.pagURL?"aguardando":"reservado",...(USER?{uid:USER.uid,email:USER.email}:{})};
+  const c=calc(),b={code:Math.random().toString(36).slice(2,8).toUpperCase(),svc:Object.keys(S.sel).map(k=>pick(k).n).join(" + "),itens:Object.values(S.sel).map(o=>({id:o.id,v:o.v})),ex:S.ex,date:iso(S.date),dateTxt:S.date.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"}),start:S.time,end:S.time+c.d,total:c.p,dep:c.dep,pay:CFG.pagURL?"mp":"pix",name:S.name,tel:S.tel,obs:S.obs,status:CFG.pagURL?"aguardando":"reservado",uid:USER.uid,email:USER.email};
   await API.add(b);S.pend=b;savePend(b);
   if(CFG.pagURL)await cobrar(b.code);else{S.done={...b,st:"manual"};view()}}
  catch(x){console.error(x);t.disabled=false;t.textContent="Tentar de novo";er("Não foi possível "+(CFG.pagURL?"abrir o pagamento":"reservar")+" agora. Tente de novo.")}}
@@ -309,8 +314,12 @@ $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.t
  else if(t.id=="nx"){S.step++;view();if(S.step==2)API.load().then(view)}else if(t.id=="bk"){S.step--;view()}
  else if(t.id=="novo"){Object.assign(S,{step:1,sel:{},ex:{},date:null,time:null,done:null,pend:null});history.replaceState(null,"",location.pathname+"#agendar");view()}
  else if(t.id=="repg"){t.disabled=true;cobrar(S.done.code).catch(x=>{t.disabled=false;er(x.message=="este agendamento não está aguardando pagamento"?"O prazo para pagar acabou. Escolha outro horário.":"Não foi possível abrir o pagamento. Tente de novo.")})}
+ else if(t.id=="trocar"){DB.logout();Object.assign(S,{name:"",tel:""})}
  else if(t.id=="n3"){S.name=$("#nm").value.trim();S.tel=$("#tl").value.trim();S.obs=$("#ob").value.trim();const dg=S.tel.replace(/\D/g,"");
-  if(S.name.length<3)return er("Informe seu nome completo.");if(dg.length<10||dg.length>11)return er("Informe o WhatsApp com DDD.");S.step=4;view()}
+  if(S.name.length<3)return er("Informe seu nome completo.");if(dg.length<10||dg.length>11)return er("Informe o WhatsApp com DDD.");
+  // mantém o cadastro da cliente em dia se ela corrigiu nome ou WhatsApp
+  if(PERFIL&&(PERFIL.nome!=S.name||PERFIL.tel!=S.tel)){PERFIL={...PERFIL,nome:S.name,tel:S.tel};DB.put("clientes",USER.uid,{nome:S.name,tel:S.tel}).catch(console.error)}
+  S.step=4;view()}
  else if(t.id=="pg")reservar(t,er)});
 $("#panel").addEventListener("change",e=>{const t=e.target;
  if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}});
@@ -327,27 +336,34 @@ async function retorno(){const q=new URLSearchParams(location.search),id=q.get("
 const acc=$("#acc");$("#accx").innerHTML=I(IC.x);$("#accx").onclick=()=>acc.close();acc.onclick=e=>{if(e.target==acc)acc.close()};$("#accb").onclick=()=>openAcc();
 let accTab="entrar";
 function accBtn(){$("#accb").innerHTML=I(IC.user)+`<span>${USER?"Minha conta":"Entrar"}</span>`}accBtn();
+// formulário de entrar / criar conta (usado no "Minha conta" e na etapa "Seus dados" do agendamento).
+// Toda conta criada aqui é de cliente: só vê os próprios agendamentos e pontos (garantido em firestore.rules).
+const authHTML=()=>`<div class="tabs" role="tablist"><button type="button" role="tab" data-at="entrar" aria-selected="${accTab=="entrar"}">Já tenho conta</button><button type="button" role="tab" data-at="criar" aria-selected="${accTab=="criar"}">Criar conta</button></div>
+ <form class="fauth">${accTab=="criar"?`<label class="f">Nome completo<input name="nome" autocomplete="name" required minlength="3"></label><label class="f">WhatsApp com DDD<input name="tel" type="tel" autocomplete="tel" required placeholder="(11) 90000-0000"></label>`:""}
+ <label class="f">E-mail<input name="email" type="email" autocomplete="email" required></label><label class="f">Senha${accTab=="criar"?" (mínimo 6 caracteres)":""}<input name="pw" type="password" autocomplete="${accTab=="criar"?"new-password":"current-password"}" required minlength="6"></label>
+ <p class="err aer" role="alert"></p><button class="btn" style="width:100%">${accTab=="criar"?"Criar conta e continuar":"Entrar"}</button>${accTab=="entrar"?'<button type="button" class="lnk aesq">Esqueci a senha</button>':""}</form>`;
 async function openAcc(){if(!acc.open)acc.showModal();const B=$("#accb2");
  if(!DB){$("#accs").textContent="";B.innerHTML='<p class="empty">Carregando…</p>';return}
- if(!USER){$("#acct").textContent=accTab=="entrar"?"Entrar":"Criar conta";$("#accs").textContent="Veja seus horários, seu histórico e sua fidelidade.";
-  B.innerHTML=`<div class="tabs" role="tablist"><button role="tab" data-at="entrar" aria-selected="${accTab=="entrar"}">Entrar</button><button role="tab" data-at="criar" aria-selected="${accTab=="criar"}">Criar conta</button></div>
-  <form id="fac">${accTab=="criar"?`<label class="f">Nome completo<input name="nome" autocomplete="name" required minlength="3"></label><label class="f">WhatsApp com DDD<input name="tel" type="tel" autocomplete="tel" required placeholder="(11) 90000-0000"></label>`:""}
-  <label class="f">E-mail<input name="email" type="email" autocomplete="email" required></label><label class="f">Senha${accTab=="criar"?" (mínimo 6 caracteres)":""}<input name="pw" type="password" autocomplete="${accTab=="criar"?"new-password":"current-password"}" required minlength="6"></label>
-  <p class="err" id="aer" role="alert"></p><button class="btn" style="width:100%">${accTab=="criar"?"Criar minha conta":"Entrar"}</button>${accTab=="entrar"?'<button type="button" class="lnk" id="aesq">Esqueci a senha</button>':""}</form>`;return}
+ if(!USER){$("#acct").textContent=accTab=="entrar"?"Entrar":"Criar conta";$("#accs").textContent="Veja seus horários, seus pontos e sua fidelidade.";B.innerHTML=authHTML();return}
  $("#acct").textContent="Olá, "+String(PERFIL?.nome||"").split(" ")[0]+"!";$("#accs").textContent=USER.email;B.innerHTML='<p class="empty">Carregando seus horários…</p>';
  const L=(await DB.where("agendamentos","uid",USER.uid).catch(()=>[])).sort((a,b)=>a.date.localeCompare(b.date)||a.start-b.start),T0=iso(new Date());
  const prox=L.filter(b=>b.date>=T0&&["aguardando","reservado","confirmado"].includes(b.status)),feitos=L.filter(b=>b.status=="concluido"),n=+CFG.fid.n||10,r=feitos.length%n;
  const proc={};feitos.forEach(b=>String(b.svc).split(" + ").forEach(s=>proc[s]=(proc[s]||0)+1));
  const SL={aguardando:"aguardando pagamento",reservado:"aguardando confirmação do sinal",confirmado:"confirmado"};
- B.innerHTML=`<div class="fidc"><b>${feitos.length&&r==0?"Você ganhou a promoção! 🎉":`${feitos.length} ${feitos.length==1?"atendimento":"atendimentos"} com a gente`}</b><p>${feitos.length&&r==0?`Você ganhou ${E(CFG.fid.premio)}. Fale com o studio para usar.`:`Faltam ${n-r} para você ganhar ${E(CFG.fid.premio)}.`}</p><div class="pg"><i style="width:${(feitos.length&&r==0?n:r)/n*100}%"></i></div></div>
+ // pontos: 1 por atendimento concluído; a cada n pontos ela ganha o prêmio de fidelidade
+ const pts=feitos.length,ganhou=pts&&r==0;
+ B.innerHTML=`<div class="fidc"><div class="pts"><span><b>${pts}</b> ${pts==1?"ponto":"pontos"}</span><small>${feitos.length} ${feitos.length==1?"atendimento":"atendimentos"} · ${prox.length} agendado${prox.length==1?"":"s"}</small></div><p>${ganhou?`🎉 Você ganhou ${E(CFG.fid.premio)}! Fale com o studio para usar.`:`Faltam <b>${n-r}</b> ${n-r==1?"ponto":"pontos"} para você ganhar ${E(CFG.fid.premio)}. Cada atendimento vale 1 ponto.`}</p><div class="pg"><i style="width:${(ganhou?n:r)/n*100}%"></i></div></div>
  <p class="dlab">Próximos horários</p><div class="ml">${prox.map(b=>`<div><span><b>${new Date(b.date+"T00:00").toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short"})} · ${hh(b.start)}</b><br><small>${E(b.svc)}</small></span><small>${SL[b.status]}</small></div>`).join("")||'<small class="empty">Nenhum horário marcado.</small>'}</div>
  <p class="dlab">Procedimentos que você já fez</p><div class="chips">${Object.entries(proc).sort((a,b)=>b[1]-a[1]).map(([s,q])=>`<span>${E(s)} <b>${q}×</b></span>`).join("")||'<small class="empty">Ainda nenhum.</small>'}</div>
  <div class="nav" style="margin-top:6px"><button class="btn ghost" id="asair">Sair</button><a class="btn" href="#agendar" id="aag">Agendar horário</a></div>`}
-acc.addEventListener("click",e=>{const t=e.target;if(t.dataset.at){accTab=t.dataset.at;openAcc()}else if(t.id=="asair"){DB.logout();acc.close()}else if(t.id=="aag")acc.close();
- else if(t.id=="aesq"){const m=$("#fac").email.value.trim();if(!m)return $("#aer").textContent="Digite seu e-mail e toque de novo em “Esqueci a senha”.";DB.resetPw(m).then(()=>$("#aer").textContent="Enviamos um link para criar uma nova senha.").catch(()=>$("#aer").textContent="Não foi possível enviar agora.")}});
-acc.addEventListener("submit",async e=>{e.preventDefault();const f=e.target,g=k=>f.elements[k]?.value.trim(),er=m=>$("#aer").textContent=m,bt=f.querySelector(".btn");bt.disabled=true;
+acc.addEventListener("click",e=>{const t=e.target;if(t.id=="asair"){DB.logout();acc.close()}else if(t.id=="aag")acc.close()});
+const reAuth=f=>f.closest("dialog")?openAcc():view();
+document.addEventListener("click",e=>{const t=e.target;
+ if(t.dataset.at){accTab=t.dataset.at;reAuth(t)}
+ else if(t.classList.contains("aesq")){const f=t.form,a=f.querySelector(".aer"),m=f.email.value.trim();if(!m)return a.textContent="Digite seu e-mail e toque de novo em “Esqueci a senha”.";DB.resetPw(m).then(()=>a.textContent="Enviamos um link para criar uma nova senha.").catch(()=>a.textContent="Não foi possível enviar agora.")}});
+document.addEventListener("submit",async e=>{const f=e.target;if(!f.classList.contains("fauth"))return;e.preventDefault();const g=k=>f.elements[k]?.value.trim(),er=m=>f.querySelector(".aer").textContent=m,bt=f.querySelector(".btn");bt.disabled=true;
  try{if(accTab=="criar"){const tel=g("tel"),dg=tel.replace(/\D/g,"");if(dg.length<10||dg.length>11){bt.disabled=false;return er("Informe o WhatsApp com DDD.")}
-   const uid=await DB.signup(g("email"),f.elements.pw.value);PERFIL={nome:g("nome"),tel,email:g("email").toLowerCase()};await DB.put("clientes",uid,{...PERFIL,criado:DB.stamp()});accBtn();openAcc();if(S.step==3&&!S.done)view()}
+   const uid=await DB.signup(g("email"),f.elements.pw.value);PERFIL={nome:g("nome"),tel,email:g("email").toLowerCase()};await DB.put("clientes",uid,{...PERFIL,criado:DB.stamp()});accBtn();if(acc.open)openAcc();if(S.step==3&&!S.done)view()}
   else await DB.login(g("email"),f.elements.pw.value)}
  catch(x){bt.disabled=false;er({"auth/email-already-in-use":"Já existe uma conta com este e-mail. Use “Entrar”.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.","auth/invalid-email":"E-mail inválido.","auth/too-many-requests":"Muitas tentativas. Espere alguns minutos."}[x.code]||(/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":"Não foi possível agora ("+(x.code||x.message)+")."))}});
 // ---- inicialização: banco, preços e textos do painel, agenda ocupada, conta logada
