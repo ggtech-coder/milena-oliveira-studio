@@ -1,6 +1,11 @@
 // Dados padrão do studio, usados pelo site (index.html) e pelo painel (admin.html).
 // Preços, durações e horários salvos no painel substituem estes valores (ver applyCfg).
 const CFG={whatsapp:"",instagram:"",endereco:"",
+ sobre:"Studio especializado em alongamento de unhas em gel, esmaltação e extensão de cílios. Atendimento individual, com hora marcada, materiais de qualidade e acabamento caprichado em cada detalhe.",
+ depo:[], // depoimentos: [{n:"Nome", t:"texto"}]
+ fid:{n:10,premio:"um desconto especial"}, // fidelidade: a cada n atendimentos concluídos
+ meta:4000, // meta de faturamento do mês (painel)
+ pagURL:"", // endereço do servidor de pagamento (Cloudflare Worker); vazio = sem pagamento online
  // horário de funcionamento por dia da semana (0=dom). null = fechado.
  horas:{0:null,1:null,2:["09:00","18:00"],3:["09:00","18:00"],4:["09:00","18:00"],5:["09:00","18:00"],6:["09:00","16:00"]},
  passo:30,diasAFrente:60,antecedenciaH:3};
@@ -27,5 +32,6 @@ cilios:{label:"Cílios",items:[
  {id:"c8",n:"Volume Power",x:"Sem manutenção",p:190,d:180}]}};
 const all=[...SV.unhas.items,...SV.unhas.ex,...SV.cilios.items];
 // aplica a configuração salva no banco (documento config/site) sobre os valores padrão
-function applyCfg(c){if(!c)return;["horas","passo","diasAFrente","antecedenciaH"].forEach(k=>{if(c[k]!=null)CFG[k]=c[k]});
+const CFG_KEYS=["horas","passo","diasAFrente","antecedenciaH","whatsapp","instagram","endereco","sobre","depo","fid","meta","pagURL"];
+function applyCfg(c){if(!c)return;CFG_KEYS.forEach(k=>{if(c[k]!=null)CFG[k]=c[k]});
  all.forEach(i=>{const v=c.svc&&c.svc[i.id];if(!v)return;i.p=v.p;i.d=v.d;if(i.m&&v.m)i.m=v.m})}

@@ -10,3 +10,5 @@ export const FIREBASE={
  messagingSenderId:"513957014217",
  appId:"1:513957014217:web:1bc7f48ee9dbf2915d7b18"
 };
+// UID do administrador master (pode tudo, inclusive criar usuários). O mesmo UID está em firestore.rules.
+export const MASTER="6tZbvEYyicTYlt8LnaVoXwJtDmS2";

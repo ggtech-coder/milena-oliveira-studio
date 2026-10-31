@@ -1,58 +1,81 @@
-# Site + painel do studio — como colocar no ar (custo zero)
+# Site + painel do studio
 
-- **Site:** `index.html` (as clientes agendam)
-- **Painel:** `admin.html` (só você, com login): clientes do dia, caixa, travar agenda, serviços e tempos, horários
-- **Banco de dados:** Firebase Firestore, plano gratuito **Spark** (não pede cartão)
-- **Hospedagem:** GitHub Pages (grátis)
+- **Site:** https://ggtech-coder.github.io/milena-oliveira-studio/
+- **Painel:** https://ggtech-coder.github.io/milena-oliveira-studio/admin.html
+- **Banco de dados e logins:** Firebase (projeto `milena-4c46b`, plano gratuito Spark)
+- **Pagamento do sinal:** Mercado Pago, através de um servidor gratuito no Cloudflare Workers (pasta `pagamentos/`)
+- **Hospedagem:** GitHub Pages (grátis). Cada `git push` atualiza o site em 1 a 2 minutos.
 
-Enquanto o `firebase-config.js` estiver vazio, tudo funciona em **modo local** (os dados ficam só no navegador), bom para testar.
+## Arquivos
+| Arquivo | O que é |
+|---|---|
+| `index.html` | Site das clientes: serviços, agendamento, conta da cliente |
+| `admin.html` | Painel: dashboard, agenda do dia, clientes, financeiro, configurações, usuários |
+| `dados.js` | Serviços, preços e horários padrão (o painel sobrescreve) |
+| `store.js` | Conversa com o Firebase |
+| `firebase-config.js` | Chaves do Firebase e UID do master |
+| `firestore.rules` | Regras de segurança do banco (colar no Console do Firebase) |
+| `pagamentos/` | Servidor de pagamento (Cloudflare Worker) |
 
-## 1. Criar o projeto no Firebase
-1. Entre em <https://console.firebase.google.com> com sua conta Google → **Adicionar projeto**. Pode desativar o Google Analytics.
-2. Fique no plano **Spark** (gratuito). Não precisa ativar faturamento para nada daqui.
+## 1. Firebase (uma vez)
+1. **Authentication → Método de login → E-mail/senha**: ativado (o painel e as contas das clientes usam).
+2. **Authentication → Configurações → Domínios autorizados**: `ggtech-coder.github.io`.
+3. **Firestore Database → Regras**: cole o conteúdo de `firestore.rules` e clique em **Publicar**. Repita sempre que este arquivo mudar.
 
-## 2. Banco de dados
-1. Menu **Criação > Firestore Database > Criar banco de dados**.
-2. Local: `southamerica-east1 (São Paulo)`. Modo: **produção**.
+## 2. Usuários do painel
+- O **master** é o UID que está em `firebase-config.js` e em `firestore.rules`. Ele pode tudo, inclusive criar usuários.
+- No painel, menu **Usuários**: crie a pessoa com e-mail e senha provisória e marque o que ela pode acessar:
+  Dashboard · Agenda do dia · Clientes · Travar agenda · Financeiro e valores · Configurações.
+- **Tirar acesso** bloqueia o painel na hora, sem apagar a conta. **Enviar nova senha** manda um link por e-mail.
+- Contas de clientes do site não entram no painel.
 
-## 3. Login do painel
-1. **Criação > Authentication > Vamos começar > E-mail/senha** → ativar (só a primeira chave) → Salvar.
-2. Aba **Usuários > Adicionar usuário**: seu e-mail e uma senha forte.
-3. Copie o **UID do usuário** que aparece na lista (um código tipo `aB3dE...`).
+## 3. Mercado Pago (sinal de 30% por Pix ou cartão)
+Como funciona: a cliente escolhe o horário, o site cria a reserva como **Aguardando pagamento** e manda para o checkout do Mercado Pago. Quando o pagamento é aprovado, o servidor marca **Sinal pago** sozinho. Se ela não pagar em 40 minutos, a reserva expira e o horário volta a ficar livre.
 
-## 4. Ligar o site ao Firebase
-1. Engrenagem **Configurações do projeto > Seus apps > ícone `</>` (Web)**. Dê um nome e registre (não precisa do Hosting).
-2. Copie os valores de `firebaseConfig` para o arquivo `firebase-config.js` (apiKey, authDomain, projectId...).
-   Essas chaves podem ficar públicas: quem protege os dados são as regras do passo 5.
+O valor do sinal é sempre recalculado no servidor com os preços do painel, então ninguém consegue pagar menos mexendo no navegador.
 
-## 5. Regras de segurança (importante)
-1. Abra `firestore.rules`, troque `COLE_AQUI_O_SEU_UID` pelo UID do passo 3.
-2. Firestore Database > aba **Regras** → apague o que tiver, cole o conteúdo do arquivo → **Publicar**.
+Custo: **Cloudflare Workers é grátis e não pede cartão** (100 mil acessos por dia). O Mercado Pago cobra só a taxa de cada venda.
 
-Com isso: o site só consegue **criar** agendamentos e ver quais horários estão ocupados. Nome, telefone e valores das clientes só você vê, logada no painel.
+### 3.1 Token do Mercado Pago
+1. Entre em https://www.mercadopago.com.br/developers/panel/app → **Criar aplicação** (tipo: Pagamentos online → Checkout Pro).
+2. Em **Credenciais de produção**, copie o **Access Token** (começa com `APP_USR-`). Ele é secreto: não coloque em nenhum arquivo do site.
 
-## 6. Publicar no GitHub Pages
-1. Crie um repositório no GitHub e envie todos os arquivos desta pasta (incluindo a pasta `img`).
-2. No repositório: **Settings > Pages > Deploy from a branch** → branch `main`, pasta `/ (root)` → Save.
-3. Em alguns minutos o site fica em `https://SEU-USUARIO.github.io/NOME-DO-REPO/` e o painel em `.../admin.html`.
-4. No Firebase: **Authentication > Configurações > Domínios autorizados > Adicionar domínio** → `SEU-USUARIO.github.io`.
+### 3.2 Chave do Firebase para o servidor
+1. Console do Firebase → engrenagem → **Configurações do projeto → Contas de serviço → Gerar nova chave privada**.
+2. Baixa um arquivo `.json`. Ele também é secreto: **não coloque na pasta do site nem no GitHub**.
 
-Salve o endereço do painel nos favoritos do celular. Ele não aparece em nenhum link do site.
+### 3.3 Publicar o servidor (Cloudflare)
+1. Crie uma conta grátis em https://dash.cloudflare.com/sign-up.
+2. No terminal, dentro da pasta `pagamentos`:
+   ```
+   npx wrangler login
+   npx wrangler deploy
+   npx wrangler secret put MP_TOKEN
+   Get-Content "CAMINHO\DO\arquivo-da-conta-de-servico.json" -Raw | npx wrangler secret put FB_SA
+   ```
+   - `MP_TOKEN`: cole o Access Token quando ele pedir.
+   - `FB_SA`: o segundo comando envia o `.json` baixado no passo 3.2 (troque pelo caminho do arquivo). Depois disso pode apagar o arquivo do computador.
+3. O deploy mostra o endereço, tipo `https://milena-pagamentos.SEU-USUARIO.workers.dev`.
 
-## Como o painel funciona
-- **Clientes do dia:** lista por horário, com WhatsApp, serviços e valores. Mude a **Situação**:
-  - *Reservado* → a cliente agendou no site, mas você ainda não conferiu a entrada.
-  - *Entrada paga* → você viu o Pix/cartão da entrada.
-  - *Concluído* → atendimento feito e o restante pago.
-  - *Cancelado* → libera o horário no site (você escolhe se a entrada fica no caixa).
-  - **+ Adicionar cliente**: para quem marcou pelo WhatsApp; o horário fica ocupado no site.
-- **Caixa:** *Já entrou* = entradas pagas + atendimentos concluídos. *A receber* = estimativa do que falta entrar (reservas e restantes).
-- **Travar agenda:** um horário, um dia inteiro ou vários dias (férias). Some na hora do site.
-- **Serviços e tempos:** preço e duração de cada serviço, extra e manutenção. O site soma as durações do que a cliente escolher e só mostra horários em que cabe tudo.
-- **Horários:** dias e horários de funcionamento da semana, intervalo entre horários, antecedência mínima e quantos dias à frente a agenda abre.
+### 3.4 Ligar no site
+1. Painel → **Site e pagamentos** → cole o endereço em **Servidor de pagamento** → **Testar conexão** → **Salvar**.
+2. No Mercado Pago (painel da aplicação → **Webhooks**), não precisa configurar nada: o servidor informa o endereço de aviso em cada cobrança.
 
-## Limites do plano gratuito
-50 mil leituras e 20 mil gravações por dia: sobra muito para um studio. Se um dia passar, o Firebase só para de responder até o dia seguinte; não cobra nada sem você ativar o faturamento.
+Para desligar o pagamento online, apague o endereço e salve: o site volta a reservar e você confere o sinal à mão.
 
-## Observação
-O pagamento da entrada no site ainda está em **modo demonstração** (`DEMO=true` no `index.html`): nenhuma cobrança real é feita. Por isso toda reserva chega como *Reservado* para você conferir o Pix antes de marcar *Entrada paga*.
+## 4. Como o painel funciona
+- **Dashboard:** meta do mês, receita, a receber, atendimentos, gráfico de 6 meses, próximos horários, serviços mais feitos.
+- **Agenda do dia:** clientes por horário, WhatsApp, valores e **Situação**:
+  *Aguardando pagamento* (está no Mercado Pago) · *Reservado — conferir sinal* (sem pagamento online) · *Sinal pago* · *Concluído* · *Cancelado* (libera o horário) · *Expirado*.
+  **Adicionar cliente** serve para quem marcou pelo WhatsApp.
+- **Clientes:** quantas vezes cada cliente veio, o que já fez, quanto gastou e quanto falta para a promoção de fidelidade (configure em Site e pagamentos). Botão para avisar pelo WhatsApp.
+- **Travar agenda:** um horário, um dia ou vários dias.
+- **Financeiro:** já entrou, a receber, por dia e por forma de pagamento.
+- **Serviços e tempos / Horários:** preços, durações e funcionamento da semana.
+- **Site e pagamentos:** WhatsApp, Instagram, endereço (com mapa), texto "Sobre", depoimentos, fidelidade, meta e servidor de pagamento.
+
+## 5. Conta da cliente no site
+Botão **Entrar** no topo do site. A cliente cria a conta com nome, WhatsApp, e-mail e senha e vê os próximos horários, os procedimentos que já fez e o progresso da fidelidade. Agendar sem conta continua possível.
+
+## Limites gratuitos
+Firestore: 50 mil leituras e 20 mil gravações por dia. Cloudflare Workers: 100 mil acessos por dia. Sobra muito para um studio. Nada é cobrado sem você ativar faturamento.
