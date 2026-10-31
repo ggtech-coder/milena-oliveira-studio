@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milena Oliveira Studio de Beleza — Unhas e cílios</title>
+<meta name="description" content="Alongamento de unhas em gel, esmaltação e extensão de cílios. Escolha o serviço e agende seu horário online.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2b1d19;--mute:#7a6a64;--dark:#1e1512;--gold:#c9a66b;--gold-d:#8f6f3a;--paper:#faf6f3;--blush:#efe1dc;--line:#dccdc6;--d:'Cormorant Garamond',Georgia,serif;--b:'Jost',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font:400 17px/1.6 var(--b);color:var(--ink);background:var(--paper)}
+h1,h2,h3{font-family:var(--d);font-weight:500;line-height:1.05}
+a{color:inherit}.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:2px solid var(--gold-d);outline-offset:3px}
+.btn{display:inline-block;border:1px solid var(--gold);background:var(--gold);color:var(--dark);padding:13px 26px;font:600 15px var(--b);text-decoration:none;cursor:pointer;border-radius:2px}
+.btn:hover{background:#d8b87f}.btn.ghost{background:none;color:inherit;border-color:currentColor}.btn[disabled]{opacity:.4;cursor:not-allowed}
+header{position:fixed;inset:0 0 auto;z-index:20;color:#f4ebe4;transition:background .3s}header.solid{background:rgba(30,21,18,.94);backdrop-filter:blur(8px)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:84px}
+.logo{font:600 26px var(--d);text-decoration:none}.logo small{display:block;font:400 12px var(--b);letter-spacing:.08em;color:var(--gold)}
+nav{display:flex;gap:28px;align-items:center}nav a{text-decoration:none;font-size:15px}nav .btn{padding:9px 18px}
+.hero{position:relative;overflow:hidden;background:var(--dark);color:#f4ebe4;padding:150px 0 70px}.hlogo{position:absolute;top:56px;left:50%;width:min(1000px,135%);transform:translateX(-50%);opacity:.32;mix-blend-mode:lighten;pointer-events:none;user-select:none}.hero .wrap{position:relative;z-index:1}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:end}
+.hero h1{font-size:clamp(30px,3.4vw,46px);margin:6px 0 18px}.hero p{max-width:460px;color:#cdbdb4;margin-bottom:34px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.arch{position:relative;aspect-ratio:3/4;border-radius:999px 999px 0 0;overflow:hidden}
+.arch img{width:100%;height:100%;object-fit:cover}.arch:after{content:"";position:absolute;inset:12px;border:1px solid rgba(201,166,107,.7);border-radius:999px 999px 0 0;pointer-events:none}
+.work{background:var(--dark);color:#f4ebe4;padding:30px 0 90px;overflow:hidden}
+.work-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:34px}
+.work h2{font-size:42px}.pause{background:none;border:1px solid #5a4a43;color:#cdbdb4;padding:7px 14px;font:500 13px var(--b);cursor:pointer;border-radius:2px}
+.vp{overflow-x:auto;padding:0 0 44px;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none}.vp::-webkit-scrollbar{display:none}.vp.drag{cursor:grabbing}.track{display:flex;gap:22px;width:max-content;padding:0 11px}.track figure{cursor:pointer}.track img{pointer-events:none;-webkit-user-drag:none}.ctl{display:flex;gap:8px}
+
+.track figure{width:250px;flex:none;aspect-ratio:3/4;overflow:hidden;border-radius:3px}
+.track figure:nth-child(even){transform:translateY(28px)}.track img{width:100%;height:100%;object-fit:cover}
+
+section{padding:100px 0;position:relative;overflow:hidden}section .wrap{position:relative;z-index:1}h2{font-size:clamp(38px,5vw,60px);margin-bottom:14px}.lead{color:var(--mute);max-width:560px;margin-bottom:40px}
+.tabs{display:flex;gap:6px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 20px;font:500 16px var(--b);color:var(--mute);cursor:pointer;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--gold-d)}
+.plist{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}.plist h3{grid-column:1/-1;font-size:26px;margin:36px 0 6px}
+.row{padding:14px 0;border-bottom:1px solid var(--line)}.row .l{display:flex;gap:10px;align-items:baseline}
+.row .l i{flex:1;border-bottom:1px dotted #b7a69e;transform:translateY(-4px)}.row b{font-weight:600;white-space:nowrap}
+.row small{display:flex;justify-content:space-between;color:var(--mute);font-size:14px;gap:10px}.note{grid-column:1/-1;color:var(--mute);font-size:15px;margin-top:16px}
+.book{background:var(--blush)}.bgrid{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:start}
+.steps{display:flex;gap:26px;list-style:none;padding:0;margin:26px 0 30px;font-size:15px;color:var(--mute)}
+.steps li{padding-bottom:6px;border-bottom:2px solid transparent}.steps .on{color:var(--ink);border-color:var(--gold-d);font-weight:600}
+.panel{background:var(--paper);padding:30px;border-radius:3px;min-height:380px}
+.opt{display:flex;gap:14px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line);margin-bottom:8px;cursor:pointer;border-radius:2px;background:#fff}
+.opt:has(input:checked){border-color:var(--gold-d);background:#fbf3e6}.opt input{margin-top:6px;accent-color:var(--gold-d)}
+.opt span{flex:1}.opt em{display:block;font-style:normal;color:var(--mute);font-size:14px}.opt b{font-weight:600}
+.sub{display:flex;gap:8px;margin:2px 0 14px 4px}.sub label{border:1px solid var(--line);padding:6px 14px;font-size:14px;cursor:pointer;background:#fff}.sub label:has(input:checked){background:var(--ink);color:#fff;border-color:var(--ink)}.sub input{position:absolute;opacity:0}
+.panel h3{font-size:22px;margin:22px 0 10px}.qty{width:64px;padding:6px;border:1px solid var(--line);font:inherit}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:380px}.cal .h{text-align:center;color:var(--mute);font-size:13px}
+.cal button,.slots button{border:1px solid var(--line);background:#fff;padding:9px 0;font:inherit;font-size:15px;cursor:pointer;border-radius:2px}
+.cal button:disabled{background:none;border-color:transparent;color:#c2b5af;cursor:default}.cal button.sel,.slots button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mon{display:flex;justify-content:space-between;align-items:center;max-width:380px;margin-bottom:10px;font-weight:600}.mon button{background:none;border:0;font-size:22px;cursor:pointer;padding:0 10px}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px}.empty{color:var(--mute)}
+label.f{display:block;margin-bottom:16px;font-size:15px;font-weight:500}label.f input,label.f textarea{display:block;width:100%;margin-top:6px;padding:11px;border:1px solid var(--line);font:inherit;background:#fff;border-radius:2px}
+.err{color:#a3341f;font-size:14px;min-height:20px}.nav{display:flex;justify-content:space-between;margin-top:26px}
+.sum{background:var(--dark);color:#f4ebe4;padding:28px;border-radius:3px;position:sticky;top:24px}.sum h3{font-size:24px;margin-bottom:14px}
+.sum dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:15px}.sum dt{color:#b9a89f}.sum dd{text-align:right}
+.tot{display:flex;justify-content:space-between;border-top:1px solid #4a3a34;margin-top:18px;padding-top:16px;font:500 22px var(--d)}
+.ok h3{font-size:30px;margin:0 0 10px}.ok p{margin-bottom:16px}
+footer{background:var(--dark);color:#cdbdb4;padding:50px 0;font-size:15px}footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}footer .logo{color:#f4ebe4}
+@media(max-width:860px){nav a:not(.btn){display:none}.hero .wrap,.bgrid,.plist{grid-template-columns:1fr}.arch{max-width:360px}.sum{position:static}.hero{padding-top:120px}.track figure{width:200px}section{padding:70px 0}.panel{padding:20px}}
+@media(prefers-reduced-motion:reduce){.track{animation:none}.work{overflow-x:auto}html{scroll-behavior:auto}}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(10,6,5,.94);display:flex;align-items:center;justify-content:center;gap:16px}#lb[hidden]{display:none}#lb img{max-height:88vh;max-width:min(88vw,640px);border-radius:3px}#lb button{background:none;border:1px solid #5a4a43;color:#f4ebe4;width:46px;height:46px;font-size:24px;cursor:pointer;border-radius:50%}#lbx{position:absolute;top:18px;right:18px}
+.bk{background:none;border:1px solid var(--gold-d);color:var(--gold-d);padding:3px 12px;font:600 13px var(--b);cursor:pointer;border-radius:2px}.bk:hover{background:var(--gold-d);color:#fff}
+@media(max-width:860px){#lb{flex-wrap:wrap}#lb img{order:-1;max-width:92vw;max-height:76vh}}
+
+.hero{padding:120px 0 80px}.hero .wrap{grid-template-columns:1.3fr .7fr;align-items:center;gap:40px}
+.logo-big{display:block;width:100%;max-width:720px;margin-left:-5%;mix-blend-mode:lighten;animation:wipe 1.8s cubic-bezier(.65,0,.2,1) both}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.arch{max-width:360px;justify-self:end;width:100%}
+.ci{width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:none;color:var(--gold);display:grid;place-items:center;cursor:pointer;transition:.25s}.ci:hover{background:var(--gold);color:var(--dark)}
+.pause{border:0;text-decoration:underline;text-underline-offset:4px;padding:0 6px}.ctl{align-items:center;gap:10px}
+.track figure{width:290px;position:relative;transition:scale .45s}.track figure:hover{scale:1.05}.track figure:after{content:"";position:absolute;inset:12px;border:1px solid rgba(201,166,107,0);transition:.35s}.track figure:hover:after{border-color:rgba(201,166,107,.9)}
+section h2:before{content:"";display:block;width:120px;height:14px;margin-bottom:20px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14'%3E%3Cpath d='M0 7h46M74 7h46' stroke='%23b08d4f'/%3E%3Cpath d='M60 0c1 4 3 6 7 7-4 1-6 3-7 7-1-4-3-6-7-7 4-1 6-3 7-7z' fill='%23b08d4f'/%3E%3C/svg%3E") no-repeat}
+#servicos:after,.book:after{content:"";position:absolute;top:50px;width:340px;height:550px;background:url(img/flor.png) no-repeat center/contain;opacity:.3;pointer-events:none}
+#servicos:after{right:-30px}.book:after{left:-60px;transform:scaleX(-1)}
+.btn{position:relative;overflow:hidden}.btn:after{content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:left .7s}.btn:hover:after{left:130%}
+#prog{position:fixed;top:0;left:0;right:0;height:3px;background:var(--gold);transform-origin:left;transform:scaleX(0);z-index:40}
+.fab{position:fixed;right:20px;bottom:20px;z-index:15;box-shadow:0 0 0 0 rgba(201,166,107,.6);transform:translateY(100px);transition:transform .4s;animation:ring 2.4s infinite}.fab.on{transform:none}
+@keyframes ring{70%{box-shadow:0 0 0 16px rgba(201,166,107,0)}100%{box-shadow:0 0 0 0 rgba(201,166,107,0)}}
+.mon button{display:grid;place-items:center}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.arch{justify-self:start}.track figure{width:220px}.logo-big{margin-left:0}}
+@media(prefers-reduced-motion:reduce){.logo-big,.fab{animation:none}}
+
+.hero{background:radial-gradient(ellipse 70% 80% at 25% 35%,#2d1f19 0%,#150e0b 70%)}
+.logo-big,.fade{-webkit-mask-image:radial-gradient(ellipse 60% 62% at 50% 50%,#000 38%,transparent 100%);mask-image:radial-gradient(ellipse 60% 62% at 50% 50%,#000 38%,transparent 100%);mix-blend-mode:lighten}
+.logo-big{max-width:800px;margin-left:-8%}
+.stp{display:flex;align-items:center;gap:6px}.stp button{width:36px;height:36px;border-radius:50%;border:1px solid var(--gold-d);background:none;color:var(--gold-d);display:grid;place-items:center;cursor:pointer;transition:.2s}.stp button:hover{background:var(--gold-d);color:#fff}.stp output{min-width:28px;text-align:center;font-weight:600}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold-d);margin-left:8px;vertical-align:middle}
+.lnk{background:none;border:0;color:var(--mute);text-decoration:underline;text-underline-offset:4px;font:inherit;font-size:14px;cursor:pointer;margin-top:6px}
+.dep{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:12px 14px;border:1px solid var(--gold);color:var(--gold);font-size:14px}.dep b{font:600 20px var(--d)}
+.pix{display:flex;gap:20px;align-items:center;margin-top:14px}.qr{width:132px;height:132px;flex:none;border:1px dashed var(--gold-d);display:grid;place-items:center;text-align:center;font-size:12px;color:var(--mute);padding:10px}.pix p{margin-bottom:10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.info{background:var(--dark);color:#f4ebe4}.info .lead{color:#b9a89f}.info h2:before{filter:none}.h2b{margin-top:80px}
+.how{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:h;border-top:1px solid #4a3a34}
+.how li{counter-increment:h;padding:30px 28px 10px 0;border-right:1px solid #4a3a34;margin-right:28px}.how li:last-child{border:0}
+.how li:before{content:counter(h);display:block;font:500 54px/1 var(--d);color:var(--gold);margin-bottom:14px}.how b{display:block;font:500 24px var(--d);margin-bottom:6px}.how span{color:#b9a89f}
+.faq{max-width:760px;margin-top:26px}.faq details{border-bottom:1px solid #4a3a34;padding:18px 0}.faq summary{cursor:pointer;font:500 22px var(--d);list-style:none;display:flex;justify-content:space-between;gap:20px}.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";color:var(--gold);font:300 28px/1 var(--b);transition:transform .3s}.faq details[open] summary:after{transform:rotate(45deg)}.faq p{color:#cdbdb4;margin-top:10px;max-width:620px}
+@media(max-width:860px){.how{grid-template-columns:1fr}.how li{border-right:0;border-bottom:1px solid #4a3a34;margin:0;padding-right:0}.pix{flex-direction:column;align-items:flex-start}.logo-big{margin-left:0}}
+
+.vp{overflow:hidden;touch-action:pan-y;cursor:grab}.vp.drag{cursor:grabbing}.track{will-change:transform}
+.row{padding:16px 14px;margin-inline:-14px;border-radius:2px;background:linear-gradient(90deg,#d9bb85,#c9a66b) no-repeat left/0% 100%;transition:background-size .7s cubic-bezier(.3,.6,.2,1),color .5s ease}
+.row .l span{font:500 22px var(--d)}.row:hover{background-size:100% 100%;color:var(--dark)}
+.row small,.row .l i{transition:color .5s,border-color .5s}.row:hover small{color:#4a3a28}.row:hover .l i{border-color:rgba(30,21,18,.55)}
+.row:hover .bk{border-color:var(--dark);color:var(--dark)}.row .bk:hover{background:var(--dark);color:var(--gold)}
+
+.row{position:relative;overflow:hidden;transition:background-size .7s cubic-bezier(.3,.6,.2,1),color .5s ease,box-shadow .7s ease}.row>*{position:relative;z-index:1}
+.row:after{content:"";position:absolute;top:0;bottom:0;left:-80px;width:70px;transform:skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,250,232,.95),transparent);opacity:0;pointer-events:none;transition:left .7s cubic-bezier(.3,.6,.2,1)}
+.row:hover{box-shadow:0 0 24px rgba(201,166,107,.5)}.row:hover:after{left:100%;animation:glint .7s linear}
+@keyframes glint{0%{opacity:0}20%,80%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.row:after{display:none}}
+
+#sp{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(520px circle at var(--mx,30%) var(--my,35%),rgba(201,166,107,.2),transparent 62%);pointer-events:none}
+.row>canvas.rs{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+</style>
+</head>
+<body><div id="prog"></div>
+<header><div class="wrap"><a class="logo" href="#">Milena Oliveira<small>Studio de Beleza</small></a><nav><a href="#trabalhos">Trabalhos</a><a href="#servicos">Serviços e valores</a><a class="btn" href="#agendar">Agendar</a></nav></div></header>
+<main>
+<div class="hero" id="hero"><canvas id="sp" aria-hidden="true"></canvas><div class="wrap"><div class="hl"><img class="logo-big" src="img/logo.jpg" alt="Milena Oliveira — Studio de Beleza"><h1>Unhas e cílios com acabamento de ateliê.</h1><p>Alongamento em gel, esmaltação e extensão de cílios. Escolha o serviço, veja os horários livres e agende em poucos cliques.</p><div class="cta"><a class="btn" href="#agendar">Agendar horário</a><a class="btn ghost" href="#servicos">Ver valores</a></div></div><div class="arch" id="parch"><img src="img/pro.jpg" alt="Milena Oliveira atendendo no studio" fetchpriority="high" style="object-position:58% center"></div></div></div>
+<div class="work" id="trabalhos"><div class="wrap work-head"><h2>Trabalhos recentes</h2><div class="ctl"><button class="pause" id="pause" aria-pressed="false">Pausar</button></div></div><div class="vp" id="vp"><div class="track" id="track" aria-label="Fotos de trabalhos realizados. Arraste para o lado para ver mais."></div></div></div>
+<section id="servicos"><div class="wrap"><h2>Serviços e valores</h2><p class="lead">Valores em reais. Escolha a categoria para ver a tabela completa.</p><div class="tabs" role="tablist" id="ptabs"></div><div class="plist" id="plist"></div></div></section>
+<section class="info" id="info"><div class="wrap"><h2>Como funciona</h2><p class="lead">Do serviço ao horário reservado em poucos minutos.</p>
+<ol class="how"><li><b>Escolha os serviços</b><span>Unhas, cílios ou os dois no mesmo horário.</span></li><li><b>Reserve com 30% de entrada</b><span>Pague por Pix, cartão de débito ou crédito. O restante fica para o dia do atendimento.</span></li><li><b>Compareça no horário</b><span>O horário fica reservado só para você.</span></li></ol>
+<h2 class="h2b">Dúvidas frequentes</h2><div class="faq">
+<details><summary>Posso fazer unhas e cílios no mesmo dia?</summary><p>Pode. No agendamento, escolha um serviço de cada categoria. O site soma a duração e mostra só os horários em que cabe tudo.</p></details>
+<details><summary>Como funciona a entrada de 30%?</summary><p>Ela é paga na hora de agendar, por Pix, débito ou crédito, e vale como parte do valor total. O restante você paga no dia.</p></details>
+<details><summary>O que é a manutenção até 25 dias?</summary><p>É a manutenção dos cílios feita em até 25 dias depois da aplicação, com valor reduzido. Volume Express, Sirena e Power não têm manutenção.</p></details>
+<details><summary>O que já está incluso no alongamento de unhas?</summary><p>Esmaltação em gel ou pó cromo e a cuticulagem. Decoração 3D, encapsulada e nail art são cobradas à parte.</p></details>
+<details><summary>Preciso remarcar. O que faço?</summary><p>Fale com o studio pelo WhatsApp, com antecedência, para combinarmos um novo horário.</p></details></div></div></section>
+<section class="book" id="agendar"><div class="wrap"><h2>Agende seu horário</h2><p class="lead">Escolha o serviço, o dia e o horário. A confirmação final é feita pelo studio.</p><div class="bgrid"><div><ol class="steps" id="steps"></ol><div class="panel" id="panel"></div></div><aside class="sum" id="sum" aria-live="polite"></aside></div></div></section>
+</main>
+<footer><div class="wrap"><img src="img/logo.jpg" alt="Milena Oliveira Studio de Beleza" class="fade" style="width:300px;max-width:100%"><div id="foot"></div></div></footer>
+<a class="btn fab" id="fab" href="#agendar">Agendar horário</a>
+<div id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada"><button id="lbx" aria-label="Fechar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 14M19 5 5 19"/></svg></button><button id="lbp" aria-label="Anterior"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5 7 12l7.5 7.5"/></svg></button><img id="lbi" alt=""><button id="lbn" aria-label="Próxima"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 4.5 17 12l-7.5 7.5"/></svg></button></div>
+<script src="dados.js"></script>
+<script>
+// CFG, SV, all e applyCfg ficam em dados.js (compartilhados com o painel admin.html)
+const $=s=>document.querySelector(s),R=n=>"R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:Number.isInteger(n)?0:2,maximumFractionDigits:2}),E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// ---- carrossel: rola sozinho; arrastar com mouse/dedo move e, ao soltar, segue rolando
+const FIG=Array.from({length:16},(_,i)=>`<figure data-i="${i}"><img src="img/${String(i+1).padStart(2,"0")}.jpg" alt="Trabalho realizado no studio" draggable="false"></figure>`).join("");
+$("#track").innerHTML=FIG+FIG;
+const vp=$("#vp"),tk=$("#track"),RM=matchMedia("(prefers-reduced-motion:reduce)").matches,A=RM?0:.045;
+let x=0,vel=A,paused=false,dragging=false,moved=0,px=0,sx=0,lastMove=0,lt=performance.now();
+vp.addEventListener("pointerdown",e=>{if(e.pointerType=="mouse"&&e.button)return;dragging=true;moved=0;px=sx=e.clientX;lastMove=performance.now();vel=0});
+addEventListener("pointermove",e=>{if(!dragging)return;const n=performance.now(),dx=e.clientX-px,dt=Math.max(n-lastMove,1);px=e.clientX;lastMove=n;moved=Math.max(moved,Math.abs(e.clientX-sx));if(moved>5)vp.classList.add("drag");x-=dx;vel=Math.max(-3,Math.min(3,vel*.6-(dx/dt)*.4))});
+const endDrag=()=>{if(!dragging)return;dragging=false;vp.classList.remove("drag");if(performance.now()-lastMove>90)vel=A};
+addEventListener("pointerup",endDrag);addEventListener("pointercancel",endDrag);
+(function loop(t){const dt=Math.min(t-lt,50);lt=t;if(!dragging){vel+=((paused?0:A)-vel)*(1-Math.exp(-dt/350));x+=vel*dt}const h=tk.offsetWidth/2;if(h>0)x=((x%h)+h)%h;tk.style.transform=`translate3d(${-x}px,0,0)`;requestAnimationFrame(loop)})(lt);
+$("#pause").onclick=e=>{paused=!paused;e.target.textContent=paused?"Retomar":"Pausar";e.target.setAttribute("aria-pressed",paused)};
+// ---- lightbox
+let li=0;const lb=$("#lb");
+function openLb(i){li=(i+16)%16;$("#lbi").src=`img/${String(li+1).padStart(2,"0")}.jpg`;lb.hidden=false;$("#lbx").focus()}
+vp.addEventListener("click",e=>{if(moved>5){moved=0;return}const f=document.elementFromPoint(e.clientX,e.clientY)?.closest("figure");if(f)openLb(+f.dataset.i)});
+$("#lbx").onclick=()=>lb.hidden=true;$("#lbp").onclick=()=>openLb(li-1);$("#lbn").onclick=()=>openLb(li+1);lb.onclick=e=>{if(e.target==lb)lb.hidden=true};
+addEventListener("keydown",e=>{if(lb.hidden)return;if(e.key=="Escape")lb.hidden=true;if(e.key=="ArrowLeft")openLb(li-1);if(e.key=="ArrowRight")openLb(li+1)});
+// ---- cabeçalho fixo muda ao rolar
+addEventListener("scroll",()=>document.querySelector("header").classList.toggle("solid",scrollY>40),{passive:true});
+// ---- tabela de preços
+let pt="unhas";
+function price(){const c=SV[pt];
+ $("#ptabs").innerHTML=Object.entries(SV).map(([k,v])=>`<button role="tab" aria-selected="${k==pt}" data-k="${k}">${v.label}</button>`).join("");
+ const row=(i,b)=>`<div class="row"><div class="l"><span>${i.n}</span><i></i><b>${R(i.p)}</b>${b?`<button class="bk" data-book="${i.id}">Agendar</button>`:""}</div>${i.x||i.m?`<small><span>${i.x||"Manutenção até 25 dias"}</span>${i.m?`<b>${R(i.m[0])}</b>`:""}</small>`:""}</div>`;
+ $("#plist").innerHTML=c.items.map(i=>row(i,1)).join("")+(c.ex?`<h3>Decorações e extras (à parte)</h3>`+c.ex.map(i=>row(i,0)).join(""):"")+(c.note?`<p class="note">${c.note}</p>`:"");}
+$("#ptabs").onclick=e=>{if(e.target.dataset.k){pt=e.target.dataset.k;price()}};price();
+// ---- agendamento
+const DEMO=true; // trocar para false quando o backend de pagamento estiver ligado
+const SVG=p=>`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="${p}"/></svg>`,MN=SVG("M5 12h14"),PL=SVG("M12 5v14M5 12h14");
+const S={step:1,cat:"unhas",sel:{},ex:{},date:null,time:null,name:"",tel:"",obs:"",pay:"pix",done:null,mo:new Date(new Date().getFullYear(),new Date().getMonth(),1)};
+const pick=c=>{const o=S.sel[c];if(!o)return null;const i=all.find(x=>x.id==o.id),m=o.v=="m"&&i.m;return{n:i.n+(m?" (manutenção)":""),p:m?i.m[0]:i.p,d:m?i.m[1]:i.d}};
+const calc=()=>{let p=0,d=0;Object.keys(S.sel).forEach(c=>{const k=pick(c);p+=k.p;d+=k.d});Object.entries(S.ex).forEach(([id,q])=>{const e=all.find(i=>i.id==id);p+=e.p*q;d+=e.d*q});return{p,d,dep:Math.round(p*30)/100}};
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const mins=h=>+h.slice(0,2)*60+ +h.slice(3),hh=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+// "API": store.js grava no Firebase (ou no navegador, se firebase-config.js estiver vazio).
+// BUSY = horários ocupados e bloqueados a partir de hoje (coleção "ocupado").
+let DB=null,BUSY=[];
+const API={async load(){if(DB)BUSY=await DB.range("ocupado",iso(new Date()))},
+ async add(b){await DB.batch([["set","ocupado",b.code,{date:b.date,start:b.start,end:b.end,tipo:"agenda"}],["set","agendamentos",b.code,{...b,status:"reservado",criado:DB.stamp()}]]);BUSY.push(b);return b}};
+function slots(dt){const h=CFG.horas[dt.getDay()];if(!h)return[];const day=iso(dt),dur=calc().d,busy=BUSY.filter(b=>b.date==day),out=[],lim=Date.now()+CFG.antecedenciaH*36e5;
+ for(let t=mins(h[0]);t+dur<=mins(h[1]);t+=CFG.passo){const st=new Date(dt);st.setHours(0,t);if(+st<lim)continue;
+  if(!busy.some(b=>t<b.end&&t+dur>b.start))out.push(t)}return out}
+function steps(){$("#steps").innerHTML=["Serviços","Data e horário","Seus dados","Pagamento"].map((t,i)=>`<li class="${S.step==i+1?"on":""}">${i+1}. ${t}</li>`).join("")}
+function sum(){const c=calc(),L=Object.keys(S.sel).map(pick),ex=Object.entries(S.ex).map(([id,q])=>`${q}× ${all.find(i=>i.id==id).n}`).join(", ");
+ $("#sum").innerHTML=`<h3>Resumo</h3><dl><dt>Serviços</dt><dd>${L.map(k=>E(k.n)).join("<br>")||"—"}</dd>${ex?`<dt>Extras</dt><dd>${E(ex)}</dd>`:""}<dt>Data</dt><dd>${S.date?S.date.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"long"}):"—"}</dd><dt>Horário</dt><dd>${S.time!=null?hh(S.time):"—"}</dd><dt>Duração</dt><dd>${c.d?`${Math.floor(c.d/60)}h${c.d%60?String(c.d%60).padStart(2,"0"):""}`:"—"}</dd></dl><div class="tot"><span>Total</span><span>${R(c.p)}</span></div><div class="dep"><span>Entrada para reservar (30%)</span><b>${R(c.dep)}</b></div>`}
+function view(){steps();sum();const P=$("#panel");
+ if(S.done){const b=S.done,msg=encodeURIComponent(`Olá! Agendei pelo site: ${b.svc}, ${b.dateTxt} às ${hh(b.start)}. Nome: ${b.name}. Código ${b.code}.`);
+  P.innerHTML=`<div class="ok"><h3>Horário reservado</h3><p>${E(b.name)}, reservamos ${E(b.dateTxt)} às ${hh(b.start)} para ${E(b.svc)}.<br>Entrada de ${R(b.dep)} registrada. Restante de ${R(b.total-b.dep)} no dia do atendimento. Código: <b>${b.code}</b>.</p>${CFG.whatsapp?`<p><a class="btn" href="https://wa.me/${CFG.whatsapp}?text=${msg}">Enviar comprovante pelo WhatsApp</a></p>`:""}<button class="btn ghost" id="novo">Fazer outro agendamento</button></div>`;return}
+ if(S.step==1){const c=SV[S.cat],o=S.sel[S.cat];
+  P.innerHTML=`<div class="tabs" role="tablist">${Object.entries(SV).map(([k,v])=>`<button role="tab" aria-selected="${k==S.cat}" data-cat="${k}">${v.label}${S.sel[k]?'<i class="dot"></i>':""}</button>`).join("")}</div><p class="empty" style="margin-bottom:14px">Escolha um serviço de unhas e um de cílios no mesmo agendamento, se quiser.</p>`+
+  c.items.map(i=>`<label class="opt"><input type="radio" name="s-${S.cat}" value="${i.id}" ${o&&o.id==i.id?"checked":""}><span><b>${i.n}</b>${i.x?`<em>${i.x}</em>`:""}</span><b>${R(i.p)}</b></label>${o&&o.id==i.id&&i.m?`<div class="sub"><label><input type="radio" name="v-${S.cat}" value="a" ${o.v=="a"?"checked":""}>Aplicação ${R(i.p)}</label><label><input type="radio" name="v-${S.cat}" value="m" ${o.v=="m"?"checked":""}>Manutenção até 25 dias ${R(i.m[0])}</label></div>`:""}`).join("")+
+  (o?`<button class="lnk" data-clr="${S.cat}">Remover ${c.label.toLowerCase()} do agendamento</button>`:"")+
+  (c.ex&&o?`<h3>Extras</h3>`+c.ex.map(e=>`<div class="opt"><span><b>${e.n}</b><em>${e.x||"por unidade"} — ${R(e.p)}</em></span><div class="stp"><button data-m="${e.id}" aria-label="Diminuir ${e.n}">${MN}</button><output>${S.ex[e.id]||0}</output><button data-p="${e.id}" aria-label="Aumentar ${e.n}">${PL}</button></div></div>`).join(""):"")+
+  `<div class="nav"><span></span><button class="btn" id="nx" ${Object.keys(S.sel).length?"":"disabled"}>Escolher horário</button></div>`}
+ if(S.step==2){const y=S.mo.getFullYear(),m=S.mo.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);const max=+today+CFG.diasAFrente*864e5;
+  let cal=["D","S","T","Q","Q","S","S"].map(d=>`<span class="h">${d}</span>`).join("")+"<span></span>".repeat(first);
+  for(let d=1;d<=n;d++){const dt=new Date(y,m,d),ok=+dt>=+today&&+dt<=max&&slots(dt).length;cal+=`<button data-d="${iso(dt)}" ${ok?"":"disabled"} class="${S.date&&iso(S.date)==iso(dt)?"sel":""}" aria-label="${dt.toLocaleDateString("pt-BR",{dateStyle:"full"})}">${d}</button>`}
+  const sl=S.date?slots(S.date):[];
+  P.innerHTML=`<div class="mon"><button id="pv" aria-label="Mês anterior">${SVG("M14.5 4.5 7 12l7.5 7.5")}</button><span>${S.mo.toLocaleDateString("pt-BR",{month:"long",year:"numeric"})}</span><button id="nxm" aria-label="Próximo mês">${SVG("M9.5 4.5 17 12l-7.5 7.5")}</button></div><div class="cal">${cal}</div>`+
+  (S.date?`<h3>Horários livres</h3><div class="slots">${sl.map(t=>`<button data-t="${t}" class="${S.time==t?"sel":""}">${hh(t)}</button>`).join("")||'<p class="empty">Sem horários neste dia.</p>'}</div>`:`<p class="empty" style="margin-top:18px">Dias sem horário livre aparecem desativados.</p>`)+
+  `<div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="nx" ${S.time!=null?"":"disabled"}>Seus dados</button></div>`}
+ if(S.step==3){P.innerHTML=`<label class="f">Nome completo<input id="nm" autocomplete="name" value="${E(S.name)}"></label><label class="f">WhatsApp com DDD<input id="tl" type="tel" autocomplete="tel" placeholder="(11) 90000-0000" value="${E(S.tel)}"></label><label class="f">Observações (opcional)<textarea id="ob" rows="3" placeholder="Ex.: referência de modelo, alergias">${E(S.obs)}</textarea></label><p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="n3">Ir para o pagamento</button></div>`}
+ if(S.step==4){const c=calc(),pm=S.pay;
+  P.innerHTML=`<p>Para reservar o horário, pague a entrada de <b>30%</b>: <b>${R(c.dep)}</b>. O restante, ${R(c.p-c.dep)}, é pago no dia do atendimento.</p>${DEMO?'<p class="empty" style="margin-top:6px">Modo demonstração: nenhuma cobrança é feita.</p>':""}<h3>Forma de pagamento</h3>${[["pix","Pix"],["deb","Cartão de débito"],["cre","Cartão de crédito"]].map(([k,t])=>`<label class="opt"><input type="radio" name="pay" value="${k}" ${pm==k?"checked":""}><span><b>${t}</b></span></label>`).join("")}`+
+  (pm=="pix"?`<div class="pix"><div class="qr">QR Code do Pix aparece aqui</div><div><p>Pague pelo app do seu banco e depois toque em "Já paguei".</p><button class="btn ghost" id="cp">Copiar código Pix</button></div></div>`:`<h3>Dados do cartão</h3><label class="f">Número do cartão<input id="cn" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000"></label><label class="f">Nome impresso no cartão<input id="cm" autocomplete="cc-name"></label><div class="two"><label class="f">Validade<input id="cv" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5"></label><label class="f">CVV<input id="cc" inputmode="numeric" autocomplete="cc-csc" maxlength="4"></label></div>`)+
+  `<p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="pg">${pm=="pix"?"Já paguei":"Pagar "+R(c.dep)}</button></div>`}}
+$("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.target,er=m=>$("#er").textContent=m;
+ if(t.dataset.cat){S.cat=t.dataset.cat;view()}
+ else if(t.dataset.clr){delete S.sel[t.dataset.clr];if(t.dataset.clr=="unhas")S.ex={};view()}
+ else if(t.dataset.p||t.dataset.m){const id=t.dataset.p||t.dataset.m,q=Math.max(0,Math.min(10,(S.ex[id]||0)+(t.dataset.p?1:-1)));q?S.ex[id]=q:delete S.ex[id];t.parentElement.querySelector("output").textContent=q;sum()}
+ else if(t.dataset.d){S.date=new Date(t.dataset.d+"T00:00");S.time=null;view()}
+ else if(t.dataset.t){S.time=+t.dataset.t;view()}
+ else if(t.id=="pv"){S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()-1,1);view()}
+ else if(t.id=="nxm"){S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+1,1);view()}
+ else if(t.id=="nx"){S.step++;view();if(S.step==2)API.load().then(view)}else if(t.id=="bk"){S.step--;view()}
+ else if(t.id=="novo"){Object.assign(S,{step:1,sel:{},ex:{},date:null,time:null,done:null});view()}
+ else if(t.id=="cp"){try{navigator.clipboard.writeText("PIX-DEMONSTRACAO")}catch(x){}t.textContent="Código copiado"}
+ else if(t.id=="n3"){S.name=$("#nm").value.trim();S.tel=$("#tl").value.trim();S.obs=$("#ob").value.trim();const dg=S.tel.replace(/\D/g,"");
+  if(S.name.length<3)return er("Informe seu nome completo.");if(dg.length<10||dg.length>11)return er("Informe o WhatsApp com DDD.");S.step=4;view()}
+ else if(t.id=="pg"){if(S.pay!="pix"){const cn=$("#cn").value.replace(/\D/g,""),cv=$("#cv").value,cc=$("#cc").value.replace(/\D/g,"");
+   if(cn.length<13||cn.length>19)return er("Confira o número do cartão.");if($("#cm").value.trim().length<3)return er("Informe o nome impresso no cartão.");if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cv))return er("Validade no formato MM/AA.");if(cc.length<3)return er("Confira o CVV.")}
+  if(!DB)return er("Sem conexão com a agenda. Recarregue a página e tente de novo.");
+  t.disabled=true;t.textContent="Reservando…";
+  (async()=>{try{await API.load();
+   if(!slots(S.date).includes(S.time)){S.step=2;S.time=null;view();return $("#panel").insertAdjacentHTML("afterbegin",'<p class="err">Esse horário acabou de ser ocupado. Escolha outro.</p>')}
+   const c=calc();/* dados do cartão nunca são guardados: o backend deve usar o gateway (token) */
+   S.done=await API.add({code:Math.random().toString(36).slice(2,8).toUpperCase(),svc:Object.keys(S.sel).map(k=>pick(k).n).join(" + "),ex:S.ex,date:iso(S.date),dateTxt:S.date.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"}),start:S.time,end:S.time+c.d,total:c.p,dep:c.dep,pay:S.pay,name:S.name,tel:S.tel,obs:S.obs});view()}
+  catch(x){console.error(x);t.disabled=false;t.textContent="Tentar de novo";er("Não foi possível reservar agora. Tente de novo.")}})()}});
+$("#panel").addEventListener("change",e=>{const t=e.target;
+ if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}else if(t.name=="pay"){S.pay=t.value;view()}});
+$("#panel").addEventListener("input",e=>{const t=e.target;if(t.id=="cn")t.value=t.value.replace(/\D/g,"").slice(0,19).replace(/(.{4})/g,"$1 ").trim();if(t.id=="cv"){let v=t.value.replace(/\D/g,"").slice(0,4);t.value=v.length>2?v.slice(0,2)+"/"+v.slice(2):v}});
+$("#foot").innerHTML=[CFG.endereco,CFG.instagram&&`Instagram ${E(CFG.instagram)}`,CFG.whatsapp&&`WhatsApp ${E(CFG.whatsapp)}`,"Atendimento com hora marcada"].filter(Boolean).join("<br>");
+view();
+// carrega preços, durações e horários do painel e a agenda ocupada; depois redesenha
+import("./store.js").then(async m=>{DB=m;applyCfg(await DB.get("config","site"));await API.load();price();view()}).catch(e=>console.error("Agenda indisponível",e));
+$("#plist").addEventListener("click",e=>{const id=e.target.dataset.book;if(!id)return;S.cat=pt;S.sel[pt]={id,v:"a"};Object.assign(S,{step:1,done:null,date:null,time:null});view();$("#agendar").scrollIntoView({behavior:"smooth"})});
+const hero=$("#hero"),par=$("#parch"),prog=$("#prog"),fab=$("#fab"),ag=$("#agendar");
+function onS(){const r=ag.getBoundingClientRect();prog.style.transform=`scaleX(${scrollY/((document.documentElement.scrollHeight-innerHeight)||1)})`;fab.classList.toggle("on",scrollY>500&&(r.top>innerHeight*.6||r.bottom<0));if(!RM&&scrollY<900)par.style.translate=`0 ${scrollY*.07}px`}
+addEventListener("scroll",onS,{passive:true});onS();
+if(!RM&&matchMedia("(hover:hover)").matches)hero.addEventListener("pointermove",e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$(".logo-big").style.translate=`${x*-14}px ${y*-10}px`;par.style.rotate=`${x*2}deg`;const r=hero.getBoundingClientRect();hero.style.setProperty('--mx',e.clientX-r.left+'px');hero.style.setProperty('--my',e.clientY-r.top+'px')});
+// ---- brilhos dourados no topo (reagem ao mouse)
+(()=>{const c=$("#sp");if(!c||RM)return;const g=c.getContext("2d");let W,H,P=[],mx=-999,my=-999;
+const fit=()=>{const r=hero.getBoundingClientRect();W=c.width=r.width;H=c.height=r.height};fit();addEventListener("resize",fit);
+for(let i=0;i<50;i++)P.push({x:Math.random()*1e3,y:Math.random()*1e3,r:Math.random()*1.6+.6,v:Math.random()*.25+.08,p:Math.random()*6.28,s:Math.random()});
+hero.addEventListener("pointermove",e=>{const r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});hero.addEventListener("pointerleave",()=>mx=my=-999);
+(function d(t){if(scrollY<H){g.clearRect(0,0,W,H);g.shadowColor="#c9a66b";g.shadowBlur=10;for(const q of P){q.y-=q.v;if(q.y<-10){q.y=H+10;q.x=Math.random()*W}const px=((q.x%W)+W)%W,dx=px-mx,dy=q.y-my;if(dx*dx+dy*dy<14400){q.x+=dx*.015;q.y+=dy*.015}
+g.fillStyle=`rgba(226,192,124,${.35+.45*Math.sin(t/700+q.p)})`;g.beginPath();if(q.s>.8){const z=q.r*3.2;g.moveTo(px,q.y-z);g.quadraticCurveTo(px,q.y,px+z,q.y);g.quadraticCurveTo(px,q.y,px,q.y+z);g.quadraticCurveTo(px,q.y,px-z,q.y);g.quadraticCurveTo(px,q.y,px,q.y-z)}else g.arc(px,q.y,q.r,0,6.3);g.fill()}}requestAnimationFrame(d)})(0)})();
+// ---- brilhos e estrelas enquanto o dourado preenche a linha de serviço
+const star=(g,x,y,z)=>{g.moveTo(x,y-z);g.quadraticCurveTo(x,y,x+z,y);g.quadraticCurveTo(x,y,x,y+z);g.quadraticCurveTo(x,y,x-z,y);g.quadraticCurveTo(x,y,x,y-z)};
+function rowSparks(row){if(RM||row._sp)return;const c=document.createElement("canvas");c.className="rs";row.appendChild(c);const dpr=devicePixelRatio||1,W=row.offsetWidth,H=row.offsetHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext("2d");g.scale(dpr,dpr);row._sp=c;
+ const P=Array.from({length:Math.max(16,Math.round(W/14))},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.7,v:Math.random()*.3+.1,p:Math.random()*6.3,s:Math.random()})),t0=performance.now();
+ (function d(t){if(!c.isConnected)return;const k=Math.min((t-t0)/700,1),edge=W*(1-Math.pow(1-k,3));g.clearRect(0,0,W,H);g.shadowColor="#fff3d0";g.shadowBlur=9;
+  for(const q of P){q.y-=q.v;if(q.y<-6)q.y=H+6;if(q.x>edge)continue;g.fillStyle=`rgba(255,248,226,${.5+.5*Math.sin(t/260+q.p)})`;g.beginPath();if(q.s>.7)star(g,q.x,q.y,q.r*3.4);else g.arc(q.x,q.y,q.r,0,6.3);g.fill()}requestAnimationFrame(d)})(t0)}
+$("#plist").addEventListener("mouseover",e=>{const r=e.target.closest(".row");if(r&&!r.contains(e.relatedTarget))rowSparks(r)});
+$("#plist").addEventListener("mouseout",e=>{const r=e.target.closest(".row");if(r&&!r.contains(e.relatedTarget)&&r._sp){r._sp.remove();r._sp=null}});
+</script>
+</body>
+</html>
