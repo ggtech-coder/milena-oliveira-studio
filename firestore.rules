@@ -1,10 +1,10 @@
 rules_version = '2';
 // Regras do banco. Cole no Console do Firebase > Firestore Database > Regras e clique em Publicar.
-// Troque COLE_AQUI_O_SEU_UID pelo UID do seu usuário (Authentication > Usuários).
+// O UID abaixo é o do seu usuário (Authentication > Usuários). Para dar acesso a outra pessoa, some o UID dela na lista.
 service cloud.firestore {
   match /databases/{database}/documents {
     function admin() {
-      return request.auth != null && request.auth.uid in ["COLE_AQUI_O_SEU_UID"];
+      return request.auth != null && request.auth.uid in ["6tZbvEYyicTYlt8LnaVoXwJtDmS2"];
     }
     function horario(d) {
       return d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
