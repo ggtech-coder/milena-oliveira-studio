@@ -6,23 +6,34 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0e0a09">
 <title>Painel — Milena Oliveira Studio</title>
+<link rel="icon" type="image/png" href="img/favicon.png"><link rel="apple-touch-icon" href="img/icone-180.png">
+<script>try{if(localStorage.getItem("mo_tema")=="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e0a09;--side:#130e0d;--card:#1a1413;--card2:#221a18;--line:rgba(212,176,119,.13);--line2:rgba(212,176,119,.24);--tx:#f3ebe5;--mu:#a8978f;--mu2:#7d6e68;
- --gold:#d4b077;--gold2:#b8935a;--ok:#5fbf8a;--warn:#e2a54a;--bad:#e06a5a;--info:#7aa7e0;--vio:#b195e6;--d:'Cormorant Garamond',Georgia,serif;--b:'Jost',system-ui,sans-serif}
+:root{--bg:#0e0a09;--side:#130e0d;--card:#1a1413;--card2:#221a18;--cg:#171110;--in:#120d0c;--det:#140f0e;--line:rgba(212,176,119,.13);--line2:rgba(212,176,119,.24);--tx:#f3ebe5;--mu:#a8978f;--mu2:#7d6e68;
+ --gold:#d4b077;--gold2:#b8935a;--ok:#5fbf8a;--warn:#e2a54a;--bad:#e06a5a;--info:#7aa7e0;--vio:#b195e6;--onb:#1a120e;--hov:rgba(255,255,255,.03);--hov2:rgba(255,255,255,.06);--gl:rgba(255,255,255,.05);--alt:#f0cf9a;
+ --d:'Cormorant Garamond',Georgia,serif;--b:'Jost',system-ui,sans-serif;color-scheme:dark}
+/* tema claro (botão no menu; a escolha fica salva neste navegador) */
+:root[data-theme=light]{--bg:#f6f1ed;--side:#fffdfb;--card:#ffffff;--card2:#f3ebe5;--cg:#fdfaf8;--in:#ffffff;--det:#faf5f1;--line:rgba(143,111,58,.17);--line2:rgba(143,111,58,.32);--tx:#2b1d19;--mu:#76665f;--mu2:#9a8a83;
+ --gold:#9a7536;--gold2:#8f6f3a;--ok:#2f7a4c;--warn:#a8641c;--bad:#b03a28;--info:#3a6aa8;--vio:#6f4cb8;--onb:#ffffff;--hov:rgba(43,29,25,.035);--hov2:rgba(43,29,25,.07);--gl:rgba(43,29,25,.08);--alt:#7a4e12;color-scheme:light}
+:root[data-theme=light] .kpi,:root[data-theme=light] .card,:root[data-theme=light] .ag{box-shadow:0 1px 2px rgba(43,29,25,.04),0 8px 24px -16px rgba(43,29,25,.18)}
+.lgi{width:42px;height:42px;border-radius:12px;object-fit:cover;border:1px solid var(--line2)}
+dialog.dlg{margin:auto;border:1px solid var(--line2);background:var(--card);color:var(--tx);border-radius:16px;padding:24px;width:min(460px,calc(100vw - 32px))}dialog.dlg::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
+.btn.dgf{background:var(--bad);border-color:var(--bad);color:#fff}
+.tema{background:none;border:1px solid var(--line2);color:var(--mu);border-radius:10px;padding:7px;cursor:pointer;display:grid;place-items:center}.tema:hover{color:var(--gold)}
 *{box-sizing:border-box;margin:0}
 body{font:400 15px/1.5 var(--b);color:var(--tx);background:var(--bg)}
 body:before{content:"";position:fixed;inset:0;background:radial-gradient(900px 500px at 20% -10%,rgba(212,176,119,.08),transparent 60%),radial-gradient(700px 500px at 100% 0%,rgba(122,167,224,.05),transparent 60%);pointer-events:none;z-index:-1}
 h1{font:700 26px/1.2 var(--b);letter-spacing:-.01em}h2{font:600 17px/1.3 var(--b)}h3{font:600 16px var(--b)}
 a{color:var(--gold)}:focus-visible{outline:2px solid var(--gold);outline-offset:2px}[hidden]{display:none!important}
 svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);background:var(--gold);color:#1a120e;padding:9px 16px;font:600 14px var(--b);cursor:pointer;border-radius:10px;text-decoration:none;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);background:var(--gold);color:var(--onb);padding:9px 16px;font:600 14px var(--b);cursor:pointer;border-radius:10px;text-decoration:none;white-space:nowrap}
 .btn:hover{filter:brightness(1.08)}.btn:disabled{opacity:.5;cursor:wait}
 .btn.gh{background:transparent;color:var(--tx);border-color:var(--line2)}.btn.gh:hover{background:var(--card2)}.btn.sm{padding:6px 11px;font-size:13px;border-radius:8px}
 .btn.dg{background:transparent;color:var(--bad);border-color:rgba(224,106,90,.4)}
 .lnk{background:none;border:0;color:var(--gold);font:500 14px var(--b);cursor:pointer;padding:4px;display:inline-flex;gap:6px;align-items:center}
-input,select,textarea{font:inherit;color:var(--tx);padding:10px 12px;border:1px solid var(--line2);background:#120d0c;border-radius:10px;min-width:0;color-scheme:dark}
+input,select,textarea{font:inherit;color:var(--tx);padding:10px 12px;border:1px solid var(--line2);background:var(--in);border-radius:10px;min-width:0}
 input:focus,select:focus,textarea:focus{border-color:var(--gold);outline:0}
 label.f{display:block;font-size:13px;color:var(--mu);font-weight:500}label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:6px}
 .chk{display:flex;gap:10px;align-items:center;cursor:pointer;font-size:14px}.chk input{accent-color:var(--gold);width:17px;height:17px}
@@ -30,13 +41,13 @@ label.f{display:block;font-size:13px;color:var(--mu);font-weight:500}label.f inp
 /* layout */
 .shell{display:grid;grid-template-columns:262px 1fr;min-height:100vh}
 aside{background:var(--side);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
-.brand{display:flex;gap:12px;align-items:center;padding:0 8px 22px}.brand .lg{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e7c993,#a77f45);display:grid;place-items:center;font:600 20px var(--d);color:#1a120e}
+.brand{display:flex;gap:12px;align-items:center;padding:0 8px 22px}.brand .lg{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e7c993,#a77f45);display:grid;place-items:center;font:600 20px var(--d);color:var(--onb)}
 .brand b{display:block;font:600 15px var(--b);letter-spacing:.02em}.brand small{display:block;font-size:11px;color:var(--mu);letter-spacing:.08em}
 .grp{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--mu2);padding:18px 10px 6px}
 .nv{display:flex;gap:12px;align-items:center;width:100%;background:none;border:0;color:var(--mu);font:500 15px var(--b);padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left;position:relative}
-.nv:hover{color:var(--tx);background:rgba(255,255,255,.03)}.nv[aria-current=true]{color:var(--gold);background:linear-gradient(90deg,rgba(212,176,119,.16),rgba(212,176,119,.04))}
+.nv:hover{color:var(--tx);background:var(--hov)}.nv[aria-current=true]{color:var(--gold);background:linear-gradient(90deg,rgba(212,176,119,.16),rgba(212,176,119,.04))}
 .nv[aria-current=true]:before{content:"";position:absolute;left:-14px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--gold)}
-.nv .bd{margin-left:auto;background:var(--warn);color:#1a120e;font-size:11px;font-weight:700;border-radius:10px;padding:1px 7px}
+.nv .bd{margin-left:auto;background:var(--warn);color:var(--onb);font-size:11px;font-weight:700;border-radius:10px;padding:1px 7px}
 .me{margin-top:auto;padding:14px 10px 0;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}.me .av{width:34px;height:34px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-weight:600;color:var(--gold)}
 .me div{flex:1;min-width:0}.me b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.me small{color:var(--mu);font-size:12px}
 .me button{background:none;border:0;color:var(--mu);cursor:pointer;padding:6px}.me button:hover{color:var(--bad)}
@@ -44,29 +55,29 @@ main{padding:30px 34px 60px;min-width:0;max-width:1400px}
 .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px;flex-wrap:wrap}.ph p{color:var(--mu);margin-top:4px}
 .mtop{display:none}
 /* cards */
-.card{background:linear-gradient(180deg,var(--card),#171110);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card{background:linear-gradient(180deg,var(--card),var(--cg));border:1px solid var(--line);border-radius:16px;padding:22px}
 .card+.card,.mb{margin-bottom:18px}.card h2{margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
-.kpi{background:linear-gradient(180deg,var(--card),#171110);border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;overflow:hidden}
+.kpi{background:linear-gradient(180deg,var(--card),var(--cg));border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;overflow:hidden}
 .kpi .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px}
 .kpi b{display:block;font:700 26px/1.15 var(--b);letter-spacing:-.01em}.kpi span{color:var(--mu);font-size:14px}.kpi small{display:block;color:var(--mu2);font-size:12px;margin-top:4px}
 .c-gold{background:rgba(212,176,119,.14);color:var(--gold)}.c-ok{background:rgba(95,191,138,.13);color:var(--ok)}.c-vio{background:rgba(177,149,230,.14);color:var(--vio)}.c-info{background:rgba(122,167,224,.14);color:var(--info)}.c-warn{background:rgba(226,165,74,.14);color:var(--warn)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.g21{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}.wide{grid-column:1/-1}
 /* meta */
 .meta-top{display:flex;justify-content:space-between;align-items:baseline;margin:2px 0 12px;color:var(--mu)}.meta-top b{color:var(--gold);font-size:18px}
-.prog{height:10px;background:#120d0c;border-radius:10px;overflow:hidden;border:1px solid var(--line)}.prog i{display:block;height:100%;background:linear-gradient(90deg,#a77f45,#e7c993);border-radius:10px;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.prog{height:10px;background:var(--in);border-radius:10px;overflow:hidden;border:1px solid var(--line)}.prog i{display:block;height:100%;background:linear-gradient(90deg,#a77f45,#e7c993);border-radius:10px;transition:width 1s cubic-bezier(.2,.7,.2,1)}
 /* gráfico */
-.chart svg{width:100%;height:auto;display:block}.chart text{fill:var(--mu);font:12px var(--b)}.chart .gl{stroke:rgba(255,255,255,.05)}
+.chart svg{width:100%;height:auto;display:block}.chart text{fill:var(--mu);font:12px var(--b)}.chart .gl{stroke:var(--gl)}
 .lg{display:flex;gap:16px;font-size:13px;color:var(--mu)}.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 /* listas */
 .rowi{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.rowi:last-child{border:0}
 .rowi .dt{width:52px;text-align:center;background:var(--card2);border-radius:10px;padding:6px 0;flex:none}.rowi .dt b{display:block;font-size:18px;line-height:1}.rowi .dt small{font-size:11px;color:var(--mu);text-transform:uppercase}
 .rowi .tx{flex:1;min-width:0}.rowi .tx b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rowi .tx span{color:var(--mu);font-size:13px}
-.hb{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin-bottom:12px;font-size:14px}.hb .bar{grid-column:1/-1;height:6px;border-radius:6px;background:#120d0c;overflow:hidden}.hb .bar i{display:block;height:100%;background:var(--gold)}
+.hb{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin-bottom:12px;font-size:14px}.hb .bar{grid-column:1/-1;height:6px;border-radius:6px;background:var(--in);overflow:hidden}.hb .bar i{display:block;height:100%;background:var(--gold)}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
-.p-aguardando{background:rgba(122,167,224,.14);color:var(--info)}.p-reservado{background:rgba(226,165,74,.15);color:var(--warn)}.p-confirmado{background:rgba(212,176,119,.16);color:var(--gold)}.p-concluido{background:rgba(95,191,138,.14);color:var(--ok)}.p-cancelado,.p-expirado{background:rgba(255,255,255,.06);color:var(--mu)}
+.p-aguardando{background:rgba(122,167,224,.14);color:var(--info)}.p-reservado{background:rgba(226,165,74,.15);color:var(--warn)}.p-confirmado{background:rgba(212,176,119,.16);color:var(--gold)}.p-concluido{background:rgba(95,191,138,.14);color:var(--ok)}.p-cancelado,.p-expirado{background:var(--hov2);color:var(--mu)}
 .empty{color:var(--mu);padding:26px 0;text-align:center}
-.alert{display:flex;gap:12px;align-items:center;background:rgba(226,165,74,.08);border:1px solid rgba(226,165,74,.3);color:#f0cf9a;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:14px}
+.alert{display:flex;gap:12px;align-items:center;background:rgba(226,165,74,.08);border:1px solid rgba(226,165,74,.3);color:var(--alt);border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:14px}
 /* agenda do dia */
 .bar1{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}.sp{flex:1}
 .dnav{display:flex;gap:6px;align-items:center}.ic{width:40px;height:40px;border:1px solid var(--line2);background:var(--card);border-radius:10px;color:var(--tx);cursor:pointer;display:grid;place-items:center}
@@ -80,12 +91,12 @@ main{padding:30px 34px 60px;min-width:0;max-width:1400px}
 /* tabelas */
 .tw{overflow-x:auto}.tb{width:100%;border-collapse:collapse;font-size:14px}
 .tb th{text-align:left;font-weight:500;color:var(--mu2);font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;border-bottom:1px solid var(--line)}
-.tb td{padding:13px 14px;border-bottom:1px solid var(--line);white-space:nowrap}.tb tr.cl{cursor:pointer}.tb tr.cl:hover td{background:rgba(255,255,255,.025)}.tb tfoot td{font-weight:600;border:0}.num{text-align:right}
-.bars{display:flex;height:8px;width:140px;background:#120d0c;border-radius:6px;overflow:hidden}.bars i{background:var(--ok)}.bars u{background:var(--gold)}
-.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--card)}.seg button{border:0;background:none;padding:9px 14px;font:500 14px var(--b);cursor:pointer;color:var(--mu)}.seg button[aria-pressed=true]{background:var(--gold);color:#1a120e}
+.tb td{padding:13px 14px;border-bottom:1px solid var(--line);white-space:nowrap}.tb tr.cl{cursor:pointer}.tb tr.cl:hover td{background:var(--hov)}.tb tfoot td{font-weight:600;border:0}.num{text-align:right}
+.bars{display:flex;height:8px;width:140px;background:var(--in);border-radius:6px;overflow:hidden}.bars i{background:var(--ok)}.bars u{background:var(--gold)}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--card)}.seg button{border:0;background:none;padding:9px 14px;font:500 14px var(--b);cursor:pointer;color:var(--mu)}.seg button[aria-pressed=true]{background:var(--gold);color:var(--onb)}
 /* clientes */
 .fid{display:flex;align-items:center;gap:8px}.fid .prog{width:90px;height:7px}.gift{color:var(--gold);font-weight:600;font-size:13px}
-.det td{background:#140f0e;white-space:normal}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}.chip{background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:13px}.chip b{color:var(--gold)}
+.det td{background:var(--det);white-space:normal}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}.chip{background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:13px}.chip b{color:var(--gold)}
 .hist{display:grid;gap:4px;font-size:13px;color:var(--mu)}
 /* formulários */
 .bl{display:grid;grid-template-columns:1fr 130px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.bl em{color:var(--mu)}
@@ -96,7 +107,7 @@ main{padding:30px 34px 60px;min-width:0;max-width:1400px}
 .save{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:22px 0 6px;display:flex;gap:12px;align-items:center}
 .dep{display:grid;grid-template-columns:200px 1fr auto;gap:10px;margin-bottom:10px}
 .perms{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
-.perms .chk{background:#120d0c;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.perms .chk{background:var(--in);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .usr{display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding:18px 0;border-bottom:1px solid var(--line)}.usr:last-child{border:0}.usr .perms{grid-column:1/-1}
 /* login */
 .login{min-height:100vh;display:grid;place-items:center;padding:20px}.login form{width:100%;max-width:380px;display:grid;gap:16px}
@@ -112,17 +123,23 @@ main{padding:30px 34px 60px;min-width:0;max-width:1400px}
 </style>
 </head>
 <body>
-<div class="login" id="login" hidden><form id="flogin"><div class="brand"><div class="lg">M</div><div><b>MILENA OLIVEIRA</b><small>PAINEL DO STUDIO</small></div></div>
-<h1>Entrar no painel</h1>
+<div class="login" id="login" hidden><button type="button" class="tema" data-tema style="position:fixed;top:16px;right:16px" aria-label="Trocar tema"></button><form id="flogin"><div class="brand"><img class="lgi" src="img/icone-180.png" alt=""><div><b>MILENA OLIVEIRA</b><small>STUDIO DE BELEZA</small></div></div>
+<div class="seg" style="justify-self:center"><button type="button" data-lt="entrar" aria-pressed="true">Entrar</button><button type="button" data-lt="criar" aria-pressed="false">Criar conta</button></div>
+<p id="lsub">Veja seus horários, seus pontos e cancele se precisar.</p>
+<div id="lcriar" hidden><label class="f">Nome completo<input name="nome" autocomplete="name" minlength="3"></label><label class="f" style="margin-top:16px">WhatsApp com DDD<input name="tel" type="tel" autocomplete="tel" placeholder="(11) 90000-0000"></label></div>
 <label class="f">E-mail<input type="email" name="email" autocomplete="username" required></label>
-<label class="f">Senha<input type="password" name="pw" autocomplete="current-password" required></label>
-<p class="err" id="lerr" role="alert"></p><button class="btn" style="justify-content:center">Entrar</button><button type="button" class="lnk" id="esq" style="justify-self:center">Esqueci a senha</button></form></div>
+<label class="f">Senha<input type="password" name="pw" autocomplete="current-password" required minlength="6"></label>
+<p class="err" id="lerr" role="alert"></p><button class="btn" id="lbtn" style="justify-content:center">Entrar</button><button type="button" class="lnk" id="esq" style="justify-self:center">Esqueci a senha</button><a class="lnk" href="./" style="justify-self:center">← Voltar ao site</a></form></div>
 <div class="login" id="semacesso" hidden><div style="text-align:center;max-width:380px"><h1>Sem acesso ao painel</h1><p style="margin:10px 0 20px">Esta conta não tem permissão para usar o painel. Peça ao administrador para liberar o seu acesso.</p><button class="btn gh" id="sair2">Sair</button></div></div>
 <div class="shell" id="app" hidden>
-<aside id="side"><div class="brand"><div class="lg">M</div><div><b>MILENA OLIVEIRA</b><small>STUDIO · PAINEL</small></div></div><nav id="nav"></nav>
-<div class="me"><div class="av" id="meav"></div><div><b id="menm"></b><small id="merl"></small></div><button id="sair" title="Sair" aria-label="Sair"></button></div></aside>
-<div><div class="mtop"><button id="menu" aria-label="Abrir menu"></button><b>Milena Oliveira · Painel</b></div><main id="P"></main></div>
+<aside id="side"><div class="brand"><img class="lgi" src="img/icone-180.png" alt=""><div><b>MILENA OLIVEIRA</b><small id="brsub">STUDIO · PAINEL</small></div></div><nav id="nav"></nav>
+<div class="me"><div class="av" id="meav"></div><div><b id="menm"></b><small id="merl"></small></div><button class="tema" data-tema title="Trocar tema claro/escuro" aria-label="Trocar tema"></button><button id="sair" title="Sair" aria-label="Sair"></button></div></aside>
+<div><div class="mtop"><button id="menu" aria-label="Abrir menu"></button><b style="flex:1">Milena Oliveira</b><button class="tema" data-tema aria-label="Trocar tema"></button></div><main id="P"></main></div>
 </div>
+<dialog id="dcan" class="dlg"><form id="fcan"><h2>Cancelar atendimento</h2><p class="mu" id="dcans" style="margin:6px 0 16px"></p>
+<label class="f">Motivo<textarea name="motivo" rows="3" maxlength="300" placeholder="Ex.: imprevisto, remarcação combinada pelo WhatsApp"></textarea></label>
+<label class="chk" id="dcanr" style="margin-top:14px"><input type="checkbox" name="ret"> O sinal fica no caixa (não foi devolvido)</label><p class="alert" id="dcani" style="margin:14px 0 0"></p>
+<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap"><button type="button" class="btn gh" id="dcanx">Voltar</button><button class="btn dgf">Cancelar atendimento</button></div></form></dialog>
 <div id="toast" role="status"></div>
 <script src="dados.js"></script>
 <script type="module">
@@ -141,7 +158,12 @@ const IC={dash:"M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z",hoje:"M3 5h1
  travar:"M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4",caixa:"M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",servicos:"M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z",horarios:"M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
  site:"M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20",usuarios:"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",sair:"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",menu:"M3 6h18M3 12h18M3 18h18",
  cal:"M3 5h18v16H3zM3 10h18M8 3v4M16 3v4",wallet:"M3 7h18v13H3zM3 7l3-4h12l3 4M16 14h2",clock:"M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",user:"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
- gift:"M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",l:"M14.5 4.5 7 12l7.5 7.5",r:"M9.5 4.5 17 12l-7.5 7.5",plus:"M12 5v14M5 12h14",wa:"M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z",alert:"M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"};
+ gift:"M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",l:"M14.5 4.5 7 12l7.5 7.5",r:"M9.5 4.5 17 12l-7.5 7.5",plus:"M12 5v14M5 12h14",wa:"M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z",alert:"M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z",
+ sun:"M12 3v2M12 19v2M5 5l1.4 1.4M17.6 17.6 19 19M3 12h2M19 12h2M5 19l1.4-1.4M17.6 6.4 19 5M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",moon:"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
+ minha:"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",x:"M5 5l14 14M19 5 5 19"};
+// ---- tema claro/escuro (salvo neste navegador)
+const tema=()=>{const l=document.documentElement.dataset.theme=="light";document.querySelectorAll("[data-tema]").forEach(b=>{b.innerHTML=I(l?IC.moon:IC.sun);b.title=l?"Tema escuro":"Tema claro"})};
+document.addEventListener("click",e=>{if(!e.target.closest("[data-tema]"))return;const r=document.documentElement,l=r.dataset.theme!="light";l?r.dataset.theme="light":delete r.dataset.theme;try{localStorage.setItem("mo_tema",l?"light":"dark")}catch(x){}tema()});tema();
 let tt;const toast=m=>{$("#toast").textContent=m;clearTimeout(tt);tt=setTimeout(()=>$("#toast").textContent="",2800)};
 const kpi=(ic,c,v,t,s="")=>`<div class="kpi"><div class="ic c-${c}">${I(IC[ic])}</div><b>${v}</b><span>${t}</span>${s?`<small>${s}</small>`:""}</div>`;
 const head=(t,s,r="")=>`<div class="ph"><div><h1>${t}</h1>${s?`<p>${s}</p>`:""}</div>${r}</div>`;
@@ -159,12 +181,39 @@ const waNum=t=>{let w=String(t||"").replace(/\D/g,"");return w&&w.length<=11?"55
 
 // ---- quem está logado e o que pode ver
 const PERMS={dash:"Dashboard",agenda:"Agenda do dia (situação e adicionar clientes)",clientes:"Clientes e fidelidade",travar:"Travar agenda",caixa:"Financeiro e valores",config:"Configurações (serviços, horários, site)"};
-let ME=null;const can=p=>ME&&(ME.master||(p!="master"&&ME.perms&&ME.perms[p]));
-const NAV=[["VISÃO GERAL",[["dash","Dashboard","dash"]]],["ATENDIMENTO",[["hoje","Agenda do dia","agenda"],["clientes","Clientes","clientes"],["travar","Travar agenda","travar"]]],["GESTÃO",[["caixa","Financeiro","caixa"]]],
+// ME.cliente = conta de cliente do site: só vê "Meus agendamentos" (os próprios, garantido nas regras)
+let ME=null;const can=p=>!!ME&&(p=="cliente"?!!ME.cliente:!ME.cliente&&(ME.master||(p!="master"&&ME.perms&&ME.perms[p])));
+const NAV=[["MINHA CONTA",[["minha","Meus agendamentos","cliente"]]],["VISÃO GERAL",[["dash","Dashboard","dash"]]],["ATENDIMENTO",[["hoje","Agenda do dia","agenda"],["clientes","Clientes","clientes"],["travar","Travar agenda","travar"]]],["GESTÃO",[["caixa","Financeiro","caixa"]]],
  ["CONFIGURAÇÕES",[["servicos","Serviços e tempos","config"],["horarios","Horários","config"],["site","Site e pagamentos","config"],["usuarios","Usuários","master"]]]];
 let tab="dash",badge=0;
 function nav(){$("#nav").innerHTML=NAV.map(([g,L])=>{const v=L.filter(x=>can(x[2]));return v.length?`<div class="grp">${g}</div>`+v.map(([k,t])=>`<button class="nv" data-tab="${k}" aria-current="${k==tab}">${I(IC[k])}${t}${k=="hoje"&&badge?`<span class="bd">${badge}</span>`:""}</button>`).join(""):""}).join("")}
-const T={dash,hoje,clientes,travar,caixa,servicos,horarios,site,usuarios};
+const T={minha,dash,hoje,clientes,travar,caixa,servicos,horarios,site,usuarios};
+
+// ---- cancelamento (equipe e cliente): pede o motivo numa janela; resolve null se desistir
+function pedirCancel(b,cli){return new Promise(res=>{const d=$("#dcan"),f=$("#fcan"),pago=["confirmado","concluido"].includes(b.status)||!!b.pago;f.reset();
+ $("#dcans").textContent=`${cli?"":b.name+" · "}${fmt(b.date,{weekday:"long",day:"2-digit",month:"long"})} às ${hh(b.start)} · ${b.svc}`;
+ $("#dcanr").hidden=cli||!pago;f.ret.checked=pago;f.motivo.required=!cli;
+ $("#dcani").hidden=!(cli&&pago);$("#dcani").textContent=`O sinal de ${R(sinal(b))} não é devolvido automaticamente. Fale com o studio para combinar a devolução ou usar em outro horário.`;
+ const fim=v=>{f.onsubmit=null;d.close();res(v)};f.onsubmit=e=>{e.preventDefault();fim({motivo:f.motivo.value.trim(),ret:f.ret.checked,pago})};
+ $("#dcanx").onclick=()=>fim(null);d.oncancel=()=>fim(null);d.showModal()})}
+
+// ---- área da cliente: próximos horários (com cancelar), pontos e procedimentos feitos
+let MY={};
+async function minha(){const L=(await DB.where("agendamentos","uid",ME.uid)).sort((a,b)=>a.date.localeCompare(b.date)||a.start-b.start);MY=Object.fromEntries(L.map(b=>[b.id,b]));
+ const T0=hoje0(),now=Date.now(),ini=b=>new Date(b.date+"T00:00").getTime()+b.start*6e4,lim=(+CFG.cancelH||0)*36e5;
+ const prox=L.filter(b=>["aguardando","reservado","confirmado"].includes(b.status)&&ini(b)>now),feitos=L.filter(b=>b.status=="concluido"),n=+CFG.fid.n||10,r=feitos.length%n,ganhou=feitos.length&&r==0;
+ const proc={};feitos.forEach(b=>String(b.svc).split(" + ").forEach(s=>proc[s]=(proc[s]||0)+1));const tops=Object.entries(proc).sort((a,b)=>b[1]-a[1]),tmax=tops[0]?.[1]||1;
+ const wa=CFG.whatsapp?`https://wa.me/55${CFG.whatsapp}`:"",SL={aguardando:"Aguardando pagamento",reservado:"Aguardando confirmação do sinal",confirmado:"Confirmado"};
+ P.innerHTML=head(`Olá, ${E(String(ME.nome).split(" ")[0])}!`,"Seus horários, seus pontos e os procedimentos que você já fez.",`<a class="btn" href="./#agendar">${I(IC.plus)}Agendar horário</a>`)+
+ `<div class="kpis">${kpi("gift","gold",feitos.length,feitos.length==1?"Ponto":"Pontos",ganhou?"você ganhou a promoção!":`faltam ${n-r} para ${E(CFG.fid.premio)}`)}${kpi("servicos","ok",feitos.length,"Procedimentos feitos")}${kpi("cal","info",prox[0]?fmt(prox[0].date,{day:"2-digit",month:"short"}).replace(".","")+" · "+hh(prox[0].start):"—","Próximo atendimento",prox[0]?E(prox[0].svc):"nenhum marcado")}${kpi("clock","vio",prox.length,"Horários marcados")}</div>
+ <div class="card mb"><h2>Fidelidade</h2><div class="meta-top"><span>${ganhou?`🎉 Você ganhou ${E(CFG.fid.premio)}! Fale com o studio para usar.`:`Cada atendimento vale 1 ponto. Com ${n} pontos você ganha ${E(CFG.fid.premio)}.`}</span><b>${ganhou?n:r}/${n}</b></div><div class="prog"><i style="width:0" data-w="${(ganhou?n:r)/n*100}%"></i></div></div>
+ <div class="g21"><div class="card"><h2>Próximos horários</h2>${prox.map(b=>{const pode=ini(b)-now>lim;return`<div class="rowi"><div class="dt"><b>${b.date.slice(8)}</b><small>${fmt(b.date,{month:"short"}).replace(".","")}</small></div><div class="tx"><b>${fmt(b.date,{weekday:"long"})} · ${hh(b.start)} às ${hh(b.end)}</b><span>${E(b.svc)} · ${SL[b.status]}</span></div>
+ ${pode?`<button class="btn sm dg" data-ccan="${b.id}">Cancelar</button>`:`<span class="mu" style="font-size:12px;text-align:right">Faltam menos de ${CFG.cancelH}h${wa?`:<br><a href="${wa}" target="_blank" rel="noopener">fale com o studio</a>`:""}</span>`}</div>`}).join("")||`<p class="empty">Nenhum horário marcado. <a href="./#agendar">Agendar agora</a></p>`}
+ ${prox.length&&+CFG.cancelH?`<p class="hint">Você pode cancelar pelo site até ${CFG.cancelH} horas antes do horário.</p>`:""}</div>
+ <div class="card"><h2>Procedimentos que você já fez</h2>${tops.map(([s,q])=>`<div class="hb"><span>${E(s)}</span><b>${q}×</b><div class="bar"><i style="width:${q/tmax*100}%"></i></div></div>`).join("")||'<p class="empty">Ainda nenhum. Seu primeiro atendimento aparece aqui.</p>'}</div>
+ <div class="card"><h2>Histórico</h2>${L.filter(b=>!prox.includes(b)&&b.status!="expirado").reverse().slice(0,15).map(b=>`<div class="rowi"><div class="tx"><b>${fmt(b.date,{day:"2-digit",month:"short",year:"numeric"})} · ${hh(b.start)}</b><span>${E(b.svc)}${b.status=="cancelado"&&b.motivo?` · ${E(b.motivo)}`:""}</span></div>${pill(b.status)}</div>`).join("")||'<p class="empty">Sem histórico ainda.</p>'}</div></div>`}
+async function cliCancel(id){const b=MY[id],r=await pedirCancel(b,true);if(!r)return;
+ await DB.batch([["upd","agendamentos",id,{status:"cancelado",motivo:r.motivo,canceladoPor:"cliente",canceladoEm:DB.stamp(),...(r.pago?{retido:true}:{})}],["del","ocupado",id]]);toast("Horário cancelado");go()}
 async function go(t=tab){tab=t;document.body.classList.remove("nav");nav();
  try{await T[t]();P.querySelectorAll(".prog i[data-w]").forEach(i=>requestAnimationFrame(()=>i.style.width=i.dataset.w))}catch(e){console.error(e);P.innerHTML=head("Algo deu errado")+`<p class="err">${e.code=="permission-denied"?"Sem permissão para ver estes dados. Confira se as regras do Firestore foram publicadas (LEIA-ME.md).":E(e.message)}</p>`}}
 $("#nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b){go(b.dataset.tab);scrollTo(0,0)}};
@@ -213,12 +262,13 @@ function card(b,money){const ex=Object.entries(b.ex||{}).filter(([,q])=>q).map((
  const msg=encodeURIComponent(`Olá, ${String(b.name).split(" ")[0]}! Passando para confirmar seu horário no studio: ${b.dateTxt||fmt(b.date)} às ${hh(b.start)} (${b.svc}).`);
  return`<article class="ag s-${b.status} fade"><div class="hr"><b>${hh(b.start)}</b><span>até ${hh(b.end)}</span></div>
  <div><h3>${E(b.name)} ${pill(b.status)}</h3><p>${E(b.svc)}${ex?` · ${E(ex)}`:""}</p>${b.obs?`<p class="obs">“${E(b.obs)}”</p>`:""}
- <p class="meta">${w?`<a href="https://wa.me/${w}?text=${msg}" target="_blank" rel="noopener">WhatsApp ${E(b.tel)}</a> · `:""}Código ${E(b.code||b.id)}${PAY[b.pay]?` · sinal por ${PAY[b.pay]}`:""}${b.uid?" · tem conta no site":""}${b.origem=="painel"?" · adicionada no painel":""}</p></div>
+ <p class="meta">${w?`<a href="https://wa.me/${w}?text=${msg}" target="_blank" rel="noopener">WhatsApp ${E(b.tel)}</a> · `:""}Código ${E(b.code||b.id)}${PAY[b.pay]?` · sinal por ${PAY[b.pay]}`:""}${b.uid?" · tem conta no site":""}${b.origem=="painel"?" · adicionada no painel":""}</p>
+ ${b.status=="cancelado"?`<p class="meta" style="color:var(--bad)">Cancelado ${b.canceladoPor=="cliente"?"pela cliente":b.canceladoPor?"por "+E(b.canceladoPor):""}${b.motivo?`: “${E(b.motivo)}”`:""}</p>${money&&sinal(b)?`<label class="chk" style="margin-top:6px;font-size:13px"><input type="checkbox" data-ret="${b.id}" ${b.retido?"checked":""}> Sinal de ${R(sinal(b))} ficou no caixa</label>`:""}`:""}</div>
  ${money?`<div class="val"><span>Total <b>${R(b.total)}</b></span><span>Sinal <b>${R(sinal(b))}</b></span><span>Restante <b>${R(b.total-sinal(b))}</b></span></div>`:"<div></div>"}
  <label class="stsel">Situação<select data-st="${b.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${k==b.status?"selected":""}>${v}</option>`).join("")}</select></label></article>`}
 async function setSt(id,st,sel){const b=AG[id],d={status:st},ops=[],livre=s=>["cancelado","expirado"].includes(s);
- if(livre(st)&&!livre(b.status)){if(!confirm(`Cancelar o atendimento de ${b.name}? O horário volta a ficar livre no site.`)){sel.value=b.status;return}
-  if(["confirmado","concluido"].includes(b.status))d.retido=confirm(`O sinal de ${R(sinal(b))} fica no caixa?\n\nOK = fica no caixa · Cancelar = foi devolvido`);ops.push(["del","ocupado",id])}
+ if(livre(st)&&!livre(b.status)){const r=await pedirCancel(b,false);if(!r){sel.value=b.status;return}
+  Object.assign(d,{motivo:r.motivo,canceladoPor:ME.nome,canceladoEm:DB.stamp()});if(r.pago)d.retido=r.ret;ops.push(["del","ocupado",id])}
  else if(!livre(st)&&livre(b.status)){ops.push(["set","ocupado",id,{date:b.date,start:b.start,end:b.end,tipo:"agenda"}]);d.retido=false}
  ops.push(["upd","agendamentos",id,d]);sel.disabled=true;await DB.batch(ops);toast("Situação atualizada");go()}
 const pk=v=>{if(!v)return null;const[id,t]=v.split("|"),i=all.find(x=>x.id==id),m=t=="m";return{id,v:t,n:i.n+(m?" (manutenção)":""),p:m?i.m[0]:i.p,d:m?i.m[1]:i.d}};
@@ -328,14 +378,15 @@ function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelida
  `<form id="fsite"><div class="g2"><div class="card"><h2>Contato</h2><div style="display:grid;gap:14px"><label class="f">WhatsApp do studio (com DDD, só números)<input name="whatsapp" value="${E(CFG.whatsapp)}" inputmode="numeric" placeholder="11900000000"></label>
  <label class="f">Instagram (sem @)<input name="instagram" value="${E(CFG.instagram)}" placeholder="milenaoliveira.studio"></label><label class="f">Endereço (aparece com mapa no site)<input name="endereco" value="${E(CFG.endereco)}" placeholder="Rua, número — bairro, cidade"></label></div></div>
  <div class="card"><h2>Fidelidade e meta</h2><div style="display:grid;gap:14px"><label class="f">A cliente ganha a promoção a cada quantos atendimentos?<input type="number" name="fn" min="2" max="50" value="${CFG.fid.n}"></label><label class="f">O que ela ganha<input name="fp" value="${E(CFG.fid.premio)}" placeholder="Ex.: 20% de desconto na manutenção"></label>
- <label class="f">Meta de faturamento do mês (R$)<input type="number" name="meta" min="0" step="100" value="${CFG.meta}"></label></div></div>
+ <label class="f">Meta de faturamento do mês (R$)<input type="number" name="meta" min="0" step="100" value="${CFG.meta}"></label>
+ <label class="f">A cliente pode cancelar pelo site até quantas horas antes?<input type="number" name="cancelH" min="0" max="168" value="${CFG.cancelH}"></label></div></div>
  <div class="card wide"><h2>Sobre a Milena</h2><label class="f">Texto da seção “Sobre” do site<textarea name="sobre" rows="4" maxlength="900">${E(CFG.sobre)}</textarea></label></div>
  <div class="card wide"><h2>Depoimentos<button type="button" class="lnk" id="adddep">${I(IC.plus)}Adicionar</button></h2><p class="mu" style="margin:-6px 0 14px">Use só depoimentos reais, com autorização da cliente. Sem nenhum, a seção some do site.</p><div id="deps">${(CFG.depo||[]).map(depRow).join("")}</div></div>
  <div class="card wide"><h2>Pagamento online do sinal (Mercado Pago)</h2><label class="f">Endereço do servidor de pagamento (Cloudflare Worker)<input name="pagURL" value="${E(CFG.pagURL)}" placeholder="https://milena-pagamentos.SEU-USUARIO.workers.dev"></label>
  <p class="hint">Com o endereço preenchido, a cliente paga 30% por Pix ou cartão no Mercado Pago e o horário se confirma sozinho. Vazio = o site reserva e você confere o sinal à mão. Como configurar: LEIA-ME.md, parte “Mercado Pago”.</p><div style="display:flex;gap:10px;align-items:center;margin-top:12px"><button type="button" class="btn sm gh" id="tpag">Testar conexão</button><span id="tpagr" class="mu"></span></div></div></div>
  <div class="save"><button class="btn">Salvar</button></div></form>`}
 async function salvarSite(f){const g=k=>f.elements[k].value.trim(),depo=[...f.querySelectorAll(".dep")].map(d=>({n:d.querySelector("[name=dn]").value.trim(),t:d.querySelector("[name=dt]").value.trim()})).filter(d=>d.n&&d.t);
- const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,pagURL:g("pagURL").replace(/\/+$/,"")};
+ const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),pagURL:g("pagURL").replace(/\/+$/,"")};
  if(c.pagURL&&!/^https:\/\//.test(c.pagURL))return toast("O endereço do pagamento precisa começar com https://");
  f.querySelector(".save .btn").disabled=true;await DB.put("config","site",c);applyCfg(c);toast("Site atualizado");go()}
 
@@ -369,32 +420,47 @@ P.addEventListener("click",e=>{const t=e.target.closest("button,tr,a")||e.target
  else if(t.id=="tpag"){const u=$("[name=pagURL]").value.trim().replace(/\/+$/,""),o=$("#tpagr");if(!u)return o.textContent="Preencha o endereço.";o.textContent="Testando…";
   fetch(u+"/status?id=TESTE").then(r=>r.json()).then(j=>o.textContent=j.ok?"✅ Servidor respondeu: "+(j.mp?"Mercado Pago ligado":"falta o token do Mercado Pago")+(j.fb?"":" · falta a chave do Firebase"):"Respondeu, mas algo está errado.").catch(()=>o.textContent="❌ Não respondeu. Confira o endereço.")}
  else if(d.rst&&confirm(`Enviar para ${d.rst} um link para criar uma nova senha?`))run(DB.resetPw(d.rst).then(()=>toast("Link enviado para "+d.rst)));
+ else if(d.ccan)run(cliCancel(d.ccan));
  else if(d.atv)run(DB.upd("usuarios",d.atv,{ativo:d.v=="1"}).then(()=>{toast(d.v=="1"?"Acesso devolvido":"Acesso retirado");go()}))});
 P.addEventListener("change",e=>{const t=e.target;
  if(t.id=="dia"&&t.value){dia=t.value;go()}else if(t.id=="perM"&&t.value){perM=t.value;go()}else if(t.id=="cs"){cs=t.value;drawCl()}
  else if(t.dataset.st)run(setSt(t.dataset.st,t.value,t));
+ else if(t.dataset.ret)run(DB.upd("agendamentos",t.dataset.ret,{retido:t.checked}).then(()=>{toast(t.checked?"Sinal conta no caixa":"Sinal marcado como devolvido");go()}));
  else if(t.dataset.perm)run(DB.put("usuarios",t.dataset.perm,{perms:{[t.value]:t.checked}}).then(()=>toast("Permissão atualizada")));
  else if(t.form&&t.form.id=="fnovo"&&(t.name=="u"||t.name=="c")){const s=[pk(t.form.u.value),pk(t.form.c.value)].filter(Boolean);t.form.d.value=sum(s,x=>x.d)||"";t.form.total.value=sum(s,x=>x.p)||""}});
 P.addEventListener("input",e=>{const t=e.target;if(t.id=="cq"){cq=t.value;cqf=1;drawCl();return}const o=t.nextElementSibling;if(o&&o.tagName=="OUTPUT")o.textContent=dur(t.value)});
 P.addEventListener("submit",e=>{e.preventDefault();const f=e.target;run(({fnovo:salvarNovo,fbl:salvarBl,fsv:salvarSv,fhr:salvarHr,fsite:salvarSite,fusr:salvarUsr})[f.id](f))});
 
 // ---- login
-const LF=$("#flogin");
-LF.onsubmit=async e=>{e.preventDefault();$("#lerr").textContent="";LF.querySelector(".btn").disabled=true;
- try{await DB.login(LF.email.value.trim(),LF.pw.value)}catch(x){$("#lerr").textContent=/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":x.code=="auth/too-many-requests"?"Muitas tentativas. Espere alguns minutos.":"Não foi possível entrar ("+x.code+")."}
+// a mesma tela serve para clientes, equipe e master; "Criar conta" cria sempre conta de cliente
+const LF=$("#flogin");let lt="entrar",novo=null; // novo = perfil recém-criado (o login dispara antes de o perfil ser gravado)
+LF.addEventListener("click",e=>{const b=e.target.closest("[data-lt]");if(!b)return;lt=b.dataset.lt;LF.querySelectorAll("[data-lt]").forEach(x=>x.setAttribute("aria-pressed",x==b));
+ $("#lcriar").hidden=lt!="criar";LF.nome.required=LF.tel.required=lt=="criar";$("#lbtn").textContent=lt=="criar"?"Criar minha conta":"Entrar";$("#esq").hidden=lt=="criar";
+ LF.pw.autocomplete=lt=="criar"?"new-password":"current-password";$("#lsub").textContent=lt=="criar"?"Crie sua conta para agendar e acompanhar seus pontos.":"Veja seus horários, seus pontos e cancele se precisar.";$("#lerr").textContent=""});
+LF.onsubmit=async e=>{e.preventDefault();const er=m=>$("#lerr").textContent=m;er("");LF.querySelector(".btn").disabled=true;
+ try{if(lt=="criar"){const nome=LF.nome.value.trim(),tel=LF.tel.value.trim(),dg=tel.replace(/\D/g,"");if(dg.length<10||dg.length>11)throw{code:"tel"};
+   novo={nome,tel};const uid=await DB.signup(LF.email.value.trim(),LF.pw.value);await DB.put("clientes",uid,{nome,tel,email:LF.email.value.trim().toLowerCase(),criado:DB.stamp()});
+   if(ME&&ME.cliente){ME.nome=nome;ME.tel=tel;perfilMe();go("minha")}}
+  else await DB.login(LF.email.value.trim(),LF.pw.value)}
+ catch(x){er({tel:"Informe o WhatsApp com DDD.","auth/email-already-in-use":"Já existe uma conta com este e-mail. Use “Entrar”.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.","auth/invalid-email":"E-mail inválido.","auth/too-many-requests":"Muitas tentativas. Espere alguns minutos."}[x.code]||(/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":"Não foi possível agora ("+(x.code||x.message)+")."))}
  LF.querySelector(".btn").disabled=false};
+const perfilMe=()=>{$("#menm").textContent=ME.nome;$("#meav").textContent=String(ME.nome)[0].toUpperCase();$("#merl").textContent=ME.master?"Master":ME.cliente?"Cliente":"Equipe";$("#brsub").textContent=ME.cliente?"STUDIO DE BELEZA":"STUDIO · PAINEL"};
 $("#esq").onclick=async()=>{const m=LF.email.value.trim();if(!m)return $("#lerr").textContent="Digite seu e-mail acima e toque de novo em “Esqueci a senha”.";
  try{await DB.resetPw(m);$("#lerr").textContent="Enviamos um link para criar uma nova senha no seu e-mail."}catch(x){$("#lerr").textContent="Não foi possível enviar ("+x.code+")."}};
 $("#sair").innerHTML=I(IC.sair);$("#sair").onclick=$("#sair2").onclick=()=>DB.logout();
+if(location.hash=="#criar")LF.querySelector('[data-lt="criar"]').click();
 DB.onUser(async u=>{const show=id=>["login","semacesso","app"].forEach(x=>$("#"+x).hidden=x!=id);ME=null;
  if(!u)return show("login");
- if(u.uid==DB.MASTER)ME={master:true,nome:"Administrador",email:u.email};
- else{const d=await DB.get("usuarios",u.uid).catch(()=>null);if(!d||!d.ativo)return show("semacesso");ME={...d,email:u.email}}
+ if(u.uid==DB.MASTER)ME={master:true,nome:"Administrador",email:u.email,uid:u.uid};
+ else{const d=await DB.get("usuarios",u.uid).catch(()=>null);
+  if(d&&!d.ativo)return show("semacesso");
+  if(d)ME={...d,email:u.email,uid:u.uid};
+  // sem cadastro na equipe = cliente do site
+  else{const p=await DB.get("clientes",u.uid).catch(()=>null);ME={cliente:true,uid:u.uid,email:u.email,nome:p?.nome||novo?.nome||u.email.split("@")[0],tel:p?.tel||novo?.tel||""}}}
  const c=await DB.get("config","site").catch(()=>null);applyCfg(c);
  // o servidor de pagamento calcula o preço a partir de config/site.svc: garante que esteja completo
  if(can("config")&&(!c||!c.svc||all.some(i=>!c.svc[i.id])))DB.put("config","site",{svc:svcAll()}).catch(console.error);
- $("#menm").textContent=ME.nome;$("#meav").textContent=String(ME.nome)[0];$("#merl").textContent=ME.master?"Master":"Equipe";
- show("app");const first=NAV.flatMap(g=>g[1]).find(x=>can(x[2]));if(!first){P.innerHTML=head("Sem permissões","Peça ao administrador para liberar alguma área.");nav();return}
+ perfilMe();show("app");if(ME.cliente)return go("minha");const first=NAV.flatMap(g=>g[1]).find(x=>can(x[2]));if(!first){P.innerHTML=head("Sem permissões","Peça ao administrador para liberar alguma área.");nav();return}
  go(can("dash")?"dash":first[0])});
 </script>
 </body>

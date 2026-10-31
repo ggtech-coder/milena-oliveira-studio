@@ -38,14 +38,24 @@ service cloud.firestore {
       allow create: if pode("agenda") || pode("travar") || (logado()
         && request.resource.data.keys().hasOnly(["date", "start", "end", "tipo"])
         && request.resource.data.tipo == "agenda" && horario(request.resource.data));
-      allow update, delete: if pode("agenda") || pode("travar");
+      allow update: if pode("agenda") || pode("travar");
+      // a cliente libera o horário ao cancelar o próprio agendamento (mesmo id)
+      allow delete: if pode("agenda") || pode("travar") || (logado()
+        && exists(/databases/$(database)/documents/agendamentos/$(id))
+        && get(/databases/$(database)/documents/agendamentos/$(id)).data.get("uid", "") == request.auth.uid);
     }
 
     // agendamentos: no site só a cliente logada cria, sempre em nome da própria conta,
     // e só vê os dela; a equipe vê todos
     match /agendamentos/{id} {
       allow read: if (logado() && resource.data.get("uid", "") == request.auth.uid) || equipe();
-      allow update: if pode("agenda");
+      // equipe muda tudo; a cliente só pode cancelar um agendamento dela que ainda está ativo
+      allow update: if pode("agenda") || (logado()
+        && resource.data.get("uid", "") == request.auth.uid
+        && resource.data.status in ["aguardando", "reservado", "confirmado"]
+        && request.resource.data.status == "cancelado"
+        && request.resource.data.canceladoPor == "cliente"
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "motivo", "canceladoPor", "canceladoEm", "retido"]));
       allow delete: if master();
       allow create: if pode("agenda") || (logado()
         && request.resource.data.uid == request.auth.uid

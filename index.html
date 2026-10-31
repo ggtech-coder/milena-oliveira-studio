@@ -6,6 +6,7 @@
 <title>Milena Oliveira Studio de Beleza — Unhas e cílios</title>
 <meta name="description" content="Alongamento de unhas em gel, esmaltação e extensão de cílios. Escolha o serviço, pague o sinal por Pix ou cartão e agende seu horário online.">
 <meta name="theme-color" content="#1e1512">
+<link rel="icon" type="image/png" href="img/favicon.png"><link rel="apple-touch-icon" href="img/icone-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -24,7 +25,7 @@ header{position:fixed;inset:0 0 auto;z-index:20;color:#f4ebe4;transition:backgro
 header .wrap{display:flex;justify-content:space-between;align-items:center;height:84px;gap:20px}
 .logo{font:600 26px var(--d);text-decoration:none}.logo small{display:block;font:400 12px var(--b);letter-spacing:.08em;color:var(--gold)}
 nav{display:flex;gap:26px;align-items:center}nav a{text-decoration:none;font-size:15px}nav .btn{padding:9px 18px}
-.accb{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(201,166,107,.5);color:#f4ebe4;padding:8px 14px;border-radius:30px;font:500 14px var(--b);cursor:pointer}.accb:hover{border-color:var(--gold);color:var(--gold)}
+.accb{display:inline-flex;text-decoration:none;align-items:center;gap:8px;background:none;border:1px solid rgba(201,166,107,.5);color:#f4ebe4;padding:8px 14px;border-radius:30px;font:500 14px var(--b);cursor:pointer}.accb:hover{border-color:var(--gold);color:var(--gold)}
 #prog{position:fixed;top:0;left:0;right:0;height:3px;background:var(--gold);transform-origin:left;transform:scaleX(0);z-index:40}
 /* hero */
 .hero{position:relative;overflow:hidden;color:#f4ebe4;padding:120px 0 70px;background:radial-gradient(ellipse 70% 80% at 25% 35%,#2d1f19 0%,#150e0b 70%)}
@@ -165,7 +166,7 @@ dialog::backdrop{background:rgba(20,13,11,.7);backdrop-filter:blur(3px)}
 </style>
 </head>
 <body><div id="prog"></div>
-<header><div class="wrap"><a class="logo" href="#">Milena Oliveira<small>Studio de Beleza</small></a><nav><a href="#trabalhos">Trabalhos</a><a href="#servicos">Serviços</a><a href="#sobre">Sobre</a><a href="#contato" id="navc">Contato</a><button class="accb" id="accb"></button><a class="btn" href="#agendar">Agendar</a></nav></div></header>
+<header><div class="wrap"><a class="logo" href="#">Milena Oliveira<small>Studio de Beleza</small></a><nav><a href="#trabalhos">Trabalhos</a><a href="#servicos">Serviços</a><a href="#sobre">Sobre</a><a href="#contato" id="navc">Contato</a><a class="accb" id="accb" href="admin.html"></a><a class="btn" href="#agendar">Agendar</a></nav></div></header>
 <main>
 <div class="hero" id="hero"><canvas id="sp" aria-hidden="true"></canvas><div class="wrap"><div><img class="logo-big" src="img/logo.jpg" alt="Milena Oliveira — Studio de Beleza"><h1>Unhas e cílios com <em>acabamento de ateliê.</em></h1><p>Alongamento em gel, esmaltação e extensão de cílios. Escolha o serviço, veja os horários livres e garanta o seu com 30% de sinal.</p><div class="cta"><a class="btn" href="#agendar">Agendar horário</a><a class="btn ghost" href="#servicos">Ver valores</a></div></div><div class="arch" id="parch"><img src="img/pro.jpg" alt="Milena Oliveira atendendo no studio" fetchpriority="high" style="object-position:58% center"></div></div></div>
 <div class="trust"><div class="wrap" id="trust"></div></div>
@@ -188,7 +189,6 @@ dialog::backdrop{background:rgba(20,13,11,.7);backdrop-filter:blur(3px)}
 <footer><div class="wrap"><img src="img/logo.jpg" alt="Milena Oliveira Studio de Beleza" class="fade" style="width:300px;max-width:100%"><div id="foot"></div></div></footer>
 <a class="btn fab" id="fab" href="#agendar">Agendar horário</a>
 <div id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada"><button id="lbx" aria-label="Fechar"></button><button id="lbp" aria-label="Anterior"></button><img id="lbi" alt=""><button id="lbn" aria-label="Próxima"></button></div>
-<dialog id="acc" aria-labelledby="acct"><div class="dh"><h3 id="acct">Minha conta</h3><p id="accs"></p><button class="dx" id="accx" aria-label="Fechar"></button></div><div class="db" id="accb2"></div></dialog>
 <script src="dados.js"></script>
 <script>
 // CFG, SV, all e applyCfg ficam em dados.js (compartilhados com o painel admin.html)
@@ -255,7 +255,7 @@ function sum(){const c=calc(),L=Object.keys(S.sel).map(pick),ex=Object.entries(S
  if(p){$("#sum").innerHTML=`<h3>Seu agendamento</h3><dl><dt>Serviços</dt><dd>${E(p.svc)}</dd><dt>Data</dt><dd>${E(p.dateTxt)}</dd><dt>Horário</dt><dd>${hh(p.start)}</dd><dt>Código</dt><dd>${E(p.code)}</dd></dl><div class="tot"><span>Total</span><span>${R(p.total)}</span></div><div class="sdep"><span>Sinal (30%)</span><b>${R(p.dep)}</b></div>`;return}
  $("#sum").innerHTML=`<h3>Resumo</h3><dl><dt>Serviços</dt><dd>${L.map(k=>E(k.n)).join("<br>")||"—"}</dd>${ex?`<dt>Extras</dt><dd>${E(ex)}</dd>`:""}<dt>Data</dt><dd>${S.date?S.date.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"long"}):"—"}</dd><dt>Horário</dt><dd>${S.time!=null?hh(S.time):"—"}</dd><dt>Duração</dt><dd>${c.d?dur(c.d):"—"}</dd></dl><div class="tot"><span>Total</span><span>${R(c.p)}</span></div><div class="sdep"><span>Sinal para reservar (30%)</span><b>${R(c.dep)}</b></div>`}
 function done(){const b=S.done,st=b.st,msg=encodeURIComponent(`Olá! Agendei pelo site: ${b.svc}, ${b.dateTxt} às ${hh(b.start)}. Nome: ${b.name}. Código ${b.code}.`),wa=CFG.whatsapp?`<a class="btn ghost" href="https://wa.me/55${CFG.whatsapp}?text=${msg}" target="_blank" rel="noopener">${I(IC.wa)}${st=="manual"?"Enviar comprovante":"Falar com o studio"}</a>`:"";
- const conta=USER?`<button class="btn ghost" data-acc>Ver na minha conta</button>`:`<button class="btn ghost" data-acc>Criar conta e acompanhar</button>`;
+ const conta=`<a class="btn ghost" href="admin.html">Ver na minha conta</a>`;
  const T={ok:["","Horário confirmado!",`Pagamento do sinal aprovado. Te esperamos ${E(b.dateTxt)} às <b>${hh(b.start)}</b>. Restante de <b>${R(b.total-b.dep)}</b> no dia. Código <b>${E(b.code)}</b>.`],
   wait:["wait","Confirmando o pagamento…",`Assim que o Mercado Pago avisar, o horário de ${E(b.dateTxt)} às ${hh(b.start)} fica confirmado. Pode levar alguns instantes, principalmente no Pix.`],
   fail:["fail","Pagamento não concluído",`O sinal não foi pago, então o horário ainda não está garantido. Ele fica separado por alguns minutos para você tentar de novo.`],
@@ -304,7 +304,6 @@ async function reservar(t,er){
  catch(x){console.error(x);t.disabled=false;t.textContent="Tentar de novo";er("Não foi possível "+(CFG.pagURL?"abrir o pagamento":"reservar")+" agora. Tente de novo.")}}
 $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.target,er=m=>$("#er")&&($("#er").textContent=m);
  if(t.dataset.cat){S.cat=t.dataset.cat;view()}
- else if(t.dataset.acc!=null)openAcc();
  else if(t.dataset.clr){delete S.sel[t.dataset.clr];if(t.dataset.clr=="unhas")S.ex={};view()}
  else if(t.dataset.p||t.dataset.m){const id=t.dataset.p||t.dataset.m,q=Math.max(0,Math.min(10,(S.ex[id]||0)+(t.dataset.p?1:-1)));q?S.ex[id]=q:delete S.ex[id];t.parentElement.querySelector("output").textContent=q;sum()}
  else if(t.dataset.d){S.date=new Date(t.dataset.d+"T00:00");S.time=null;view()}
@@ -332,44 +331,27 @@ async function retorno(){const q=new URLSearchParams(location.search),id=q.get("
   if(s.status=="confirmado"||s.status=="concluido"){S.done.st="ok";try{localStorage.removeItem(PK)}catch(e){}return view()}
   if(s.status=="expirado"||s.status=="cancelado"){S.done.st="exp";return view()}
   if(S.done.st=="fail")return;await new Promise(r=>setTimeout(r,3000))}}
-// ---- conta da cliente
-const acc=$("#acc");$("#accx").innerHTML=I(IC.x);$("#accx").onclick=()=>acc.close();acc.onclick=e=>{if(e.target==acc)acc.close()};$("#accb").onclick=()=>openAcc();
+// ---- conta da cliente: "Entrar / Minha conta" leva ao painel (admin.html), onde ela vê e cancela os horários
 let accTab="entrar";
 function accBtn(){$("#accb").innerHTML=I(IC.user)+`<span>${USER?"Minha conta":"Entrar"}</span>`}accBtn();
-// formulário de entrar / criar conta (usado no "Minha conta" e na etapa "Seus dados" do agendamento).
+// formulário de entrar / criar conta da etapa "Seus dados" do agendamento.
 // Toda conta criada aqui é de cliente: só vê os próprios agendamentos e pontos (garantido em firestore.rules).
 const authHTML=()=>`<div class="tabs" role="tablist"><button type="button" role="tab" data-at="entrar" aria-selected="${accTab=="entrar"}">Já tenho conta</button><button type="button" role="tab" data-at="criar" aria-selected="${accTab=="criar"}">Criar conta</button></div>
  <form class="fauth">${accTab=="criar"?`<label class="f">Nome completo<input name="nome" autocomplete="name" required minlength="3"></label><label class="f">WhatsApp com DDD<input name="tel" type="tel" autocomplete="tel" required placeholder="(11) 90000-0000"></label>`:""}
  <label class="f">E-mail<input name="email" type="email" autocomplete="email" required></label><label class="f">Senha${accTab=="criar"?" (mínimo 6 caracteres)":""}<input name="pw" type="password" autocomplete="${accTab=="criar"?"new-password":"current-password"}" required minlength="6"></label>
  <p class="err aer" role="alert"></p><button class="btn" style="width:100%">${accTab=="criar"?"Criar conta e continuar":"Entrar"}</button>${accTab=="entrar"?'<button type="button" class="lnk aesq">Esqueci a senha</button>':""}</form>`;
-async function openAcc(){if(!acc.open)acc.showModal();const B=$("#accb2");
- if(!DB){$("#accs").textContent="";B.innerHTML='<p class="empty">Carregando…</p>';return}
- if(!USER){$("#acct").textContent=accTab=="entrar"?"Entrar":"Criar conta";$("#accs").textContent="Veja seus horários, seus pontos e sua fidelidade.";B.innerHTML=authHTML();return}
- $("#acct").textContent="Olá, "+String(PERFIL?.nome||"").split(" ")[0]+"!";$("#accs").textContent=USER.email;B.innerHTML='<p class="empty">Carregando seus horários…</p>';
- const L=(await DB.where("agendamentos","uid",USER.uid).catch(()=>[])).sort((a,b)=>a.date.localeCompare(b.date)||a.start-b.start),T0=iso(new Date());
- const prox=L.filter(b=>b.date>=T0&&["aguardando","reservado","confirmado"].includes(b.status)),feitos=L.filter(b=>b.status=="concluido"),n=+CFG.fid.n||10,r=feitos.length%n;
- const proc={};feitos.forEach(b=>String(b.svc).split(" + ").forEach(s=>proc[s]=(proc[s]||0)+1));
- const SL={aguardando:"aguardando pagamento",reservado:"aguardando confirmação do sinal",confirmado:"confirmado"};
- // pontos: 1 por atendimento concluído; a cada n pontos ela ganha o prêmio de fidelidade
- const pts=feitos.length,ganhou=pts&&r==0;
- B.innerHTML=`<div class="fidc"><div class="pts"><span><b>${pts}</b> ${pts==1?"ponto":"pontos"}</span><small>${feitos.length} ${feitos.length==1?"atendimento":"atendimentos"} · ${prox.length} agendado${prox.length==1?"":"s"}</small></div><p>${ganhou?`🎉 Você ganhou ${E(CFG.fid.premio)}! Fale com o studio para usar.`:`Faltam <b>${n-r}</b> ${n-r==1?"ponto":"pontos"} para você ganhar ${E(CFG.fid.premio)}. Cada atendimento vale 1 ponto.`}</p><div class="pg"><i style="width:${(ganhou?n:r)/n*100}%"></i></div></div>
- <p class="dlab">Próximos horários</p><div class="ml">${prox.map(b=>`<div><span><b>${new Date(b.date+"T00:00").toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short"})} · ${hh(b.start)}</b><br><small>${E(b.svc)}</small></span><small>${SL[b.status]}</small></div>`).join("")||'<small class="empty">Nenhum horário marcado.</small>'}</div>
- <p class="dlab">Procedimentos que você já fez</p><div class="chips">${Object.entries(proc).sort((a,b)=>b[1]-a[1]).map(([s,q])=>`<span>${E(s)} <b>${q}×</b></span>`).join("")||'<small class="empty">Ainda nenhum.</small>'}</div>
- <div class="nav" style="margin-top:6px"><button class="btn ghost" id="asair">Sair</button><a class="btn" href="#agendar" id="aag">Agendar horário</a></div>`}
-acc.addEventListener("click",e=>{const t=e.target;if(t.id=="asair"){DB.logout();acc.close()}else if(t.id=="aag")acc.close()});
-const reAuth=f=>f.closest("dialog")?openAcc():view();
 document.addEventListener("click",e=>{const t=e.target;
- if(t.dataset.at){accTab=t.dataset.at;reAuth(t)}
+ if(t.dataset.at){accTab=t.dataset.at;view()}
  else if(t.classList.contains("aesq")){const f=t.form,a=f.querySelector(".aer"),m=f.email.value.trim();if(!m)return a.textContent="Digite seu e-mail e toque de novo em “Esqueci a senha”.";DB.resetPw(m).then(()=>a.textContent="Enviamos um link para criar uma nova senha.").catch(()=>a.textContent="Não foi possível enviar agora.")}});
 document.addEventListener("submit",async e=>{const f=e.target;if(!f.classList.contains("fauth"))return;e.preventDefault();const g=k=>f.elements[k]?.value.trim(),er=m=>f.querySelector(".aer").textContent=m,bt=f.querySelector(".btn");bt.disabled=true;
  try{if(accTab=="criar"){const tel=g("tel"),dg=tel.replace(/\D/g,"");if(dg.length<10||dg.length>11){bt.disabled=false;return er("Informe o WhatsApp com DDD.")}
-   const uid=await DB.signup(g("email"),f.elements.pw.value);PERFIL={nome:g("nome"),tel,email:g("email").toLowerCase()};await DB.put("clientes",uid,{...PERFIL,criado:DB.stamp()});accBtn();if(acc.open)openAcc();if(S.step==3&&!S.done)view()}
+   const uid=await DB.signup(g("email"),f.elements.pw.value);PERFIL={nome:g("nome"),tel,email:g("email").toLowerCase()};await DB.put("clientes",uid,{...PERFIL,criado:DB.stamp()});accBtn();if(S.step==3&&!S.done)view()}
   else await DB.login(g("email"),f.elements.pw.value)}
  catch(x){bt.disabled=false;er({"auth/email-already-in-use":"Já existe uma conta com este e-mail. Use “Entrar”.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.","auth/invalid-email":"E-mail inválido.","auth/too-many-requests":"Muitas tentativas. Espere alguns minutos."}[x.code]||(/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":"Não foi possível agora ("+(x.code||x.message)+")."))}});
 // ---- inicialização: banco, preços e textos do painel, agenda ocupada, conta logada
 import("./store.js").then(async m=>{DB=m;applyCfg(await DB.get("config","site").catch(()=>null));await API.load();price();conteudo();view();retorno();
  // ao criar conta, o perfil é gravado logo depois do login: não deixa a leitura antiga (vazia) apagá-lo
- DB.onUser(async u=>{USER=u;const p=u?await DB.get("clientes",u.uid).catch(()=>null):null;PERFIL=u?p||(PERFIL&&PERFIL.email==u.email?PERFIL:null):null;accBtn();if(S.step==3&&!S.done)view();if(acc.open)openAcc()})}).catch(e=>console.error("Agenda indisponível",e));
+ DB.onUser(async u=>{USER=u;const p=u?await DB.get("clientes",u.uid).catch(()=>null):null;PERFIL=u?p||(PERFIL&&PERFIL.email==u.email?PERFIL:null):null;accBtn();if(S.step==3&&!S.done)view()})}).catch(e=>console.error("Agenda indisponível",e));
 // ---- efeitos: barra de progresso, botão flutuante, parallax, revelar ao rolar
 const hero=$("#hero"),par=$("#parch"),prog=$("#prog"),fab=$("#fab"),ag=$("#agendar");
 function onS(){const r=ag.getBoundingClientRect();prog.style.transform=`scaleX(${scrollY/((document.documentElement.scrollHeight-innerHeight)||1)})`;fab.classList.toggle("on",scrollY>500&&(r.top>innerHeight*.6||r.bottom<0));if(!RM&&scrollY<900)par.style.translate=`0 ${scrollY*.07}px`}
