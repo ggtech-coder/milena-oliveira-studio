@@ -9,7 +9,7 @@
 ## Arquivos
 | Arquivo | O que é |
 |---|---|
-| `index.html` | Site das clientes: serviços, agendamento, conta da cliente |
+| `index.html` | Site das clientes: procedimentos, agendamento, Meus horários (PIN) |
 | `admin.html` | Painel: dashboard, agenda do dia, clientes, financeiro, configurações, usuários |
 | `dados.js` | Serviços, preços e horários padrão (o painel sobrescreve) |
 | `store.js` | Conversa com o Firebase |
@@ -74,8 +74,20 @@ Para desligar o pagamento online, apague o endereço e salve: o site volta a res
 - **Serviços e tempos / Horários:** preços, durações e funcionamento da semana.
 - **Site e pagamentos:** WhatsApp, Instagram, endereço (com mapa), texto "Sobre", depoimentos, fidelidade, meta e servidor de pagamento.
 
-## 5. Conta da cliente no site
-Botão **Entrar** no topo do site. A cliente cria a conta com nome, WhatsApp, e-mail e senha e vê os próximos horários, os procedimentos que já fez e o progresso da fidelidade. Agendar sem conta continua possível.
+## 5. Agendamento sem conta e PIN
+A cliente agenda só com nome e WhatsApp, e cria um **PIN de 4 números**. No botão **Meus horários**, ela entra com WhatsApp e PIN, vê os próximos horários, o histórico e os pontos, e pode cancelar.
+
+Para ligar o PIN:
+1. Publique `firestore.rules` no Firebase (passo 1.3).
+2. Publique o servidor com `npx wrangler deploy` e o segredo `FB_SA` (passos 3.2 e 3.3). O PIN não precisa do token do Mercado Pago.
+3. Painel → **Site e pagamentos** → cole o endereço em **PIN de “Meus horários”** → **Salvar**.
+
+Enquanto o endereço estiver vazio, o agendamento sem conta funciona e o botão **Meus horários** leva ao WhatsApp do studio.
+
+Depois de 5 PINs errados, o WhatsApp fica 15 minutos travado. Se a cliente esquecer o PIN: painel → **Clientes** → abra a cliente → **Criar novo PIN** → envie pelo WhatsApp.
+
+## Fotos dos procedimentos
+Ficam em `img/proc/` e cada procedimento lista as suas no campo `f` de `dados.js`, na ordem em que aparecem ao passar para o lado. Volume Sirena e Esmaltação no pé ainda não têm foto.
 
 ## Limites gratuitos
 Firestore: 50 mil leituras e 20 mil gravações por dia. Cloudflare Workers: 100 mil acessos por dia. Sobra muito para um studio. Nada é cobrado sem você ativar faturamento.

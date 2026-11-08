@@ -35,8 +35,9 @@ service cloud.firestore {
     // horários ocupados e travados: o site lê para mostrar só os horários livres
     match /ocupado/{id} {
       allow read: if true;
-      allow create: if pode("agenda") || pode("travar") || (logado()
-        && request.resource.data.keys().hasOnly(["date", "start", "end", "tipo"])
+      // agendar não exige conta: o site reserva o horário junto com o agendamento
+      allow create: if pode("agenda") || pode("travar") || (
+        request.resource.data.keys().hasOnly(["date", "start", "end", "tipo"])
         && request.resource.data.tipo == "agenda" && horario(request.resource.data));
       allow update: if pode("agenda") || pode("travar");
       // a cliente libera o horário ao cancelar o próprio agendamento (mesmo id)
@@ -45,8 +46,9 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/agendamentos/$(id)).data.get("uid", "") == request.auth.uid);
     }
 
-    // agendamentos: no site só a cliente logada cria, sempre em nome da própria conta,
-    // e só vê os dela; a equipe vê todos
+    // agendamentos: no site qualquer cliente cria, sem conta; só a equipe lê todos.
+    // A cliente vê os dela pelo PIN, através do servidor (pagamentos/worker.js).
+    // Quem tem conta antiga continua vendo e cancelando os seus pelo uid.
     match /agendamentos/{id} {
       allow read: if (logado() && resource.data.get("uid", "") == request.auth.uid) || equipe();
       // equipe muda tudo; a cliente só pode cancelar um agendamento dela que ainda está ativo
@@ -57,18 +59,24 @@ service cloud.firestore {
         && request.resource.data.canceladoPor == "cliente"
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "motivo", "canceladoPor", "canceladoEm", "retido"]));
       allow delete: if master();
-      allow create: if pode("agenda") || (logado()
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(["code", "svc", "itens", "ex", "date", "dateTxt", "start", "end",
-          "total", "dep", "pay", "name", "tel", "obs", "status", "criado", "uid", "email"])
+      allow create: if pode("agenda") || (
+        request.resource.data.keys().hasOnly(["code", "svc", "itens", "ex", "date", "dateTxt", "start", "end",
+          "total", "dep", "pay", "name", "tel", "telKey", "obs", "status", "criado"])
+        && request.resource.data.telKey is string && request.resource.data.telKey.matches('^[0-9]{10,11}$')
         && ((comPagamento() && request.resource.data.status == "aguardando")
           || (!comPagamento() && request.resource.data.status == "reservado"))
         && request.resource.data.criado == request.time
         && horario(request.resource.data)
         && request.resource.data.name is string && request.resource.data.name.size() <= 120
         && request.resource.data.tel is string && request.resource.data.tel.size() <= 30
+        && request.resource.data.tel.replace('[^0-9]', '') == request.resource.data.telKey
         && request.resource.data.obs is string && request.resource.data.obs.size() <= 1000
         && existsAfter(/databases/$(database)/documents/ocupado/$(id)));
+    }
+
+    // PIN das clientes: ninguém lê pelo navegador (só o servidor); a equipe pode criar um novo se ela esquecer
+    match /pins/{tel} {
+      allow create, update: if pode("clientes");
     }
 
     // equipe do painel: só o master cria, muda e remove; cada um lê o próprio cadastro

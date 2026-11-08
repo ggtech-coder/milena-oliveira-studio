@@ -124,9 +124,7 @@ main{padding:30px 34px 60px;min-width:0;max-width:1400px}
 </head>
 <body>
 <div class="login" id="login" hidden><button type="button" class="tema" data-tema style="position:fixed;top:16px;right:16px" aria-label="Trocar tema"></button><form id="flogin"><div class="brand"><img class="lgi" src="img/icone-180.png" alt=""><div><b>MILENA OLIVEIRA</b><small>STUDIO DE BELEZA</small></div></div>
-<div class="seg" style="justify-self:center"><button type="button" data-lt="entrar" aria-pressed="true">Entrar</button><button type="button" data-lt="criar" aria-pressed="false">Criar conta</button></div>
-<p id="lsub">Veja seus horários, seus pontos e cancele se precisar.</p>
-<div id="lcriar" hidden><label class="f">Nome completo<input name="nome" autocomplete="name" minlength="3"></label><label class="f" style="margin-top:16px">WhatsApp com DDD<input name="tel" type="tel" autocomplete="tel" placeholder="(11) 90000-0000"></label></div>
+<p id="lsub">Área da equipe do studio. Clientes veem os horários pelo botão “Meus horários” do site.</p>
 <label class="f">E-mail<input type="email" name="email" autocomplete="username" required></label>
 <label class="f">Senha<input type="password" name="pw" autocomplete="current-password" required minlength="6"></label>
 <p class="err" id="lerr" role="alert"></p><button class="btn" id="lbtn" style="justify-content:center">Entrar</button><button type="button" class="lnk" id="esq" style="justify-self:center">Esqueci a senha</button><a class="lnk" href="./" style="justify-self:center">← Voltar ao site</a></form></div>
@@ -285,8 +283,9 @@ async function salvarNovo(f){const g=k=>f.elements[k].value.trim(),er=m=>$("#ner
  if(!sv.length)return er("Escolha pelo menos um serviço.");if(end>1440)return er("O atendimento passa da meia-noite. Confira horário e duração.");
  const cf=(await DB.range("ocupado",date,date)).find(o=>start<o.end&&end>o.start);
  if(cf&&!confirm(`Esse horário bate com ${cf.tipo=="bloqueio"?"um horário travado":"outro atendimento"} (${hh(cf.start)} – ${hh(cf.end)}). Salvar mesmo assim?`))return;
- const id=DB.newId();f.querySelector(".btn").disabled=true;
- await DB.batch([["set","ocupado",id,{date,start,end,tipo:"agenda"}],["set","agendamentos",id,{code:id,svc:sv.map(s=>s.n).join(" + "),itens:sv.map(s=>({id:s.id,v:s.v})),ex:{},date,dateTxt:fmt(date),start,end,total,dep,pay:"",name:g("name"),tel:g("tel"),obs:g("obs"),status:dep>0?"confirmado":"reservado",origem:"painel",criado:DB.stamp()}]]);
+ const id=DB.newId(),tk=g("tel").replace(/\D/g,"").slice(-11);f.querySelector(".btn").disabled=true;
+ // telKey faz o horário aparecer em "Meus horários" da cliente
+ await DB.batch([["set","ocupado",id,{date,start,end,tipo:"agenda"}],["set","agendamentos",id,{code:id,svc:sv.map(s=>s.n).join(" + "),itens:sv.map(s=>({id:s.id,v:s.v})),ex:{},date,dateTxt:fmt(date),start,end,total,dep,pay:"",name:g("name"),tel:g("tel"),...(tk.length>=10?{telKey:tk}:{}),obs:g("obs"),status:dep>0?"confirmado":"reservado",origem:"painel",criado:DB.stamp()}]]);
  dia=date;toast("Cliente adicionada");go("hoje")}
 
 // ---- clientes e fidelidade
@@ -311,7 +310,7 @@ function drawCl(){const n=+CFG.fid?.n||10,q=cq.toLowerCase(),money=can("caixa");
   <td>${ok?`<span class="gift">${I(IC.gift)} Ganhou a promoção</span>`:`<div class="fid"><div class="prog"><i style="width:${r/n*100}%"></i></div><span class="mu">faltam ${n-r}</span></div>`}</td>${money?`<td class="num">${R(c.gasto)}</td>`:""}<td>${c.ult?fmt(c.ult,{day:"2-digit",month:"short",year:"numeric"}):"—"}</td><td>${c.fut?`<span class="pill p-confirmado">${c.fut} agendado${c.fut>1?"s":""}</span>`:"—"}</td></tr>
   ${copen==c.k?`<tr class="det"><td colspan="${money?6:5}"><b>Procedimentos feitos</b><div class="chips">${Object.entries(c.proc).sort((a,b)=>b[1]-a[1]).map(([s,q])=>`<span class="chip">${E(s)} <b>${q}×</b></span>`).join("")||'<span class="mu">Nenhum concluído ainda.</span>'}</div>
   <b>Histórico</b><div class="hist" style="margin:8px 0 14px">${c.hist.slice().reverse().slice(0,12).map(b=>`<span>${fmt(b.date,{day:"2-digit",month:"short",year:"numeric"})} · ${hh(b.start)} · ${E(b.svc)} · ${STC[b.status]}${money?` · ${R(b.total)}`:""}</span>`).join("")||"—"}</div>
-  ${w?`<a class="btn sm" href="https://wa.me/${w}${ok?"?text="+msg:""}" target="_blank" rel="noopener">${I(IC.wa)}${ok?"Avisar da promoção":"Chamar no WhatsApp"}</a>`:""}</td></tr>`:""}`}).join("")||`<tr><td colspan="6" class="empty">${CL.length?"Nenhuma cliente encontrada.":"Ainda não há clientes."}</td></tr>`}</tbody></table></div></div>`;
+  ${w?`<a class="btn sm" href="https://wa.me/${w}${ok?"?text="+msg:""}" target="_blank" rel="noopener">${I(IC.wa)}${ok?"Avisar da promoção":"Chamar no WhatsApp"}</a> <button class="btn sm gh" data-npin="${E(c.k)}" data-nw="${w}">Criar novo PIN</button>`:""}</td></tr>`:""}`}).join("")||`<tr><td colspan="6" class="empty">${CL.length?"Nenhuma cliente encontrada.":"Ainda não há clientes."}</td></tr>`}</tbody></table></div></div>`;
  const i=$("#cq");if(cqf&&i){cqf=0;i.focus();i.setSelectionRange(i.value.length,i.value.length)}}
 
 // ---- financeiro
@@ -383,12 +382,14 @@ function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelida
  <label class="f">A cliente pode cancelar pelo site até quantas horas antes?<input type="number" name="cancelH" min="0" max="168" value="${CFG.cancelH}"></label></div></div>
  <div class="card wide"><h2>Sobre a Milena</h2><label class="f">Texto da seção “Sobre” do site<textarea name="sobre" rows="4" maxlength="900">${E(CFG.sobre)}</textarea></label></div>
  <div class="card wide"><h2>Depoimentos<button type="button" class="lnk" id="adddep">${I(IC.plus)}Adicionar</button></h2><p class="mu" style="margin:-6px 0 14px">Use só depoimentos reais, com autorização da cliente. Sem nenhum, a seção some do site.</p><div id="deps">${(CFG.depo||[]).map(depRow).join("")}</div></div>
+ <div class="card wide"><h2>PIN de “Meus horários”</h2><label class="f">Endereço do servidor (Cloudflare Worker)<input name="srvURL" value="${E(CFG.srvURL)}" placeholder="https://milena-pagamentos.SEU-USUARIO.workers.dev"></label><p class="hint">Com o endereço preenchido, a cliente cria um PIN ao agendar e vê os horários com WhatsApp e PIN. Vazio, o PIN fica desligado.</p></div>
  <div class="card wide"><h2>Pagamento online do sinal (Mercado Pago)</h2><label class="f">Endereço do servidor de pagamento (Cloudflare Worker)<input name="pagURL" value="${E(CFG.pagURL)}" placeholder="https://milena-pagamentos.SEU-USUARIO.workers.dev"></label>
  <p class="hint">Com o endereço preenchido, a cliente paga 30% por Pix ou cartão no Mercado Pago e o horário se confirma sozinho. Vazio = o site reserva e você confere o sinal à mão. Como configurar: LEIA-ME.md, parte “Mercado Pago”.</p><div style="display:flex;gap:10px;align-items:center;margin-top:12px"><button type="button" class="btn sm gh" id="tpag">Testar conexão</button><span id="tpagr" class="mu"></span></div></div></div>
  <div class="save"><button class="btn">Salvar</button></div></form>`}
 async function salvarSite(f){const g=k=>f.elements[k].value.trim(),depo=[...f.querySelectorAll(".dep")].map(d=>({n:d.querySelector("[name=dn]").value.trim(),t:d.querySelector("[name=dt]").value.trim()})).filter(d=>d.n&&d.t);
- const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),mapa:/^https:\/\//.test(g("mapa"))?g("mapa"):"",sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),pagURL:g("pagURL").replace(/\/+$/,"")};
+ const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),mapa:/^https:\/\//.test(g("mapa"))?g("mapa"):"",sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),pagURL:g("pagURL").replace(/\/+$/,""),srvURL:g("srvURL").replace(/\/+$/,"")};
  if(c.pagURL&&!/^https:\/\//.test(c.pagURL))return toast("O endereço do pagamento precisa começar com https://");
+ if(c.srvURL&&!/^https:\/\//.test(c.srvURL))return toast("O endereço do servidor do PIN precisa começar com https://");
  f.querySelector(".save .btn").disabled=true;await DB.put("config","site",c);applyCfg(c);toast("Site atualizado");go()}
 
 // ---- usuários (só master)
@@ -408,7 +409,11 @@ async function salvarUsr(f){const g=k=>f.elements[k].value.trim(),perms={};Objec
 
 // ---- eventos
 const run=p=>p.catch(e=>{console.error(e);toast("Não foi possível salvar: "+(e.code||e.message));go()});
-P.addEventListener("click",e=>{const t=e.target.closest("button,tr,a")||e.target,d=t.dataset;
+// novo PIN para a cliente que esqueceu: mesma conta do servidor (pagamentos/worker.js), sha256("salt:pin")
+async function novoPin(btn){const tel=btn.dataset.npin;if(!/^\d{10,11}$/.test(tel))return toast("Esta cliente não tem WhatsApp válido.");if(!confirm("Criar um novo PIN para esta cliente? O PIN antigo deixa de funcionar."))return;
+ const pin=String(crypto.getRandomValues(new Uint32Array(1))[0]%10000).padStart(4,"0"),salt=crypto.randomUUID(),h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+":"+pin)),hash=[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");
+ await DB.put("pins",tel,{salt,hash,falhas:0,ate:0});btn.outerHTML=`<a class="btn sm" href="https://wa.me/${btn.dataset.nw}?text=${encodeURIComponent(`Seu novo PIN do site é ${pin}. Use com o seu WhatsApp no botão “Meus horários”.`)}" target="_blank" rel="noopener">Enviar o PIN ${pin} no WhatsApp</a>`;toast("PIN criado")}
+P.addEventListener("click",e=>{const t=e.target.closest("button,tr,a")||e.target,d=t.dataset;if(d.npin){e.stopPropagation();run(novoPin(t));return}
  if(d.dd!=null){dia=d.dd=="0"?hoje0():addD(dia,+d.dd);go()}
  else if(d.go)go(d.go);else if(d.goto){dia=d.goto;go("hoje")}
  else if(t.id=="novo")novoForm();else if(t.id=="nfx")$("#nf").innerHTML="";
@@ -433,23 +438,16 @@ P.addEventListener("input",e=>{const t=e.target;if(t.id=="cq"){cq=t.value;cqf=1;
 P.addEventListener("submit",e=>{e.preventDefault();const f=e.target;run(({fnovo:salvarNovo,fbl:salvarBl,fsv:salvarSv,fhr:salvarHr,fsite:salvarSite,fusr:salvarUsr})[f.id](f))});
 
 // ---- login
-// a mesma tela serve para clientes, equipe e master; "Criar conta" cria sempre conta de cliente
-const LF=$("#flogin");let lt="entrar",novo=null; // novo = perfil recém-criado (o login dispara antes de o perfil ser gravado)
-LF.addEventListener("click",e=>{const b=e.target.closest("[data-lt]");if(!b)return;lt=b.dataset.lt;LF.querySelectorAll("[data-lt]").forEach(x=>x.setAttribute("aria-pressed",x==b));
- $("#lcriar").hidden=lt!="criar";LF.nome.required=LF.tel.required=lt=="criar";$("#lbtn").textContent=lt=="criar"?"Criar minha conta":"Entrar";$("#esq").hidden=lt=="criar";
- LF.pw.autocomplete=lt=="criar"?"new-password":"current-password";$("#lsub").textContent=lt=="criar"?"Crie sua conta para agendar e acompanhar seus pontos.":"Veja seus horários, seus pontos e cancele se precisar.";$("#lerr").textContent=""});
+// login da equipe e das clientes que já tinham conta antes do PIN (novas contas de cliente não são mais criadas)
+const LF=$("#flogin");
 LF.onsubmit=async e=>{e.preventDefault();const er=m=>$("#lerr").textContent=m;er("");LF.querySelector(".btn").disabled=true;
- try{if(lt=="criar"){const nome=LF.nome.value.trim(),tel=LF.tel.value.trim(),dg=tel.replace(/\D/g,"");if(dg.length<10||dg.length>11)throw{code:"tel"};
-   novo={nome,tel};const uid=await DB.signup(LF.email.value.trim(),LF.pw.value);await DB.put("clientes",uid,{nome,tel,email:LF.email.value.trim().toLowerCase(),criado:DB.stamp()});
-   if(ME&&ME.cliente){ME.nome=nome;ME.tel=tel;perfilMe();go("minha")}}
-  else await DB.login(LF.email.value.trim(),LF.pw.value)}
- catch(x){er({tel:"Informe o WhatsApp com DDD.","auth/email-already-in-use":"Já existe uma conta com este e-mail. Use “Entrar”.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.","auth/invalid-email":"E-mail inválido.","auth/too-many-requests":"Muitas tentativas. Espere alguns minutos."}[x.code]||(/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":"Não foi possível agora ("+(x.code||x.message)+")."))}
+ try{await DB.login(LF.email.value.trim(),LF.pw.value)}
+ catch(x){er({"auth/invalid-email":"E-mail inválido.","auth/too-many-requests":"Muitas tentativas. Espere alguns minutos."}[x.code]||(/invalid|wrong|not-found/.test(x.code)?"E-mail ou senha incorretos.":"Não foi possível agora ("+(x.code||x.message)+")."))}
  LF.querySelector(".btn").disabled=false};
 const perfilMe=()=>{$("#menm").textContent=ME.nome;$("#meav").textContent=String(ME.nome)[0].toUpperCase();$("#merl").textContent=ME.master?"Master":ME.cliente?"Cliente":"Equipe";$("#brsub").textContent=ME.cliente?"STUDIO DE BELEZA":"STUDIO · PAINEL"};
 $("#esq").onclick=async()=>{const m=LF.email.value.trim();if(!m)return $("#lerr").textContent="Digite seu e-mail acima e toque de novo em “Esqueci a senha”.";
  try{await DB.resetPw(m);$("#lerr").textContent="Enviamos um link para criar uma nova senha no seu e-mail."}catch(x){$("#lerr").textContent="Não foi possível enviar ("+x.code+")."}};
 $("#sair").innerHTML=I(IC.sair);$("#sair").onclick=$("#sair2").onclick=()=>DB.logout();
-if(location.hash=="#criar")LF.querySelector('[data-lt="criar"]').click();
 DB.onUser(async u=>{const show=id=>["login","semacesso","app"].forEach(x=>$("#"+x).hidden=x!=id);ME=null;
  if(!u)return show("login");
  if(u.uid==DB.MASTER)ME={master:true,nome:"Administrador",email:u.email,uid:u.uid};
@@ -457,7 +455,7 @@ DB.onUser(async u=>{const show=id=>["login","semacesso","app"].forEach(x=>$("#"+
   if(d&&!d.ativo)return show("semacesso");
   if(d)ME={...d,email:u.email,uid:u.uid};
   // sem cadastro na equipe = cliente do site
-  else{const p=await DB.get("clientes",u.uid).catch(()=>null);ME={cliente:true,uid:u.uid,email:u.email,nome:p?.nome||novo?.nome||u.email.split("@")[0],tel:p?.tel||novo?.tel||""}}}
+  else{const p=await DB.get("clientes",u.uid).catch(()=>null);ME={cliente:true,uid:u.uid,email:u.email,nome:p?.nome||u.email.split("@")[0],tel:p?.tel||""}}}
  const c=await DB.get("config","site").catch(()=>null);applyCfg(c);
  // o servidor de pagamento calcula o preço a partir de config/site.svc: garante que esteja completo
  // e, se a tabela de tempos padrão mudou (SVC_V em dados.js), regrava os tempos novos mantendo os preços

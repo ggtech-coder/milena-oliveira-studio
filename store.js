@@ -35,6 +35,19 @@ export async function batch(ops){
   op=="del"?b.delete(r):op=="upd"?b.update(r,data):op=="put"?b.set(r,data,{merge:true}):b.set(r,data)});await b.commit()}
 export const put=(col,id,data)=>batch([["put",col,id,data]]),upd=(col,id,data)=>batch([["upd",col,id,data]]),del=(col,id)=>batch([["del",col,id]]);
 
+// ---- PIN de "Meus horários": sempre conferido no servidor (pagamentos/worker.js), que limita as tentativas.
+// O modo local imita o servidor só para testes.
+const ATIVOS=["aguardando","reservado","confirmado"];
+function pinLocal(rota,{tel,pin,id}){const o=lr(),P=o.pins=o.pins||{},A=o.agendamentos=o.agendamentos||{},d=P[tel];
+ if(!d&&rota=="conferir"){P[tel]={pin};lw(o);return{ok:true,novo:true}}
+ if(!d||d.pin!=pin)return{ok:false,motivo:"errado",restam:4};
+ if(rota=="conferir")return{ok:true};
+ if(rota=="cancelar"){if(!A[id]||A[id].telKey!=tel)return{ok:false,motivo:"nao_encontrado"};A[id].status="cancelado";A[id].canceladoPor="cliente";if(o.ocupado)delete o.ocupado[id];lw(o);return{ok:true}}
+ const L=Object.entries(A).map(([i,b])=>({id:i,...b})).filter(b=>b.telKey==tel),t=b=>new Date(b.date+"T00:00").getTime()+b.start*6e4,now=Date.now();
+ return{ok:true,nome:L.at(-1)?.name||"",feitos:L.filter(b=>b.status=="concluido").length,proximos:L.filter(b=>ATIVOS.includes(b.status)&&t(b)>now).map(b=>({...b,pode:t(b)-now>864e5})),historico:L.filter(b=>["concluido","cancelado"].includes(b.status))}}
+export async function pin(url,rota,dados){if(!ON)return pinLocal(rota,dados);
+ const r=await fetch(url+"/pin/"+rota,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(dados)});if(!r.ok)throw Error("servidor "+r.status);return r.json()}
+
 // ---- contas (painel e clientes). Modo local: contas guardadas em mo_db.auth, sessão em mo_cur.
 const subs=[];let cur=null;try{cur=JSON.parse(localStorage.getItem("mo_cur"))}catch(e){}
 const lset=u=>{cur=u;try{localStorage.setItem("mo_cur",JSON.stringify(u))}catch(e){}subs.forEach(f=>f(u))};

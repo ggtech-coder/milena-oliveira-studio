@@ -3,6 +3,9 @@
 //   POST /pagar   {id}  -> recalcula o sinal pelos preços salvos no painel e cria o checkout do Mercado Pago
 //   POST /webhook       -> aviso do Mercado Pago; com pagamento aprovado, confirma o agendamento
 //   GET  /status?id=    -> situação do agendamento (o site consulta na volta do pagamento)
+//   POST /pin/conferir {tel,pin}     -> cria o PIN se o WhatsApp ainda não tem; senão, confere
+//   POST /pin/meus     {tel,pin}     -> horários da cliente
+//   POST /pin/cancelar {tel,pin,id}  -> cancela um horário dela
 //   cron a cada 10 min  -> reservas não pagas em 40 min expiram e o horário volta a ficar livre
 // Segredos (wrangler secret put): MP_TOKEN (Access Token de produção do Mercado Pago)
 // e FB_SA (JSON da conta de serviço do Firebase). Variáveis em wrangler.toml.
@@ -15,6 +18,7 @@ export default{
   try{
    if(u.pathname=="/pagar"&&req.method=="POST")return J(await pagar(env,(await req.json()).id,u.origin));
    if(u.pathname=="/status"){const id=u.searchParams.get("id");if(id=="TESTE")return J({ok:true,mp:!!env.MP_TOKEN,fb:!!env.FB_SA});const b=await fget(env,"agendamentos/"+limpo(id));return J({status:b?b.status:"nao_encontrado"})}
+   if(u.pathname.startsWith("/pin/")&&req.method=="POST"){const rota=PIN_ROTAS[u.pathname.slice(5)];if(!rota)return J({erro:"rota inexistente"},404);return J(await rota(env,await req.json()))}
    if(u.pathname=="/webhook"){let id=u.searchParams.get("data.id")||u.searchParams.get("id"),type=u.searchParams.get("type")||u.searchParams.get("topic");
     if(req.method=="POST"){try{const b=await req.json();id=b.data?.id||id;type=b.type||b.topic||type}catch(e){}}
     if(type=="payment"&&id)await aprovar(env,id);return new Response("ok")}
@@ -53,6 +57,35 @@ async function aprovar(env,pid){
 async function expirar(env){
  const rows=await fquery(env,"agendamentos","status","aguardando"),lim=Date.now()-PRAZO_MIN*6e4;
  for(const{id,d}of rows){if(Date.parse(d.criado)>lim)continue;await fpatch(env,"agendamentos/"+id,{status:"expirado"});await fdel(env,"ocupado/"+id)}}
+
+// ---- PIN de "Meus horários". A coleção pins só é lida aqui: as regras do Firestore não deixam o navegador ler.
+// Um PIN de 4 números só é seguro com limite de tentativas: depois de 5 erros, o WhatsApp fica 15 minutos travado.
+const PIN_TENT=5,PIN_TRAVA_MIN=15,ATIVOS=["aguardando","reservado","confirmado"];
+const pinTel=t=>{t=String(t||"").replace(/\D/g,"");if(!/^\d{10,11}$/.test(t))throw Error("WhatsApp inválido");return t};
+const pinNum=p=>{if(!/^\d{4}$/.test(p||""))throw Error("PIN inválido");return p};
+const sha=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,"0")).join("");
+const inicio=b=>Date.parse(b.date+"T00:00:00-03:00")+b.start*6e4;
+async function pinConfere(env,tel,pin){const path="pins/"+tel,d=await fget(env,path);if(!d)return{ok:false,motivo:"sem_pin"};
+ if((d.ate||0)>Date.now())return{ok:false,motivo:"bloqueado",minutos:Math.ceil((d.ate-Date.now())/6e4)};
+ if(await sha(d.salt+":"+pin)==d.hash){if(d.falhas)await fpatch(env,path,{falhas:0,ate:0});return{ok:true}}
+ const f=(d.falhas||0)+1,trava=f>=PIN_TENT;await fpatch(env,path,{falhas:trava?0:f,ate:trava?Date.now()+PIN_TRAVA_MIN*6e4:0});
+ return trava?{ok:false,motivo:"bloqueado",minutos:PIN_TRAVA_MIN}:{ok:false,motivo:"errado",restam:PIN_TENT-f}}
+// quem consulta não descobre se o número tem PIN: a resposta é a mesma de um PIN errado
+const pinAcesso=async(env,tel,pin)=>{const r=await pinConfere(env,tel,pin);return r.motivo=="sem_pin"?{ok:false,motivo:"errado"}:r};
+const PIN_ROTAS={
+ async conferir(env,{tel,pin}){tel=pinTel(tel);pinNum(pin);const r=await pinConfere(env,tel,pin);if(r.motivo!="sem_pin")return r;
+  const salt=crypto.randomUUID();await fpatch(env,"pins/"+tel,{salt,hash:await sha(salt+":"+pin),falhas:0,ate:0,criado:new Date().toISOString()});return{ok:true,novo:true}},
+ async meus(env,{tel,pin}){tel=pinTel(tel);pinNum(pin);const a=await pinAcesso(env,tel,pin);if(!a.ok)return a;
+  const[rows,cfg]=await Promise.all([fquery(env,"agendamentos","telKey",tel),fget(env,"config/site")]),now=Date.now(),lim=(cfg?.cancelH??24)*36e5;
+  const L=rows.map(({id,d})=>({id,svc:d.svc,date:d.date,start:d.start,end:d.end,status:d.status,name:d.name})).sort((x,y)=>x.date.localeCompare(y.date)||x.start-y.start);
+  const prox=L.filter(b=>ATIVOS.includes(b.status)&&inicio(b)>now);
+  return{ok:true,nome:L.at(-1)?.name||"",cancelH:lim/36e5,feitos:L.filter(b=>b.status=="concluido").length,proximos:prox.map(b=>({...b,pode:inicio(b)-now>lim})),historico:L.filter(b=>["concluido","cancelado"].includes(b.status)).reverse().slice(0,10)}},
+ async cancelar(env,{tel,pin,id}){tel=pinTel(tel);pinNum(pin);limpo(id);const a=await pinAcesso(env,tel,pin);if(!a.ok)return a;
+  const b=await fget(env,"agendamentos/"+id),lim=((await fget(env,"config/site"))?.cancelH??24)*36e5;
+  if(!b||b.telKey!=tel||!ATIVOS.includes(b.status))return{ok:false,motivo:"nao_encontrado"};
+  if(inicio(b)-Date.now()<=lim)return{ok:false,motivo:"em_cima_da_hora"};
+  await fpatch(env,"agendamentos/"+id,{status:"cancelado",motivo:"",canceladoPor:"cliente",canceladoEm:new Date().toISOString(),...(b.status=="confirmado"||b.pago?{retido:true}:{})});
+  await fdel(env,"ocupado/"+id);return{ok:true}}};
 
 // ---- Firestore (REST com a conta de serviço; não passa pelas regras)
 let tok=null,tokAte=0;
