@@ -151,9 +151,9 @@ dialog{border:0;padding:0;margin:auto;width:min(560px,calc(100vw - 24px));max-he
 <section class="book" id="agendar"><div class="wrap"><div class="orn"><i>✦</i></div><h2>Agende seu horário</h2><p class="lead">Quatro passos simples. Com o sinal de 30%, o horário fica reservado para você.</p><div class="bgrid"><div id="topo"><p class="passo" id="passo"></p><ol class="barras" id="steps" aria-hidden="true"></ol><div class="panel" id="panel"></div></div><aside class="sum" id="sum" aria-live="polite"></aside></div></div></section>
 <section class="about" id="sobre"><div class="wrap"><img src="img/05.jpg" alt="Trabalho feito no studio" loading="lazy"><div><div class="orn"><i>✦</i></div><h2>Sobre a Milena</h2><p class="tx" id="sobretx"></p><a class="btn" href="#agendar">Agendar horário</a></div></div></section>
 <section id="info" class="pale"><div class="wrap"><div class="orn"><i>✦</i></div><h2>Como funciona</h2><p class="lead">Do procedimento ao horário reservado.</p>
-<ol class="how"><li><b>Escolha o procedimento</b><span>Unhas, cílios ou os dois no mesmo horário. O site soma o tempo de tudo.</span></li><li><b>Garanta com 30% de sinal</b><span>O restante você paga no dia. Se faltar sem avisar com antecedência, o sinal não é devolvido.</span></li><li><b>Veja seus horários com o PIN</b><span>Use seu WhatsApp e seu PIN de 4 números. Não precisa de e-mail nem senha.</span></li></ol>
+<ol class="how"><li><b>Escolha o procedimento</b><span>Unhas, cílios ou os dois no mesmo horário. O site soma o tempo de tudo.</span></li><li><b>Garanta com 30% de sinal</b><span>O restante você paga no dia. Se faltar sem avisar com antecedência, o sinal não é devolvido.</span></li><li><b>Veja seus horários com o PIN</b><span>Ao reservar, você recebe um PIN de 4 números. Não precisa de e-mail nem senha.</span></li></ol>
 <h2 class="h2b">Dúvidas frequentes</h2><div class="faq">
-<details><summary>Preciso criar conta para agendar?</summary><p>Não. Basta informar seu nome, seu WhatsApp e criar um PIN de 4 números. Com o WhatsApp e o PIN você vê seus horários quando quiser.</p></details>
+<details><summary>Preciso criar conta para agendar?</summary><p>Não. Basta informar seu nome e seu WhatsApp. Ao reservar, você recebe um PIN de 4 números e, com ele, vê seus horários quando quiser.</p></details>
 <details><summary>Esqueci meu PIN. O que eu faço?</summary><p>Fale com o studio pelo WhatsApp. A equipe cria um PIN novo para você.</p></details>
 <details><summary>Como funciona o sinal de 30%?</summary><p>Ele é pago na hora de agendar e já faz parte do valor total. O restante você paga no dia. Sem o sinal, o horário não fica reservado. <b>Se você faltar na data sem avisar com antecedência, o valor do sinal não é devolvido.</b></p></details>
 <details><summary>Preciso remarcar. O que faço?</summary><p>Fale com o studio pelo WhatsApp, com antecedência, para combinar um novo horário.</p></details>
@@ -227,7 +227,7 @@ function price(){const c=SV[pt];
  $("#pext").innerHTML=(c.ex?`<div class="ext"><h3>Decorações e extras (à parte)</h3>${c.ex.map(i=>`<div><span>${i.n}${i.x?`<small>${i.x}</small>`:""}</span><b>${R(i.p)}</b></div>`).join("")}</div>`:"")+(c.note?`<p class="note">${c.note}</p>`:"")}
 $("#ptabs").onclick=e=>{const k=e.target.dataset.k;if(k){pt=k;price()}};price();conteudo();
 // ---- agendamento
-const S={step:1,cat:"unhas",sel:{},ex:{},date:null,time:null,name:"",tel:lembra.get(),pin:"",pinNovo:false,semPin:false,obs:"",done:null,pend:null,mo:new Date(new Date().getFullYear(),new Date().getMonth(),1)};
+const S={step:1,cat:"unhas",sel:{},ex:{},date:null,time:null,name:"",tel:lembra.get(),pin:"",obs:"",done:null,pend:null,mo:new Date(new Date().getFullYear(),new Date().getMonth(),1)};
 const pick=c=>{const o=S.sel[c];if(!o)return null;const i=all.find(x=>x.id==o.id),m=o.v=="m"&&i.m;return{n:i.n+(m?" (manutenção)":""),p:m?i.m[0]:i.p,d:m?i.m[1]:i.d}};
 const calc=()=>{let p=0,d=0;Object.keys(S.sel).forEach(c=>{const k=pick(c);p+=k.p;d+=k.d});Object.entries(S.ex).forEach(([id,q])=>{const e=all.find(i=>i.id==id);p+=e.p*q;d+=e.d*q});return{p,d,dep:Math.round(p*30)/100}};
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -253,7 +253,15 @@ function done(){const b=S.done,st=b.st,msg=encodeURIComponent(`Olá! Agendei pel
   exp:["fail","O prazo para pagar acabou","O horário foi liberado. Escolha um novo horário para agendar."],
   manual:["","Horário reservado",`${E(b.name)}, reservamos ${E(b.dateTxt)} às <b>${hh(b.start)}</b>. Envie o comprovante do sinal de <b>${R(b.dep)}</b> pelo WhatsApp para confirmar. Código <b>${E(b.code)}</b>.`]}[st];
  const feito=st=="ok"||st=="manual";
- $("#panel").innerHTML=`<div class="ok ${T[0]}"><div class="ic">${st=="wait"?`<svg class="i spin" viewBox="0 0 24 24"><path d="${IC.load}"/></svg>`:I(st=="fail"||st=="exp"?IC.x:IC.ok)}</div><h3 tabindex="-1">${T[1]}</h3><p>${T[2]}</p>${feito?AVISO_SINAL:""}<div class="acts">${st=="fail"?`<button class="btn" id="repg">Tentar pagar de novo</button>`:""}${feito&&pinLigado()?`<button class="btn" data-meus>Ver meus horários</button>`:""}${wa}<button class="btn ghost" id="novo">${st=="fail"||st=="exp"?"Escolher outro horário":"Fazer outro agendamento"}</button></div><p class="err" id="er" role="alert" style="margin-top:12px"></p></div>`}
+ $("#panel").innerHTML=`<div class="ok ${T[0]}"><div class="ic">${st=="wait"?`<svg class="i spin" viewBox="0 0 24 24"><path d="${IC.load}"/></svg>`:I(st=="fail"||st=="exp"?IC.x:IC.ok)}</div><h3 tabindex="-1">${T[1]}</h3><p>${T[2]}</p>${st!="exp"?pinAviso(b):""}${feito?AVISO_SINAL:""}<div class="acts">${st=="fail"?`<button class="btn" id="repg">Tentar pagar de novo</button>`:""}${feito&&pinLigado()?`<button class="btn" data-meus>Ver meus horários</button>`:""}${wa}<button class="btn ghost" id="novo">${st=="fail"||st=="exp"?"Escolher outro horário":"Fazer outro agendamento"}</button></div><p class="err" id="er" role="alert" style="margin-top:12px"></p></div>`}
+// recado do PIN na tela final: a reserva já foi feita, o PIN nunca impede o agendamento
+function pinAviso(b){const r=b.pinR;if(!r)return"";const w=waLink("Olá! Esqueci meu PIN do site. Pode criar um novo?"),esq=w?` <a href="${w}" target="_blank" rel="noopener">Pedir novo PIN</a>`:"",c=m=>`<div class="guarda">${m}</div>`;
+ if(r.pin)return c(`Seu PIN é: <b>${E(r.pin)}</b><br>Anote ou tire uma foto da tela. Com ele e seu WhatsApp, você vê seus horários.`);
+ if(r.existente)return c(`Este WhatsApp já tem um PIN. Use o mesmo para ver seus horários.${esq}`);
+ if(r.ok)return c("PIN confirmado. Use o mesmo para ver seus horários.");
+ if(r.motivo=="falha"||r.motivo=="nao_encontrado")return c(`Seu horário foi reservado, mas o PIN não pôde ser gerado agora.${esq}`);
+ return c(`Seu horário foi reservado, mas o PIN digitado não confere com este WhatsApp.${esq}`)}
+async function ganharPin(b){if(!pinLigado())return null;try{return await DB.pin(CFG.srvURL,"reserva",{tel:b.telKey,pin:S.pin,id:b.code})}catch(x){console.error(x);return{ok:false,motivo:"falha"}}}
 function render(){steps();sum();const P=$("#panel");if(S.done)return done();
  if(S.step==1){const c=SV[S.cat],o=S.sel[S.cat],oi=o&&all.find(i=>i.id==o.id);
   P.innerHTML=`<h3 tabindex="-1">Escolha o procedimento</h3><p class="sub">Pode escolher um de unhas e um de cílios no mesmo horário.</p><div class="seg" role="group" aria-label="Categoria">${Object.entries(SV).map(([k,v])=>`<button data-cat="${k}" aria-pressed="${k==S.cat}">${v.label}${S.sel[k]?'<i class="marc"></i>':""}</button>`).join("")}</div>
@@ -271,12 +279,12 @@ function render(){steps();sum();const P=$("#panel");if(S.done)return done();
   `<div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="nx" ${S.time!=null?"":"disabled"}>${S.time!=null?"Continuar":"Escolha um horário"}</button></div>`}
  if(S.step==3){const pl=pinLigado();
   P.innerHTML=`<h3 tabindex="-1">Seus dados</h3><p class="sub">Não precisa criar conta.</p><label class="f">Nome completo<input id="nm" autocomplete="name" value="${E(S.name)}"></label><label class="f">WhatsApp com DDD<input id="tl" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(11) 90000-0000" value="${E(mascTel(S.tel))}"></label>`+
-  (pl?`<label class="f">PIN de 4 números<small>É com ele que você vê seus horários depois. Na primeira vez, invente um. Se já agendou antes, use o mesmo.</small><input id="pn" class="pinin" inputmode="numeric" maxlength="4" autocomplete="off" value="${E(S.pin)}" aria-label="PIN de 4 números"></label>`:"")+
-  `<label class="f">Observações (opcional)<textarea id="ob" rows="2" placeholder="Ex.: alergias">${E(S.obs)}</textarea></label><div id="confpin"></div><p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="n3">Continuar</button></div>`}
+  (pl?`<label class="f">Já tem PIN? (opcional)<small>Se não tem ou não lembra, deixe em branco. Ao reservar, você recebe seu PIN aqui mesmo.</small><input id="pn" class="pinin" inputmode="numeric" maxlength="4" autocomplete="off" value="${E(S.pin)}" aria-label="PIN de 4 números, opcional"></label>`:"")+
+  `<label class="f">Observações (opcional)<textarea id="ob" rows="2" placeholder="Ex.: alergias">${E(S.obs)}</textarea></label><p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="n3">Continuar</button></div>`}
  if(S.step==4){const c=calc(),on=!!CFG.pagURL;
   P.innerHTML=`<h3 tabindex="-1">Sinal para garantir o horário</h3><p class="sub">O sinal é 30% do total e já faz parte do pagamento. O restante, ${R(c.p-c.dep)}, você paga no dia.</p>
   <div class="valor">${R(c.dep)}<span>de ${R(c.p)}</span></div>${AVISO_SINAL}
-  ${S.pinNovo?`<div class="guarda">Anote seu PIN: <b>${E(S.pin)}</b><br>Com ele e seu WhatsApp, você vê seus horários.</div>`:""}
+
   <p class="empty" style="font-size:17px">${on?"Você vai para o ambiente seguro do Mercado Pago, onde paga com Pix ou cartão, e volta para cá ao terminar. O horário fica separado por 30 minutos enquanto você paga.":"Depois de reservar, envie o comprovante do sinal pelo WhatsApp do studio para confirmar."}</p>
   <p class="err" id="er" role="alert"></p><div class="nav"><button class="btn ghost" id="bk">Voltar</button><button class="btn" id="pg">${on?"Pagar sinal de "+R(c.dep):"Reservar horário"}</button></div>`}}
 function view(){const y=scrollY,C={};document.querySelectorAll("#panel .ph[data-car]").forEach(p=>C[p.dataset.car]=p.firstChild.scrollLeft);render();document.querySelectorAll("#panel .ph[data-car]").forEach(p=>{if(C[p.dataset.car]){p.firstChild.scrollLeft=C[p.dataset.car];carN(p.firstChild)}});if(scrollY!=y)scrollTo({top:y,behavior:"instant"})}
@@ -292,19 +300,13 @@ async function reservar(t,er){
   await API.load();
   if(!slots(S.date).includes(S.time)){S.time=null;irPasso(2);return $("#panel").insertAdjacentHTML("afterbegin",'<p class="err" style="margin-bottom:12px">Esse horário acabou de ser ocupado. Escolha outro.</p>')}
   const c=calc(),b={code:Math.random().toString(36).slice(2,8).toUpperCase(),svc:Object.keys(S.sel).map(k=>pick(k).n).join(" + "),itens:Object.values(S.sel).map(o=>({id:o.id,v:o.v})),ex:S.ex,date:iso(S.date),dateTxt:S.date.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"}),start:S.time,end:S.time+c.d,total:c.p,dep:c.dep,pay:CFG.pagURL?"mp":"pix",name:S.name,tel:S.tel,telKey:dig(S.tel),obs:S.obs,status:CFG.pagURL?"aguardando":"reservado"};
-  await API.add(b);S.pend=b;savePend(b);lembra.set(b.tel);
-  if(CFG.pagURL)await cobrar(b.code);else{S.done={...b,st:"manual"};render();irPara($("#topo"))}}
+  await API.add(b);const p={...b,pinR:await ganharPin(b)};S.pend=p;savePend(CFG.pagURL?p:b);lembra.set(b.tel);
+  if(CFG.pagURL)await cobrar(b.code);else{S.done={...p,st:"manual"};render();irPara($("#topo"))}}
  catch(x){console.error(x);t.disabled=false;t.textContent="Tentar de novo";er("Não foi possível "+(CFG.pagURL?"abrir o pagamento":"reservar")+" agora. Tente de novo.")}}
-// passo 3: confere o PIN sem nunca impedir o agendamento. Quem esqueceu o PIN continua e recupera depois com o studio.
-async function passo3(t,er){S.name=$("#nm").value.trim();S.tel=mascTel($("#tl").value);S.obs=$("#ob").value.trim();S.pin=$("#pn")?.value.trim()||"";const dg=dig(S.tel);er("");$("#confpin").innerHTML="";
+// passo 3: o PIN é opcional e só é usado depois da reserva, para nunca impedir o agendamento
+function passo3(er){S.name=$("#nm").value.trim();S.tel=mascTel($("#tl").value);S.obs=$("#ob").value.trim();S.pin=$("#pn")?.value.trim()||"";const dg=dig(S.tel);er("");
  if(S.name.length<3)return er("Escreva seu nome completo.");if(dg.length<10||dg.length>11)return er("Escreva o WhatsApp com DDD. Exemplo: (11) 90000-0000.");
- if(!pinLigado()||S.semPin){S.pinNovo=false;return irPasso(4)}
- if(!/^\d{4}$/.test(S.pin))return er("O PIN precisa ter 4 números.");
- t.disabled=true;t.textContent="Conferindo…";
- try{const r=await DB.pin(CFG.srvURL,"conferir",{tel:dg,pin:S.pin});if(r.ok){S.pinNovo=!!r.novo;return irPasso(4)}
-  t.disabled=false;t.textContent="Continuar";const wa=CFG.whatsapp?`https://wa.me/55${CFG.whatsapp}?text=${encodeURIComponent("Olá! Esqueci meu PIN do site. Pode criar um novo?")}`:"";
-  $("#confpin").innerHTML=`<div class="conf"><p>${r.motivo=="bloqueado"?`Este PIN foi digitado errado muitas vezes. Tente de novo em ${r.minutos} minutos.`:"Este WhatsApp já tem um PIN, e não é esse. Confira os números."} Se esqueceu, você pode agendar assim mesmo e pedir um novo PIN ao studio.</p><div><button class="btn sm" id="sempin">Agendar sem o PIN</button>${wa?`<a class="lnk" href="${wa}" target="_blank" rel="noopener">Pedir novo PIN</a>`:""}</div></div>`}
- catch(x){console.error(x);S.pinNovo=false;irPasso(4)}}
+ if(S.pin&&S.pin.length!=4)return er("O PIN tem 4 números. Se não tem PIN, deixe em branco.");irPasso(4)}
 $("#panel").addEventListener("input",e=>{if(e.target.id=="tl")e.target.value=mascTel(e.target.value);if(e.target.id=="pn")e.target.value=dig(e.target.value).slice(0,4)});
 $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.target,er=m=>$("#er")&&($("#er").textContent=m);
  if(t.dataset.cat){S.cat=t.dataset.cat;view()}
@@ -315,10 +317,10 @@ $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.t
  else if(t.id=="pv"){S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()-1,1);view()}
  else if(t.id=="nxm"){S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+1,1);view()}
  else if(t.id=="nx"){irPasso(S.step+1);if(S.step==2)API.load().then(view)}else if(t.id=="bk"){irPasso(S.step-1)}
- else if(t.id=="novo"){Object.assign(S,{step:1,sel:{},ex:{},date:null,time:null,done:null,pend:null,pin:"",pinNovo:false,semPin:false});history.replaceState(null,"",location.pathname+"#agendar");irPasso(1)}
+ else if(t.id=="novo"){Object.assign(S,{step:1,sel:{},ex:{},date:null,time:null,done:null,pend:null,pin:""});history.replaceState(null,"",location.pathname+"#agendar");irPasso(1)}
  else if(t.id=="repg"){t.disabled=true;cobrar(S.done.code).catch(x=>{t.disabled=false;er(x.message=="este agendamento não está aguardando pagamento"?"O prazo para pagar acabou. Escolha outro horário.":"Não foi possível abrir o pagamento. Tente de novo.")})}
- else if(t.id=="sempin"){S.semPin=true;S.pinNovo=false;S.pin="";irPasso(4)}
- else if(t.id=="n3")passo3(t,er)
+
+ else if(t.id=="n3")passo3(er)
  else if(t.id=="pg")reservar(t,er)});
 $("#panel").addEventListener("change",e=>{const t=e.target;
  if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}});
@@ -339,7 +341,7 @@ const SL={aguardando:"Aguardando pagamento do sinal",reservado:"Aguardando confi
 const waLink=t=>CFG.whatsapp?`https://wa.me/55${CFG.whatsapp}?text=${encodeURIComponent(t)}`:"";
 function mhView(){const B=$("#dm"),wEsq=waLink("Olá! Esqueci meu PIN do site. Pode criar um novo?");
  if(!pinLigado()){const w=waLink("Olá! Quero confirmar meus horários.");B.innerHTML=`<p>Para ver seus horários, fale com o studio pelo WhatsApp.</p>${w?`<a class="btn" href="${w}" target="_blank" rel="noopener">${I(IC.wa)}Falar com o studio</a>`:""}`;return}
- if(!MH.dados){B.innerHTML=`<p>Digite o WhatsApp e o PIN que você usou ao agendar.</p><form id="fpin"><label class="f">WhatsApp com DDD<input id="mtel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(11) 90000-0000" value="${E(mascTel(MH.tel||lembra.get()))}" required></label><label class="f">PIN de 4 números<input id="mpin" class="pinin" inputmode="numeric" maxlength="4" autocomplete="off" required></label><p class="err" role="alert" style="margin-bottom:14px">${E(MH.erro)}</p><button class="btn">Ver meus horários</button></form>${wEsq?`<a class="lnk" href="${wEsq}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px">Esqueci meu PIN</a>`:""}`;return}
+ if(!MH.dados){B.innerHTML=`<p>Digite seu WhatsApp e o PIN que você recebeu ao agendar.</p><form id="fpin"><label class="f">WhatsApp com DDD<input id="mtel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(11) 90000-0000" value="${E(mascTel(MH.tel||lembra.get()))}" required></label><label class="f">PIN de 4 números<input id="mpin" class="pinin" inputmode="numeric" maxlength="4" autocomplete="off" required></label><p class="err" role="alert" style="margin-bottom:14px">${E(MH.erro)}</p><button class="btn">Ver meus horários</button></form>${wEsq?`<a class="lnk" href="${wEsq}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px">Esqueci meu PIN</a>`:""}`;return}
  const d=MH.dados;
  if(MH.cancela){const b=d.proximos.find(x=>x.id==MH.cancela);B.innerHTML=`<h3 class="dlab">Cancelar este horário?</h3><div class="hor"><div class="q">${dataL(b)} às ${hh(b.start)}</div><p>${E(b.svc)}</p></div><div class="aviso">${I(IC.alert)}<span>O valor do sinal não é devolvido automaticamente. Fale com o studio para combinar.</span></div><p class="err" role="alert" style="margin-bottom:12px">${E(MH.erro)}</p><div class="acoes"><button class="btn" id="mcsim">Sim, cancelar horário</button><button class="btn ghost" id="mcnao">Não, manter horário</button></div>`;return}
  const n=+CFG.fid.n||10,r=d.feitos%n,ganhou=d.feitos&&r==0,w=waLink("Olá! Preciso falar sobre o meu horário.");

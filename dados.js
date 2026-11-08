@@ -9,7 +9,7 @@ const CFG={whatsapp:"11937787606",instagram:"studiomilenaoliveirabr",
  meta:4000, // meta de faturamento do mês (painel)
  cancelH:24, // a cliente pode cancelar pelo painel até estas horas antes do horário
  pagURL:"", // endereço do servidor de pagamento (Cloudflare Worker); vazio = sem pagamento online
- srvURL:"", // endereço do mesmo servidor para o PIN de "Meus horários"; vazio = PIN desligado
+ srvURL:"https://milena-pagamentos.gg-tech-suporte.workers.dev", // servidor do PIN de "Meus horários"; vazio = PIN desligado
  // horário de funcionamento por dia da semana (0=dom). null = fechado.
  horas:{0:null,1:null,2:["09:00","18:00"],3:["09:00","18:00"],4:["09:00","18:00"],5:["09:00","18:00"],6:["09:00","16:00"]},
  passo:30,diasAFrente:60,antecedenciaH:3};

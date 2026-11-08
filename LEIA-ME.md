@@ -75,7 +75,7 @@ Para desligar o pagamento online, apague o endereço e salve: o site volta a res
 - **Site e pagamentos:** WhatsApp, Instagram, endereço (com mapa), texto "Sobre", depoimentos, fidelidade, meta e servidor de pagamento.
 
 ## 5. Agendamento sem conta e PIN
-A cliente agenda só com nome e WhatsApp, e cria um **PIN de 4 números**. No botão **Meus horários**, ela entra com WhatsApp e PIN, vê os próximos horários, o histórico e os pontos, e pode cancelar.
+A cliente agenda só com nome e WhatsApp e, ao reservar, recebe um **PIN de 4 números** na tela. Quem já tem PIN pode informar, mas não é obrigatório. No botão **Meus horários**, ela entra com WhatsApp e PIN, vê os próximos horários, o histórico e os pontos, e pode cancelar.
 
 Para ligar o PIN:
 1. Publique `firestore.rules` no Firebase (passo 1.3).

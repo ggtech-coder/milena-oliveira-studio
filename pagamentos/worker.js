@@ -3,7 +3,7 @@
 //   POST /pagar   {id}  -> recalcula o sinal pelos preços salvos no painel e cria o checkout do Mercado Pago
 //   POST /webhook       -> aviso do Mercado Pago; com pagamento aprovado, confirma o agendamento
 //   GET  /status?id=    -> situação do agendamento (o site consulta na volta do pagamento)
-//   POST /pin/conferir {tel,pin}     -> cria o PIN se o WhatsApp ainda não tem; senão, confere
+//   POST /pin/reserva  {tel,pin?,id} -> depois da reserva: entrega um PIN novo se o WhatsApp não tem; senão, confere o informado
 //   POST /pin/meus     {tel,pin}     -> horários da cliente
 //   POST /pin/cancelar {tel,pin,id}  -> cancela um horário dela
 //   cron a cada 10 min  -> reservas não pagas em 40 min expiram e o horário volta a ficar livre
@@ -60,7 +60,7 @@ async function expirar(env){
 
 // ---- PIN de "Meus horários". A coleção pins só é lida aqui: as regras do Firestore não deixam o navegador ler.
 // Um PIN de 4 números só é seguro com limite de tentativas: depois de 5 erros, o WhatsApp fica 15 minutos travado.
-const PIN_TENT=5,PIN_TRAVA_MIN=15,ATIVOS=["aguardando","reservado","confirmado"];
+const PIN_TENT=5,PIN_TRAVA_MIN=15,PIN_RESERVA_MIN=30,ATIVOS=["aguardando","reservado","confirmado"];
 const pinTel=t=>{t=String(t||"").replace(/\D/g,"");if(!/^\d{10,11}$/.test(t))throw Error("WhatsApp inválido");return t};
 const pinNum=p=>{if(!/^\d{4}$/.test(p||""))throw Error("PIN inválido");return p};
 const sha=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,"0")).join("");
@@ -73,8 +73,12 @@ async function pinConfere(env,tel,pin){const path="pins/"+tel,d=await fget(env,p
 // quem consulta não descobre se o número tem PIN: a resposta é a mesma de um PIN errado
 const pinAcesso=async(env,tel,pin)=>{const r=await pinConfere(env,tel,pin);return r.motivo=="sem_pin"?{ok:false,motivo:"errado"}:r};
 const PIN_ROTAS={
- async conferir(env,{tel,pin}){tel=pinTel(tel);pinNum(pin);const r=await pinConfere(env,tel,pin);if(r.motivo!="sem_pin")return r;
-  const salt=crypto.randomUUID();await fpatch(env,"pins/"+tel,{salt,hash:await sha(salt+":"+pin),falhas:0,ate:0,criado:new Date().toISOString()});return{ok:true,novo:true}},
+ // só entrega PIN a quem acabou de reservar com este WhatsApp; informar um PIN é opcional
+ async reserva(env,{tel,pin,id}){tel=pinTel(tel);limpo(id);if(pin)pinNum(pin);const b=await fget(env,"agendamentos/"+id);
+  if(!b||b.telKey!=tel||!(Date.parse(b.criado)>Date.now()-PIN_RESERVA_MIN*6e4))return{ok:false,motivo:"nao_encontrado"};
+  if(await fget(env,"pins/"+tel))return pin?pinConfere(env,tel,pin):{ok:true,existente:true};
+  const novo=pin||String(crypto.getRandomValues(new Uint32Array(1))[0]%1e4).padStart(4,"0"),salt=crypto.randomUUID();
+  await fpatch(env,"pins/"+tel,{salt,hash:await sha(salt+":"+novo),falhas:0,ate:0,criado:new Date().toISOString()});return{ok:true,novo:true,pin:novo}},
  async meus(env,{tel,pin}){tel=pinTel(tel);pinNum(pin);const a=await pinAcesso(env,tel,pin);if(!a.ok)return a;
   const[rows,cfg]=await Promise.all([fquery(env,"agendamentos","telKey",tel),fget(env,"config/site")]),now=Date.now(),lim=(cfg?.cancelH??24)*36e5;
   const L=rows.map(({id,d})=>({id,svc:d.svc,date:d.date,start:d.start,end:d.end,status:d.status,name:d.name})).sort((x,y)=>x.date.localeCompare(y.date)||x.start-y.start);

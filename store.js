@@ -39,9 +39,9 @@ export const put=(col,id,data)=>batch([["put",col,id,data]]),upd=(col,id,data)=>
 // O modo local imita o servidor só para testes.
 const ATIVOS=["aguardando","reservado","confirmado"];
 function pinLocal(rota,{tel,pin,id}){const o=lr(),P=o.pins=o.pins||{},A=o.agendamentos=o.agendamentos||{},d=P[tel];
- if(!d&&rota=="conferir"){P[tel]={pin};lw(o);return{ok:true,novo:true}}
+ if(rota=="reserva"){if(!A[id]||A[id].telKey!=tel)return{ok:false,motivo:"nao_encontrado"};if(!d){const g=pin||String(Math.floor(Math.random()*1e4)).padStart(4,"0");P[tel]={pin:g};lw(o);return{ok:true,novo:true,pin:g}}if(!pin)return{ok:true,existente:true};return d.pin==pin?{ok:true}:{ok:false,motivo:"errado",restam:4}}
  if(!d||d.pin!=pin)return{ok:false,motivo:"errado",restam:4};
- if(rota=="conferir")return{ok:true};
+
  if(rota=="cancelar"){if(!A[id]||A[id].telKey!=tel)return{ok:false,motivo:"nao_encontrado"};A[id].status="cancelado";A[id].canceladoPor="cliente";if(o.ocupado)delete o.ocupado[id];lw(o);return{ok:true}}
  const L=Object.entries(A).map(([i,b])=>({id:i,...b})).filter(b=>b.telKey==tel),t=b=>new Date(b.date+"T00:00").getTime()+b.start*6e4,now=Date.now();
  return{ok:true,nome:L.at(-1)?.name||"",feitos:L.filter(b=>b.status=="concluido").length,proximos:L.filter(b=>ATIVOS.includes(b.status)&&t(b)>now).map(b=>({...b,pode:t(b)-now>864e5})),historico:L.filter(b=>["concluido","cancelado"].includes(b.status))}}
