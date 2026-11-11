@@ -7,6 +7,7 @@ const CFG={whatsapp:"11937787606",instagram:"studiomilenaoliveirabr",
  depo:[], // depoimentos: [{n:"Nome", t:"texto"}]
  fid:{n:10,premio:"um desconto especial"}, // fidelidade: a cada n atendimentos concluídos
  meta:4000, // meta de faturamento do mês (painel)
+ sinal:30, // valor do sinal, em reais, por procedimento agendado (unhas + cílios = 2 sinais)
  cancelH:24, // a cliente pode cancelar pelo painel até estas horas antes do horário
  pagURL:"", // endereço do servidor de pagamento (Cloudflare Worker); vazio = sem pagamento online
  srvURL:"https://milena-pagamentos.gg-tech-suporte.workers.dev", // servidor do PIN de "Meus horários"; vazio = PIN desligado
@@ -39,6 +40,21 @@ const all=[...SV.unhas.items,...SV.unhas.ex,...SV.cilios.items];
 // menor tem os tempos ignorados (os preços dela continuam valendo) e o painel regrava com os novos.
 const SVC_V=2;
 // aplica a configuração salva no banco (documento config/site) sobre os valores padrão
-const CFG_KEYS=["horas","passo","diasAFrente","antecedenciaH","whatsapp","instagram","endereco","mapa","sobre","depo","fid","meta","cancelH","pagURL","srvURL"];
+const CFG_KEYS=["horas","passo","diasAFrente","antecedenciaH","whatsapp","instagram","endereco","mapa","sobre","depo","fid","meta","cancelH","sinal","pagURL","srvURL"];
 function applyCfg(c){if(!c)return;CFG_KEYS.forEach(k=>{if(c[k]!=null&&c[k]!=="")CFG[k]=c[k]});const velha=(c.svcV||1)<SVC_V;
  all.forEach(i=>{const v=c.svc&&c.svc[i.id];if(!v)return;i.p=v.p;if(i.m&&v.m)i.m=[v.m[0],velha?i.m[1]:v.m[1]];if(!velha)i.d=v.d})}
+// ---- fotos do site. Cada foto é uma referência: "img/01.jpg" (arquivo do site), "n06" (arquivo em img/proc/) ou
+// "db:ID" (foto enviada pelo painel, guardada na coleção "fotos" do banco). O painel (menu Fotos do site, só o
+// administrador) grava as listas em config/fotos; applyFotos aplica por cima dos padrões abaixo.
+const FOTOS={hero:"img/pro.jpg",sobre:"img/05.jpg",galeria:Array.from({length:16},(_,i)=>"img/"+String(i+1).padStart(2,"0")+".jpg")};
+const fotoOk=r=>typeof r=="string"&&/^(db:[A-Za-z0-9]{4,20}|[\w-]{1,40}|img\/[\w\/-]{1,60}\.(jpg|png|webp))$/.test(r);
+function applyFotos(c){if(!c)return;["hero","sobre"].forEach(k=>{if(fotoOk(c[k]))FOTOS[k]=c[k]});if(Array.isArray(c.galeria))FOTOS.galeria=c.galeria.filter(fotoOk);
+ if(c.proc)all.forEach(i=>{const L=c.proc[i.id];if(Array.isArray(L))i.f=L.filter(fotoOk)})}
+const FOTO_PX="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+const fotoSrc=r=>r.startsWith("db:")?"":r.includes("/")?r:"img/proc/"+r+".jpg";
+// atributos do <img> de uma referência; as fotos do banco são carregadas depois por fotoLoad
+const fotoAttr=r=>r.startsWith("db:")?`src="${FOTO_PX}" data-fid="${r.slice(3)}"`:`src="${fotoSrc(r)}"`;
+const FOTO_CACHE={};
+function fotoLoad(img,get){const id=img.dataset.fid;if(!id)return;delete img.dataset.fid;(FOTO_CACHE[id]=FOTO_CACHE[id]||get("fotos",id)).then(d=>{if(d&&d.d)img.src=d.d}).catch(()=>{delete FOTO_CACHE[id]})}
+// carrega as fotos do banco de tudo que aparecer na página (get = DB.get do store.js)
+function fotoAuto(get){const run=()=>document.querySelectorAll("img[data-fid]").forEach(i=>fotoLoad(i,get));new MutationObserver(run).observe(document.body,{childList:true,subtree:true});run()}

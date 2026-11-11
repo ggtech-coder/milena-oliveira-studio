@@ -27,9 +27,16 @@ service cloud.firestore {
     }
 
     // horários, preços, textos do site: todos leem, só quem tem a permissão "config" altera
+    // config/fotos (quais fotos aparecem no site) só o administrador master altera
     match /config/{id} {
       allow read: if true;
-      allow write: if pode("config");
+      allow write: if master() || (pode("config") && id != "fotos");
+    }
+
+    // fotos enviadas pelo painel: o site lê para mostrar; só o administrador master envia, troca e apaga
+    match /fotos/{id} {
+      allow read: if true;
+      allow write: if master();
     }
 
     // horários ocupados e travados: o site lê para mostrar só os horários livres
@@ -61,7 +68,8 @@ service cloud.firestore {
       allow delete: if master();
       allow create: if pode("agenda") || (
         request.resource.data.keys().hasOnly(["code", "svc", "itens", "ex", "date", "dateTxt", "start", "end",
-          "total", "dep", "pay", "name", "tel", "telKey", "obs", "status", "criado"])
+          "total", "dep", "pay", "name", "tel", "telKey", "obs", "status", "criado", "modelo"])
+        && request.resource.data.get("modelo", "") is string && request.resource.data.get("modelo", "").size() <= 80
         && request.resource.data.telKey is string && request.resource.data.telKey.matches('^[0-9]{10,11}$')
         && ((comPagamento() && request.resource.data.status == "aguardando")
           || (!comPagamento() && request.resource.data.status == "reservado"))

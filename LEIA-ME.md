@@ -29,7 +29,9 @@
 - **Tirar acesso** bloqueia o painel na hora, sem apagar a conta. **Enviar nova senha** manda um link por e-mail.
 - Contas de clientes do site não entram no painel.
 
-## 3. Mercado Pago (sinal de 30% por Pix ou cartão)
+## 3. Mercado Pago (sinal por Pix ou cartão)
+O sinal é de **R$ 30 por procedimento** (unhas + cílios no mesmo horário = R$ 60). O valor muda no painel, em **Site e pagamentos**.
+
 Como funciona: a cliente escolhe o horário, o site cria a reserva como **Aguardando pagamento** e manda para o checkout do Mercado Pago. Quando o pagamento é aprovado, o servidor marca **Sinal pago** sozinho. Se ela não pagar em 40 minutos, a reserva expira e o horário volta a ficar livre.
 
 O valor do sinal é sempre recalculado no servidor com os preços do painel, então ninguém consegue pagar menos mexendo no navegador.
@@ -86,8 +88,15 @@ Enquanto o endereço estiver vazio, o agendamento sem conta funciona e o botão 
 
 Depois de 5 PINs errados, o WhatsApp fica 15 minutos travado. Se a cliente esquecer o PIN: painel → **Clientes** → abra a cliente → **Criar novo PIN** → envie pelo WhatsApp.
 
-## Fotos dos procedimentos
-Ficam em `img/proc/` e cada procedimento lista as suas no campo `f` de `dados.js`, na ordem em que aparecem ao passar para o lado. Volume Sirena e Esmaltação no pé ainda não têm foto.
+## Fotos do site
+No painel, menu **Fotos do site** (só o administrador master vê): troque a foto do topo, a da seção Sobre, os **Trabalhos recentes** e as fotos de cada procedimento. Dá para adicionar, remover e mudar a ordem; vale depois de **Salvar fotos**.
+
+As fotos enviadas pelo painel são reduzidas no próprio aparelho e guardadas no banco (coleção `fotos`), sem custo. Para funcionar, publique o `firestore.rules` atualizado (passo 1.3).
+
+As fotos originais do site ficam em `img/` e `img/proc/` (lista no campo `f` de `dados.js`) e valem enquanto nada for salvo no painel.
+
+## Modelo em mente e mensagem no WhatsApp
+Ao agendar, a cliente pode tocar em uma foto (dos trabalhos ou do procedimento) e marcar como modelo. No fim, o botão **Avisar a Milena no WhatsApp** abre a conversa com a mensagem pronta: procedimento, dia, horário, nome, código e o link da foto escolhida. O modelo também aparece na **Agenda do dia** do painel.
 
 ## Limites gratuitos
 Firestore: 50 mil leituras e 20 mil gravações por dia. Cloudflare Workers: 100 mil acessos por dia. Sobra muito para um studio. Nada é cobrado sem você ativar faturamento.

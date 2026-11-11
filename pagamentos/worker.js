@@ -9,7 +9,7 @@
 //   cron a cada 10 min  -> reservas não pagas em 40 min expiram e o horário volta a ficar livre
 // Segredos (wrangler secret put): MP_TOKEN (Access Token de produção do Mercado Pago)
 // e FB_SA (JSON da conta de serviço do Firebase). Variáveis em wrangler.toml.
-const SINAL=0.30,PRAZO_MIN=40;
+const SINAL=30,PRAZO_MIN=40; // sinal em reais por procedimento (o painel pode mudar em config/site.sinal)
 
 export default{
  async fetch(req,env){const u=new URL(req.url),cors={"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST,OPTIONS","Access-Control-Allow-Headers":"Content-Type"};
@@ -33,13 +33,13 @@ async function pagar(env,id,origin){limpo(id);
  const b=await fget(env,"agendamentos/"+id);if(!b)throw Error("agendamento não encontrado");
  if(b.status!="aguardando")throw Error("este agendamento não está aguardando pagamento");
  // o valor nunca vem do navegador: é recalculado com os preços do painel (config/site.svc)
- const sv=((await fget(env,"config/site"))||{}).svc||{};let total=0;
+ const cfg=(await fget(env,"config/site"))||{},sv=cfg.svc||{};let total=0;
  for(const it of b.itens||[]){const s=sv[it.id];if(!s)throw Error("serviço sem preço no painel: "+it.id);total+=it.v=="m"&&s.m?s.m[0]:s.p}
  for(const[k,q]of Object.entries(b.ex||{})){const s=sv[k];if(!s)throw Error("extra sem preço no painel: "+k);total+=s.p*Math.min(10,Math.max(0,q|0))}
- if(!(total>0))throw Error("valor inválido");const dep=Math.round(total*SINAL*100)/100;
+ if(!(total>0))throw Error("valor inválido");const dep=Math.min(total,Math.round((cfg.sinal??SINAL)*(b.itens||[]).length*100)/100);if(!(dep>0))throw Error("sinal inválido");
  const back=r=>`${env.SITE_URL}?pg=${id}&r=${r}#agendar`;
  const r=await fetch("https://api.mercadopago.com/checkout/preferences",{method:"POST",headers:{Authorization:"Bearer "+env.MP_TOKEN,"Content-Type":"application/json"},body:JSON.stringify({
-  items:[{id,title:("Sinal 30% — "+b.svc).slice(0,250),quantity:1,unit_price:dep,currency_id:"BRL"}],
+  items:[{id,title:("Sinal — "+b.svc).slice(0,250),quantity:1,unit_price:dep,currency_id:"BRL"}],
   payer:b.email?{email:b.email}:undefined,external_reference:id,notification_url:origin+"/webhook",
   back_urls:{success:back("ok"),pending:back("pendente"),failure:back("falhou")},auto_return:"approved",
   payment_methods:{excluded_payment_types:[{id:"ticket"}],installments:1},
