@@ -3,7 +3,7 @@
 // localStorage.mo_local="1" (testes), usa o localStorage do navegador.
 // Coleções: config/site (horários, preços, textos), ocupado (horários tomados e bloqueios, leitura pública),
 // agendamentos (dados das clientes), usuarios (equipe do painel e permissões), clientes (contas das clientes).
-import {FIREBASE,MASTER} from "./firebase-config.js";
+import {FIREBASE,MASTER} from "./firebase-config.js?v=20261112";
 let forceLocal=false;try{forceLocal=localStorage.getItem("mo_local")=="1"}catch(e){}
 export const ON=!!FIREBASE.projectId&&!forceLocal;
 export {MASTER};

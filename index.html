@@ -73,7 +73,7 @@ h2{font-size:clamp(38px,4.6vw,56px);margin-bottom:14px}
 .seg .marc{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-left:8px;vertical-align:1px}
 /* cartões de procedimento */
 .ph{position:relative;background:var(--blush);overflow:hidden;display:grid;place-items:center;color:var(--gold);font-size:26px}
-.car-t{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.car-t::-webkit-scrollbar{display:none}.car-t img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;scroll-snap-stop:always}#plist .car-t img{cursor:zoom-in}
+.car-t{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.car-t::-webkit-scrollbar{display:none}.car-t img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;scroll-snap-stop:always}#plist .car-t img{cursor:zoom-in}
 .car-b{position:absolute;top:56%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,253,251,.92);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 10px rgba(90,60,40,.2)}.car-b svg.i{width:18px;height:18px}.car-b.p{left:8px}.car-b.n{right:8px}
 .car-n{position:absolute;left:50%;transform:translateX(-50%);bottom:9px;background:rgba(255,253,251,.9);color:var(--ink);font-size:12px;letter-spacing:.06em;line-height:1;padding:6px 11px;border-radius:20px;pointer-events:none;white-space:nowrap}
 .sc .car-b{width:28px;height:28px;top:50%}.sc .car-b svg.i{width:14px;height:14px}.sc .car-b.p{left:4px}.sc .car-b.n{right:4px}.sc .car-n{bottom:5px;font-size:11px;padding:4px 7px}@media(hover:none){.sc .car-b,.pc .car-b{display:none}}
@@ -167,6 +167,7 @@ dialog{border:0;padding:0;margin:auto;width:min(560px,calc(100vw - 24px));max-he
  .slots{grid-template-columns:repeat(3,1fr)}.cal{gap:5px}.valor{font-size:46px}
  .about .wrap,.contact .wrap{grid-template-columns:1fr}.about .arch{margin:0 44px;max-width:none}.how{grid-template-columns:1fr;gap:30px}.faq summary{font-size:21px}.faq p{padding-right:10px}
  .fab{left:18px;right:18px}#lb img{max-width:92vw;max-height:66vh}}
+@supports not (aspect-ratio:1){.pc .ph{height:0;padding-top:133%}.track figure{height:347px}.arch img{height:auto;min-height:420px}.ph{display:block}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.fab,.rv{transition:none}.rv{opacity:1;transform:none}.selo .sr,.mq div,.hero .wrap>div:first-child>*,.arch{animation:none}}
 </style>
 </head>
@@ -199,7 +200,7 @@ dialog{border:0;padding:0;margin:auto;width:min(560px,calc(100vw - 24px));max-he
 <div id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada"><button class="ar" id="lbx" aria-label="Fechar"></button><img id="lbi" alt="Trabalho feito no studio"><div class="lbq"><button class="ar" id="lbp" aria-label="Foto anterior"></button><button class="btn" id="lbm">Quero um modelo assim</button><button class="ar" id="lbn" aria-label="Próxima foto"></button></div></div>
 <div id="tst" role="status"></div>
 <dialog id="dmeus" aria-labelledby="dmt"><div class="dh"><h3 id="dmt">Meus horários</h3><button class="dx" id="dmx" aria-label="Fechar"></button></div><div class="db" id="dm"></div></dialog>
-<script src="dados.js"></script>
+<script src="dados.js?v=20261112"></script>
 <script>
 // CFG, SV, all e applyCfg ficam em dados.js (compartilhados com o painel admin.html)
 const $=s=>document.querySelector(s),R=n=>"R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:Number.isInteger(n)?0:2,maximumFractionDigits:2}),E=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -411,7 +412,7 @@ dm.addEventListener("click",async e=>{const t=e.target.closest("button,a");if(!t
   else{MH.erro=r.motivo=="em_cima_da_hora"?"Falta pouco para o horário. Fale com o studio pelo WhatsApp.":r.motivo=="nao_encontrado"?"Este horário não pode mais ser cancelado.":motivoPin(r);mhView()}}
   catch(x){console.error(x);MH.erro="Sem conexão com o studio agora. Tente de novo em instantes.";mhView()}}});
 // ---- inicialização: banco, preços e textos do painel, agenda ocupada
-import("./store.js").then(async m=>{DB=m;fotoAuto(DB.get);const fq=new URLSearchParams(location.search).get("foto");if(fq&&fotoOk("db:"+fq))openLb(0,["db:"+fq]);
+import("./store.js?v=20261112").then(async m=>{DB=m;fotoAuto(DB.get);const fq=new URLSearchParams(location.search).get("foto");if(fq&&fotoOk("db:"+fq))openLb(0,["db:"+fq]);
  const[c,ft]=await Promise.all([DB.get("config","site").catch(()=>null),DB.get("config","fotos").catch(()=>null)]);applyCfg(c);applyFotos(ft);if(ft)galeria();price();conteudo();view();await API.load();view();retorno()}).catch(e=>console.error("Agenda indisponível",e));
 // ---- faixa com os nomes dos serviços e entrada suave das seções ao rolar
 {const M=["Alongamento em gel","Extensão de cílios","Esmaltação em gel","Banho em gel","Volume Brasileiro","Nail art","Volume Fox","Decoração 3D"].map(t=>`<span>${t}</span><i>✦</i>`).join("");$("#mq").innerHTML=M+M}

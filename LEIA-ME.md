@@ -88,6 +88,9 @@ Enquanto o endereço estiver vazio, o agendamento sem conta funciona e o botão 
 
 Depois de 5 PINs errados, o WhatsApp fica 15 minutos travado. Se a cliente esquecer o PIN: painel → **Clientes** → abra a cliente → **Criar novo PIN** → envie pelo WhatsApp.
 
+## Atualizar o site sem a cliente ver versão antiga
+O GitHub Pages deixa os arquivos guardados no celular por até 10 minutos. Quando mudar `dados.js`, `store.js` ou `firebase-config.js`, troque o número `?v=` nos links deles (em `index.html`, `admin.html` e `store.js`) para o navegador buscar a versão nova.
+
 ## Fotos do site
 No painel, menu **Fotos do site** (só o administrador master vê): troque a foto do topo, a da seção Sobre, os **Trabalhos recentes** e as fotos de cada procedimento. Dá para adicionar, remover e mudar a ordem; vale depois de **Salvar fotos**.
 
