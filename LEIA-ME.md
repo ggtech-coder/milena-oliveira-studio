@@ -92,7 +92,7 @@ Depois de 5 PINs errados, o WhatsApp fica 15 minutos travado. Se a cliente esque
 O GitHub Pages deixa os arquivos guardados no celular por até 10 minutos. Quando mudar `dados.js`, `store.js` ou `firebase-config.js`, troque o número `?v=` nos links deles (em `index.html`, `admin.html` e `store.js`) para o navegador buscar a versão nova.
 
 ## Fotos do site
-No painel, menu **Fotos do site** (só o administrador master vê): troque a foto do topo, a da seção Sobre, os **Trabalhos recentes** e as fotos de cada procedimento. Dá para adicionar, remover e mudar a ordem; vale depois de **Salvar fotos**.
+No painel, menu **Fotos do site** (o administrador master e quem ele liberar em **Usuários**, marcando a permissão **Fotos do site**): troque a foto do topo, a da seção Sobre, os **Trabalhos recentes** e as fotos de cada procedimento. Dá para adicionar, remover e mudar a ordem; vale depois de **Salvar fotos**.
 
 As fotos enviadas pelo painel são reduzidas no próprio aparelho e guardadas no banco (coleção `fotos`), sem custo. Para funcionar, publique o `firestore.rules` atualizado (passo 1.3).
 

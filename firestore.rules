@@ -1,7 +1,7 @@
 rules_version = '2';
 // Regras do banco. Cole no Console do Firebase > Firestore Database > Regras e clique em Publicar.
 // O UID em master() é o do administrador master (o mesmo de MASTER em firebase-config.js).
-// A equipe do painel fica em /usuarios/{uid} com {ativo, perms:{dash, agenda, caixa, clientes, travar, config}}.
+// A equipe do painel fica em /usuarios/{uid} com {ativo, perms:{dash, agenda, caixa, clientes, travar, config, fotos}}.
 service cloud.firestore {
   match /databases/{database}/documents {
     function logado() { return request.auth != null; }
@@ -27,16 +27,16 @@ service cloud.firestore {
     }
 
     // horários, preços, textos do site: todos leem, só quem tem a permissão "config" altera
-    // config/fotos (quais fotos aparecem no site) só o administrador master altera
+    // config/fotos (quais fotos aparecem no site): o administrador master e quem ele liberou (permissão "fotos")
     match /config/{id} {
       allow read: if true;
-      allow write: if master() || (pode("config") && id != "fotos");
+      allow write: if master() || (id == "fotos" ? pode("fotos") : pode("config"));
     }
 
-    // fotos enviadas pelo painel: o site lê para mostrar; só o administrador master envia, troca e apaga
+    // fotos enviadas pelo painel: o site lê para mostrar; o administrador master e quem tem a permissão "fotos" enviam, trocam e apagam
     match /fotos/{id} {
       allow read: if true;
-      allow write: if master();
+      allow write: if pode("fotos");
     }
 
     // horários ocupados e travados: o site lê para mostrar só os horários livres

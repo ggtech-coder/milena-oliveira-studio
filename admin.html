@@ -184,11 +184,11 @@ const pill=s=>`<span class="pill p-${s}">${STC[s]||s}</span>`;
 const waNum=t=>{let w=String(t||"").replace(/\D/g,"");return w&&w.length<=11?"55"+w:w};
 
 // ---- quem está logado e o que pode ver
-const PERMS={dash:"Dashboard",agenda:"Agenda do dia (situação e adicionar clientes)",clientes:"Clientes e fidelidade",travar:"Travar agenda",caixa:"Financeiro e valores",config:"Configurações (serviços, horários, site)"};
+const PERMS={dash:"Dashboard",agenda:"Agenda do dia (situação e adicionar clientes)",clientes:"Clientes e fidelidade",travar:"Travar agenda",caixa:"Financeiro e valores",config:"Configurações (serviços, horários, site)",fotos:"Fotos do site (trocar, adicionar e remover)"};
 // ME.cliente = conta de cliente do site: só vê "Meus agendamentos" (os próprios, garantido nas regras)
 let ME=null;const can=p=>!!ME&&(p=="cliente"?!!ME.cliente:!ME.cliente&&(ME.master||(p!="master"&&ME.perms&&ME.perms[p])));
 const NAV=[["MINHA CONTA",[["minha","Meus agendamentos","cliente"]]],["VISÃO GERAL",[["dash","Dashboard","dash"]]],["ATENDIMENTO",[["hoje","Agenda do dia","agenda"],["clientes","Clientes","clientes"],["travar","Travar agenda","travar"]]],["GESTÃO",[["caixa","Financeiro","caixa"]]],
- ["CONFIGURAÇÕES",[["servicos","Serviços e tempos","config"],["horarios","Horários","config"],["site","Site e pagamentos","config"],["fotos","Fotos do site","master"],["usuarios","Usuários","master"]]]];
+ ["CONFIGURAÇÕES",[["servicos","Serviços e tempos","config"],["horarios","Horários","config"],["site","Site e pagamentos","config"],["fotos","Fotos do site","fotos"],["usuarios","Usuários","master"]]]];
 let tab="dash",badge=0;
 function nav(){$("#nav").innerHTML=NAV.map(([g,L])=>{const v=L.filter(x=>can(x[2]));return v.length?`<div class="grp">${g}</div>`+v.map(([k,t])=>`<button class="nv" data-tab="${k}" aria-current="${k==tab}">${I(IC[k])}${t}${k=="hoje"&&badge?`<span class="bd">${badge}</span>`:""}</button>`).join(""):""}).join("")}
 const T={minha,dash,hoje,clientes,travar,caixa,servicos,horarios,site,fotos,usuarios};
@@ -399,7 +399,7 @@ async function salvarSite(f){const g=k=>f.elements[k].value.trim(),depo=[...f.qu
  if(c.srvURL&&!/^https:\/\//.test(c.srvURL))return toast("O endereço do servidor do PIN precisa começar com https://");
  f.querySelector(".save .btn").disabled=true;await DB.put("config","site",c);applyCfg(c);toast("Site atualizado");go()}
 
-// ---- fotos do site (só o administrador master). As fotos enviadas ficam na coleção "fotos" do banco;
+// ---- fotos do site (administrador master e quem ele liberar em Usuários, permissão "fotos"). As fotos enviadas ficam na coleção "fotos" do banco;
 // as listas (qual foto aparece onde e em que ordem) ficam em config/fotos.
 let FT=null,FTnovas=new Set();
 const PROCS=[...SV.unhas.items,...SV.cilios.items];
@@ -412,7 +412,7 @@ function fotos(){if(!FT)FT=ftCopia();
  const lista=k=>{const L=ftL(k);return`<div class="ftg">${L.map((r,i)=>th(r,k,i,L.length)).join("")||'<p class="mu">Sem fotos.</p>'}</div>`};
  const uma=(k,t,s)=>`<div class="card"><h2>${t}</h2><div class="ft1"><div class="fth"><img ${fotoAttr(FT[k])} alt=""></div><div><p class="mu" style="margin-bottom:10px">${s}</p><label class="btn sm gh">Trocar foto<input type="file" accept="image/*" hidden data-fone="${k}"></label></div></div></div>`;
  const grupo=c=>`<div class="card mb"><h2>${SV[c].label} · fotos de cada procedimento</h2>${SV[c].items.map(i=>`<div class="ftp"><span>${E(i.n)}</span>${add(i.id)}</div>${lista(i.id)}`).join("")}</div>`;
- P.innerHTML=head("Fotos do site","Troque as fotos que aparecem no site. A primeira foto de cada lista é a que aparece primeiro. Só o administrador vê esta tela.")+
+ P.innerHTML=head("Fotos do site","Troque as fotos que aparecem no site. A primeira foto de cada lista é a que aparece primeiro."+(ME.master?" Quem mais pode usar esta tela você escolhe em Usuários.":"")+"")+
  `<div class="g2 mb">${uma("hero","Foto do topo","Aparece na abertura do site.")}${uma("sobre","Foto da seção “Sobre”","Aparece ao lado do texto sobre a Milena.")}</div>
  <div class="card mb"><h2>Trabalhos recentes${add("galeria")}</h2><p class="mu" style="margin:-6px 0 14px">Fotos que passam no carrossel. A cliente também pode escolher uma delas como modelo ao agendar.</p>${lista("galeria")}</div>${grupo("unhas")}${grupo("cilios")}
  <div class="save" style="flex-wrap:wrap"><button class="btn" id="ftsave">Salvar fotos</button><button class="btn gh" id="ftundo">Desfazer alterações</button><span class="mu">As mudanças só aparecem no site depois de salvar.</span></div>`}
