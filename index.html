@@ -306,7 +306,7 @@ function pinAviso(b){const r=b.pinR;if(!r)return"";const w=waLink("Olá! Esqueci
 async function ganharPin(b){if(!pinLigado())return null;try{return await DB.pin(CFG.srvURL,"reserva",{tel:b.telKey,pin:S.pin,id:b.code})}catch(x){console.error(x);return{ok:false,motivo:"falha"}}}
 function render(){steps();sum();const P=$("#panel");if(S.done)return done();
  if(S.step==1){const c=SV[S.cat],o=S.sel[S.cat],oi=o&&all.find(i=>i.id==o.id);
-  P.innerHTML=`<h3 tabindex="-1">Escolha o procedimento</h3><p class="sub">Pode escolher um de unhas e um de cílios no mesmo horário.</p><div class="seg" role="group" aria-label="Categoria">${Object.entries(SV).map(([k,v])=>`<button data-cat="${k}" aria-pressed="${k==S.cat}">${v.label}${S.sel[k]?'<i class="marc"></i>':""}</button>`).join("")}</div>
+  P.innerHTML=`<h3 tabindex="-1">Escolha o procedimento</h3><p class="sub">Pode escolher um de unhas e um de cílios no mesmo horário. Para desmarcar, toque de novo no procedimento.</p><div class="seg" role="group" aria-label="Categoria">${Object.entries(SV).map(([k,v])=>`<button data-cat="${k}" aria-pressed="${k==S.cat}">${v.label}${S.sel[k]?'<i class="marc"></i>':""}</button>`).join("")}</div>
   <div class="svc">${c.items.map(i=>`<label class="sc" data-sc="${i.id}"><input type="radio" name="s-${S.cat}" value="${i.id}" ${o&&o.id==i.id?"checked":""}>${foto(i)}<span><b>${i.n}</b>${i.x?`<em>${i.x}</em>`:""}<span class="mt">${R(i.p)}<small>${dur(i.d)}</small></span></span></label>`+
    (oi&&oi.id==i.id&&oi.m?`<div class="var"><p>O que você vai fazer?</p><label><input type="radio" name="v-${S.cat}" value="a" ${o.v=="a"?"checked":""}>Aplicação<small>${R(oi.p)} · ${dur(oi.d)}</small></label><label><input type="radio" name="v-${S.cat}" value="m" ${o.v=="m"?"checked":""}>Manutenção até 25 dias<small>${R(oi.m[0])} · ${dur(oi.m[1])}</small></label></div>`:"")).join("")}</div>`+
   (o?`<button class="lnk" data-clr="${S.cat}" style="margin-top:10px">Tirar ${c.label.toLowerCase()} do agendamento</button>`:"")+
@@ -371,6 +371,9 @@ $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.t
  else if(t.id=="n3")passo3(er)
  else if(t.id=="pg"){if(!$("#leu").checked)return er("Para continuar, marque a caixinha acima confirmando que você leu sobre o sinal.");reservar(t,er)}});
 document.addEventListener("change",e=>{if(e.target.id=="leu"){S.leu=e.target.checked;if(S.leu&&$("#er"))$("#er").textContent=""}});
+// tocar de novo no procedimento já escolhido desmarca ele
+$("#panel").addEventListener("click",e=>{const sc=e.target.closest("label.sc");if(!sc||e.target.closest("button")||S.step!=1)return;const o=S.sel[S.cat];if(!o||o.id!=sc.dataset.sc)return;
+ e.preventDefault();delete S.sel[S.cat];if(S.cat=="unhas")S.ex={};view()});
 $("#panel").addEventListener("change",e=>{const t=e.target;
  if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}});
 render();
