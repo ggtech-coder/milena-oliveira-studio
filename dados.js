@@ -8,6 +8,7 @@ const CFG={whatsapp:"11937787606",instagram:"studiomilenaoliveirabr",
  fid:{n:10,premio:"um desconto especial"}, // fidelidade: a cada n atendimentos concluídos
  meta:4000, // meta de faturamento do mês (painel)
  sinal:30, // valor do sinal, em reais, por procedimento agendado (unhas + cílios = 2 sinais)
+ pix:"66.019.269/0001-28", // chave Pix do sinal (CNPJ): aparece para a cliente copiar e vai na mensagem do WhatsApp
  cancelH:24, // a cliente pode cancelar pelo painel até estas horas antes do horário
  pagURL:"", // endereço do servidor de pagamento (Cloudflare Worker); vazio = sem pagamento online
  srvURL:"https://milena-pagamentos.gg-tech-suporte.workers.dev", // servidor do PIN de "Meus horários"; vazio = PIN desligado
@@ -40,7 +41,7 @@ const all=[...SV.unhas.items,...SV.unhas.ex,...SV.cilios.items];
 // menor tem os tempos ignorados (os preços dela continuam valendo) e o painel regrava com os novos.
 const SVC_V=2;
 // aplica a configuração salva no banco (documento config/site) sobre os valores padrão
-const CFG_KEYS=["horas","passo","diasAFrente","antecedenciaH","whatsapp","instagram","endereco","mapa","sobre","depo","fid","meta","cancelH","sinal","pagURL","srvURL"];
+const CFG_KEYS=["horas","passo","diasAFrente","antecedenciaH","whatsapp","instagram","endereco","mapa","sobre","depo","fid","meta","cancelH","sinal","pix","pagURL","srvURL"];
 function applyCfg(c){if(!c)return;CFG_KEYS.forEach(k=>{if(c[k]!=null&&c[k]!=="")CFG[k]=c[k]});const velha=(c.svcV||1)<SVC_V;
  all.forEach(i=>{const v=c.svc&&c.svc[i.id];if(!v)return;i.p=v.p;if(i.m&&v.m)i.m=[v.m[0],velha?i.m[1]:v.m[1]];if(!velha)i.d=v.d})}
 // ---- fotos do site. Cada foto é uma referência: "img/01.jpg" (arquivo do site), "n06" (arquivo em img/proc/) ou

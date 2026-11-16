@@ -1,10 +1,11 @@
 # Site + painel do studio
 
-- **Site:** https://ggtech-coder.github.io/milena-oliveira-studio/
-- **Painel:** https://ggtech-coder.github.io/milena-oliveira-studio/admin.html
+- **Site (oficial):** https://studiomilenaoliveira.com.br/
+- **Painel:** https://studiomilenaoliveira.com.br/admin.html
 - **Banco de dados e logins:** Firebase (projeto `milena-4c46b`, plano gratuito Spark)
 - **Pagamento do sinal:** Mercado Pago, através de um servidor gratuito no Cloudflare Workers (pasta `pagamentos/`)
 - **Hospedagem:** GitHub Pages (grátis). Cada `git push` atualiza o site em 1 a 2 minutos.
+- **Domínio:** `studiomilenaoliveira.com.br` (arquivo `CNAME`). No registro.br, em DNS, crie 4 registros **A** para o domínio sem nada antes: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, e um **CNAME** `www` → `ggtech-coder.github.io`. Depois, no GitHub: Settings → Pages → marque **Enforce HTTPS**.
 
 ## Arquivos
 | Arquivo | O que é |
@@ -19,7 +20,7 @@
 
 ## 1. Firebase (uma vez)
 1. **Authentication → Método de login → E-mail/senha**: ativado (o painel e as contas das clientes usam).
-2. **Authentication → Configurações → Domínios autorizados**: `ggtech-coder.github.io`.
+2. **Authentication → Configurações → Domínios autorizados**: `studiomilenaoliveira.com.br` (e `ggtech-coder.github.io`, que continua funcionando e redireciona para o domínio).
 3. **Firestore Database → Regras**: cole o conteúdo de `firestore.rules` e clique em **Publicar**. Repita sempre que este arquivo mudar.
 
 ## 2. Usuários do painel

@@ -145,7 +145,7 @@ label.btn{cursor:pointer}.ftp{font-weight:600;margin:18px 0 10px;display:flex;ju
 <label class="chk" id="dcanr" style="margin-top:14px"><input type="checkbox" name="ret"> O sinal fica no caixa (não foi devolvido)</label><p class="alert" id="dcani" style="margin:14px 0 0"></p>
 <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap"><button type="button" class="btn gh" id="dcanx">Voltar</button><button class="btn dgf">Cancelar atendimento</button></div></form></dialog>
 <div id="toast" role="status"></div>
-<script src="dados.js?v=20261112"></script>
+<script src="dados.js?v=20261114"></script>
 <script type="module">
 import * as DB from "./store.js?v=20261112";
 const $=s=>document.querySelector(s),P=$("#P");
@@ -263,7 +263,7 @@ async function hoje(){const [L,O]=await Promise.all([DB.range("agendamentos",dia
  ${pend?`<div class="alert">${I(IC.alert)}<span>${pend==1?"1 reserva":pend+" reservas"} com sinal ainda não conferido. Depois de ver o pagamento, mude a situação para "Sinal pago".</span></div>`:""}
  <div>${it.map(i=>i.h).join("")||'<div class="card empty">Nenhuma cliente marcada neste dia.</div>'}</div>`}
 function card(b,money){const ex=Object.entries(b.ex||{}).filter(([,q])=>q).map(([id,q])=>`${q}× ${(all.find(i=>i.id==id)||{n:id}).n}`).join(", "),w=waNum(b.tel);
- const msg=encodeURIComponent(`Olá, ${String(b.name).split(" ")[0]}! Passando para confirmar seu horário no studio: ${b.dateTxt||fmt(b.date)} às ${hh(b.start)} (${b.svc}).`);
+ const msg=encodeURIComponent(`Olá, ${String(b.name).split(" ")[0]}! Passando para confirmar seu horário no studio: ${b.dateTxt||fmt(b.date)} às ${hh(b.start)} (${b.svc}).`+(b.status=="reservado"&&CFG.pix?` Para garantir o horário, o sinal de ${R(sinal(b))} pode ser pago pelo Pix, chave CNPJ ${CFG.pix}. Depois é só me mandar o comprovante. 💛`:""));
  return`<article class="ag s-${b.status} fade"><div class="hr"><b>${hh(b.start)}</b><span>até ${hh(b.end)}</span></div>
  <div><h3>${E(b.name)} ${pill(b.status)}</h3><p>${E(b.svc)}${ex?` · ${E(ex)}`:""}</p>${b.obs?`<p class="obs">“${E(b.obs)}”</p>`:""}${fotoOk(b.modelo)?`<p class="meta"><a href="${b.modelo.startsWith("db:")?"./?foto="+b.modelo.slice(3):fotoSrc(b.modelo)}" target="_blank" rel="noopener">Ver o modelo que a cliente escolheu</a></p>`:""}
  <p class="meta">${w?`<a href="https://wa.me/${w}?text=${msg}" target="_blank" rel="noopener">WhatsApp ${E(b.tel)}</a> · `:""}Código ${E(b.code||b.id)}${PAY[b.pay]?` · sinal por ${PAY[b.pay]}`:""}${b.uid?" · tem conta no site":""}${b.origem=="painel"?" · adicionada no painel":""}</p>
@@ -417,6 +417,7 @@ function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelida
  <div class="card"><h2>Fidelidade e meta</h2><div style="display:grid;gap:14px"><label class="f">A cliente ganha a promoção a cada quantos atendimentos?<input type="number" name="fn" min="2" max="50" value="${CFG.fid.n}"></label><label class="f">O que ela ganha<input name="fp" value="${E(CFG.fid.premio)}" placeholder="Ex.: 20% de desconto na manutenção"></label>
  <label class="f">Meta de faturamento do mês (R$)<input type="number" name="meta" min="0" step="100" value="${CFG.meta}"></label>
  <label class="f">Valor do sinal por procedimento (R$)<input type="number" name="sinal" min="0" step="1" value="${CFG.sinal}"></label>
+ <label class="f">Chave Pix do sinal (a cliente copia no site)<input name="pix" value="${E(CFG.pix||"")}" autocomplete="off"></label>
  <label class="f">A cliente pode cancelar pelo site até quantas horas antes?<input type="number" name="cancelH" min="0" max="168" value="${CFG.cancelH}"></label></div></div>
  <div class="card wide"><h2>Sobre a Milena</h2><label class="f">Texto da seção “Sobre” do site<textarea name="sobre" rows="4" maxlength="900">${E(CFG.sobre)}</textarea></label></div>
  <div class="card wide"><h2>Depoimentos<button type="button" class="lnk" id="adddep">${I(IC.plus)}Adicionar</button></h2><p class="mu" style="margin:-6px 0 14px">Use só depoimentos reais, com autorização da cliente. Sem nenhum, a seção some do site.</p><div id="deps">${(CFG.depo||[]).map(depRow).join("")}</div></div>
@@ -425,7 +426,7 @@ function site(){P.innerHTML=head("Site e pagamentos","Textos, contatos, fidelida
  <p class="hint">Com o endereço preenchido, a cliente paga o sinal (valor por procedimento, definido acima) por Pix ou cartão no Mercado Pago e o horário se confirma sozinho. Vazio = o site reserva e você confere o sinal à mão. Como configurar: LEIA-ME.md, parte “Mercado Pago”.</p><div style="display:flex;gap:10px;align-items:center;margin-top:12px"><button type="button" class="btn sm gh" id="tpag">Testar conexão</button><span id="tpagr" class="mu"></span></div></div></div>
  <div class="save"><button class="btn">Salvar</button></div></form>`}
 async function salvarSite(f){const g=k=>f.elements[k].value.trim(),depo=[...f.querySelectorAll(".dep")].map(d=>({n:d.querySelector("[name=dn]").value.trim(),t:d.querySelector("[name=dt]").value.trim()})).filter(d=>d.n&&d.t);
- const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),mapa:/^https:\/\//.test(g("mapa"))?g("mapa"):"",sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),sinal:Math.max(0,+g("sinal")||0),pagURL:g("pagURL").replace(/\/+$/,""),srvURL:g("srvURL").replace(/\/+$/,"")};
+ const c={whatsapp:g("whatsapp").replace(/\D/g,""),instagram:g("instagram").replace(/^@/,""),endereco:g("endereco"),mapa:/^https:\/\//.test(g("mapa"))?g("mapa"):"",sobre:g("sobre"),depo,fid:{n:Math.max(2,+g("fn")||10),premio:g("fp")},meta:+g("meta")||0,cancelH:Math.max(0,+g("cancelH")||0),sinal:Math.max(0,+g("sinal")||0),pix:g("pix"),pagURL:g("pagURL").replace(/\/+$/,""),srvURL:g("srvURL").replace(/\/+$/,"")};
  if(c.pagURL&&!/^https:\/\//.test(c.pagURL))return toast("O endereço do pagamento precisa começar com https://");
  if(c.srvURL&&!/^https:\/\//.test(c.srvURL))return toast("O endereço do servidor do PIN precisa começar com https://");
  f.querySelector(".save .btn").disabled=true;await DB.put("config","site",c);applyCfg(c);toast("Site atualizado");go()}
