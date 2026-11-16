@@ -102,6 +102,7 @@ h2{font-size:clamp(38px,4.6vw,56px);margin-bottom:14px}
 .var{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 0 8px}.var p{grid-column:1/-1;font-weight:500}
 .var label{display:block;box-shadow:inset 0 0 0 1px var(--line);padding:12px 16px;border-radius:18px;cursor:pointer;line-height:1.35}.var label small{display:block;color:var(--mute);font-size:14.5px}.var label:has(input:checked){box-shadow:inset 0 0 0 1.5px var(--gold);background:#fdf7ef}.var label:has(input:focus-visible){outline:2px solid var(--gold)}.var input{position:absolute;opacity:0}
 .panel h4{font:400 26px var(--d);margin:28px 0 10px}
+.exw{grid-column:1/-1;padding:0 4px 8px}.exw h4{margin:8px 0 4px}
 .opt{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px dotted var(--hair)}.opt span{flex:1}.opt em{display:block;font-style:normal;color:var(--mute);font-size:14.5px;font-weight:300}.opt b{font-weight:500}
 .stp{display:flex;align-items:center;gap:6px}.stp button{width:42px;height:42px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px var(--hair);background:none;color:var(--gold-d);display:grid;place-items:center;cursor:pointer}.stp output{min-width:28px;text-align:center;font:500 24px var(--d)}
 .mon{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font:400 27px var(--d);max-width:520px}.mon span{display:block;text-align:center}.mon span:first-letter{text-transform:uppercase}.mon button{flex:none;width:46px;height:46px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px var(--line);background:var(--card);color:var(--gold-d);cursor:pointer;display:grid;place-items:center}.mon button:hover{box-shadow:inset 0 0 0 1px var(--gold)}
@@ -280,6 +281,8 @@ function price(){const c=SV[pt];
 $("#ptabs").onclick=e=>{const k=e.target.dataset.k;if(k){pt=k;price()}};price();conteudo();
 // ---- agendamento
 const S={step:1,cat:"unhas",sel:{},ex:{},modelo:"",date:null,time:null,name:"",tel:lembra.get(),pin:"",obs:"",done:null,pend:null,mo:new Date(new Date().getFullYear(),new Date().getMonth(),1)};
+// esmaltação do pé é o único que pode ir junto com outro de unhas: fica em S.sel.pe
+const PE="u7",exAlvo=()=>(S.sel.unhas||S.sel.pe||{}).id,semUnha=()=>{if(!exAlvo())S.ex={}};
 const pick=c=>{const o=S.sel[c];if(!o)return null;const i=all.find(x=>x.id==o.id),m=o.v=="m"&&i.m;return{n:i.n+(m?" (manutenção)":""),p:m?i.m[0]:i.p,d:m?i.m[1]:i.d}};
 const calc=()=>{let p=0,d=0;Object.keys(S.sel).forEach(c=>{const k=pick(c);p+=k.p;d+=k.d});Object.entries(S.ex).forEach(([id,q])=>{const e=all.find(i=>i.id==id);p+=e.p*q;d+=e.d*q});return{p,d,dep:Math.min(p,(+CFG.sinal||0)*Object.keys(S.sel).length)}};
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -317,11 +320,10 @@ function pinAviso(b){const r=b.pinR;if(!r)return"";const w=waLink("Olá! Esqueci
 async function ganharPin(b){if(!pinLigado())return null;try{return await DB.pin(CFG.srvURL,"reserva",{tel:b.telKey,pin:S.pin,id:b.code})}catch(x){console.error(x);return{ok:false,motivo:"falha"}}}
 function render(){steps();sum();const P=$("#panel");if(S.done)return done();
  if(S.step==1){const c=SV[S.cat],o=S.sel[S.cat],oi=o&&all.find(i=>i.id==o.id);
-  P.innerHTML=`<h3 tabindex="-1">Escolha o procedimento</h3><p class="sub">Pode escolher um de unhas e um de cílios no mesmo horário. Para desmarcar, toque de novo no procedimento.</p><div class="seg" role="group" aria-label="Categoria">${Object.entries(SV).map(([k,v])=>`<button data-cat="${k}" aria-pressed="${k==S.cat}">${v.label}${S.sel[k]?'<i class="marc"></i>':""}</button>`).join("")}</div>
-  <div class="svc">${c.items.map(i=>`<label class="sc" data-sc="${i.id}"><input type="radio" name="s-${S.cat}" value="${i.id}" ${o&&o.id==i.id?"checked":""}>${foto(i)}<span><b>${i.n}</b>${i.x?`<em>${i.x}</em>`:""}<span class="mt">${R(i.p)}<small>${dur(i.d)}</small></span></span></label>`+
-   (oi&&oi.id==i.id&&oi.m?`<div class="var"><p>O que você vai fazer?</p><label><input type="radio" name="v-${S.cat}" value="a" ${o.v=="a"?"checked":""}>Aplicação<small>${R(oi.p)} · ${dur(oi.d)}</small></label><label><input type="radio" name="v-${S.cat}" value="m" ${o.v=="m"?"checked":""}>Manutenção até 25 dias<small>${R(oi.m[0])} · ${dur(oi.m[1])}</small></label></div>`:"")).join("")}</div>`+
-  (o?`<button class="lnk" data-clr="${S.cat}" style="margin-top:10px">Tirar ${c.label.toLowerCase()} do agendamento</button>`:"")+
-  (c.ex&&o?`<h4>Extras (opcional)</h4>`+c.ex.map(e=>`<div class="opt"><span><b>${e.n}</b><em>${e.x||"por unidade"} · ${R(e.p)} · +${dur(e.d)}</em></span><div class="stp"><button data-m="${e.id}" aria-label="Diminuir ${e.n}">${I(IC.mn)}</button><output>${S.ex[e.id]||0}</output><button data-p="${e.id}" aria-label="Aumentar ${e.n}">${I(IC.pl)}</button></div></div>`).join(""):"")+
+  P.innerHTML=`<h3 tabindex="-1">Escolha o procedimento</h3><p class="sub">Pode escolher um de unhas e um de cílios no mesmo horário. A esmaltação do pé pode ir junto com o de unhas. Para desmarcar, toque de novo no procedimento.</p><div class="seg" role="group" aria-label="Categoria">${Object.entries(SV).map(([k,v])=>`<button data-cat="${k}" aria-pressed="${k==S.cat}">${v.label}${S.sel[k]||(k=="unhas"&&S.sel.pe)?'<i class="marc"></i>':""}</button>`).join("")}</div>
+  <div class="svc">${c.items.map(i=>{const pe=i.id==PE,on=pe?!!S.sel.pe:!!(o&&o.id==i.id);return`<label class="sc" data-sc="${i.id}"><input type="${pe?"checkbox":"radio"}" name="${pe?"pe":"s-"+S.cat}" value="${i.id}" ${on?"checked":""}>${foto(i)}<span><b>${i.n}</b>${i.x?`<em>${i.x}</em>`:""}<span class="mt">${R(i.p)}<small>${dur(i.d)}</small></span></span></label>`+
+   (on&&!pe&&oi.m?`<div class="var"><p>O que você vai fazer?</p><label><input type="radio" name="v-${S.cat}" value="a" ${o.v=="a"?"checked":""}>Aplicação<small>${R(oi.p)} · ${dur(oi.d)}</small></label><label><input type="radio" name="v-${S.cat}" value="m" ${o.v=="m"?"checked":""}>Manutenção até 25 dias<small>${R(oi.m[0])} · ${dur(oi.m[1])}</small></label></div>`:"")+
+   (c.ex&&exAlvo()==i.id?`<div class="exw"><h4>Extras (opcional)</h4>`+c.ex.map(e=>`<div class="opt"><span><b>${e.n}</b><em>${e.x||"por unidade"} · ${R(e.p)} · +${dur(e.d)}</em></span><div class="stp"><button data-m="${e.id}" aria-label="Diminuir ${e.n}">${I(IC.mn)}</button><output>${S.ex[e.id]||0}</output><button data-p="${e.id}" aria-label="Aumentar ${e.n}">${I(IC.pl)}</button></div></div>`).join("")+`</div>`:"")}).join("")}</div>`+
   `<div class="nav"><button class="btn" id="nx" ${Object.keys(S.sel).length?"":"disabled"}>${Object.keys(S.sel).length?"Escolher dia e horário":"Escolha um procedimento"}</button></div>`}
  if(S.step==2){const y=S.mo.getFullYear(),m=S.mo.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);const max=+today+CFG.diasAFrente*864e5;
   let cal=["D","S","T","Q","Q","S","S"].map(d=>`<span class="h">${d}</span>`).join("")+"<span></span>".repeat(first);
@@ -369,7 +371,6 @@ $("#panel").addEventListener("input",e=>{if(e.target.id=="tl")e.target.value=mas
 $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.target,er=m=>$("#er")&&($("#er").textContent=m);
  if(t.dataset.mod){S.modelo=S.modelo==t.dataset.mod?"":t.dataset.mod;document.querySelectorAll("#panel .mod").forEach(m=>{const on=m.dataset.mod==S.modelo;m.classList.toggle("on",on);m.setAttribute("aria-pressed",on)});sum()}
  else if(t.dataset.cat){S.cat=t.dataset.cat;view()}
- else if(t.dataset.clr){delete S.sel[t.dataset.clr];if(t.dataset.clr=="unhas")S.ex={};view()}
  else if(t.dataset.p||t.dataset.m){const id=t.dataset.p||t.dataset.m,q=Math.max(0,Math.min(10,(S.ex[id]||0)+(t.dataset.p?1:-1)));q?S.ex[id]=q:delete S.ex[id];t.parentElement.querySelector("output").textContent=q;sum()}
  else if(t.dataset.d){S.date=new Date(t.dataset.d+"T00:00");S.time=null;view();const h=$("#hrs");if(h&&h.getBoundingClientRect().top>innerHeight*.45)irPara(h,true)}
  else if(t.dataset.t){S.time=+t.dataset.t;view()}
@@ -384,11 +385,11 @@ $("#panel").addEventListener("click",e=>{const t=e.target.closest("button")||e.t
 document.addEventListener("change",e=>{if(e.target.id=="leu"){S.leu=e.target.checked;if(S.leu&&$("#er"))$("#er").textContent=""}});
 // tocar de novo no procedimento já escolhido desmarca ele
 $("#panel").addEventListener("click",e=>{const sc=e.target.closest("label.sc");if(!sc||e.target.closest("button")||S.step!=1)return;const o=S.sel[S.cat];if(!o||o.id!=sc.dataset.sc)return;
- e.preventDefault();delete S.sel[S.cat];if(S.cat=="unhas")S.ex={};view()});
+ e.preventDefault();delete S.sel[S.cat];semUnha();view()});
 $("#panel").addEventListener("change",e=>{const t=e.target;
- if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}});
+ if(t.name=="pe"){t.checked?S.sel.pe={id:PE,v:"a"}:delete S.sel.pe;semUnha();view()}else if(t.name&&t.name.startsWith("s-")){S.sel[S.cat]={id:t.value,v:"a"};view()}else if(t.name&&t.name.startsWith("v-")){S.sel[S.cat].v=t.value;view()}});
 render();
-$("#plist").addEventListener("click",e=>{const im=e.target.closest(".car-t img");if(im)return openLb([...im.parentElement.children].indexOf(im),[...im.parentElement.children].map(x=>x.dataset.ref));const id=e.target.dataset.book;if(!id)return;S.cat=pt;S.sel[pt]={id,v:"a"};Object.assign(S,{step:1,done:null,date:null,time:null});render();irPara($("#topo"),true);const i=all.find(x=>x.id==id);if(i.m||SV[pt].ex)setTimeout(()=>irPara($(`[data-sc="${id}"]`),true),RM?0:450);else{irPasso(2);API.load().then(view)}});
+$("#plist").addEventListener("click",e=>{const im=e.target.closest(".car-t img");if(im)return openLb([...im.parentElement.children].indexOf(im),[...im.parentElement.children].map(x=>x.dataset.ref));const id=e.target.dataset.book;if(!id)return;S.cat=pt;S.sel[id==PE?"pe":pt]={id,v:"a"};Object.assign(S,{step:1,done:null,date:null,time:null});render();irPara($("#topo"),true);const i=all.find(x=>x.id==id);if(i.m||SV[pt].ex)setTimeout(()=>irPara($(`[data-sc="${id}"]`),true),RM?0:450);else{irPasso(2);API.load().then(view)}});
 // volta do Mercado Pago (?pg=CÓDIGO&r=ok|pendente|falhou): mostra a situação e espera o aviso de pagamento
 async function retorno(){const q=new URLSearchParams(location.search),id=q.get("pg");if(!id)return;const p=readPend();
  S.done={...(p&&p.code==id?p:{code:id,svc:"",dateTxt:"",start:0,total:0,dep:0,name:""}),st:q.get("r")=="falhou"?"fail":"wait"};render();irPara($("#topo"));
